@@ -31,7 +31,7 @@ public class Screenshot extends RunOnFailureKeywordsAdapter {
 	protected Logging logging;
 
 	// ##############################
-	// BrowserManagementKeywords
+	// KeywordsBrowserManagement
 	// ##############################
 	@RobotKeywordOverload
 	public void capturePageScreenshot() {

@@ -19,7 +19,7 @@ public class Cookie extends RunOnFailureKeywordsAdapter {
 	protected BrowserManagement browserManagement;
 
 	// ##############################
-	// BrowserManagementKeywords
+	// KeywordsBrowserManagement
 	// ##############################
 
 	/**

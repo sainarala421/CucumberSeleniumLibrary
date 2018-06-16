@@ -40,7 +40,7 @@ public class JavaScript extends RunOnFailureKeywordsAdapter {
 	protected Logging logging;
 
 	// ##############################
-	// BrowserManagementKeywords
+	// KeywordsBrowserManagement
 	// ##############################
 
 	@RobotKeywordOverload

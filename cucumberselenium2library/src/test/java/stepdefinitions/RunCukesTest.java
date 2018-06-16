@@ -12,8 +12,8 @@ import cucumber.api.junit.Cucumber;
 		     "html:target/cucumberHtmlReport",     //  for html result
 			 "pretty:target/cucumber-json-report.json"   // for json result
 		     },
-		features = "src/test/java/testsuites",
-		glue = {"src/test/java/resource/stepdefinitions"   // predefined step definitions package
+		features = "src/test/java/features",
+		glue = {"stepdefinitions"   // predefined step definitions package
 				//"info.seleniumcucumber.userStepDefintions" // user step definitions package
 			   }
 )

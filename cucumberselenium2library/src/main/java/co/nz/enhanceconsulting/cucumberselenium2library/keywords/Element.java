@@ -44,7 +44,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	protected Logging logging;
 
 	// ##############################
-	// BrowserManagementKeywords - Element Lookups
+	// KeywordsBrowserManagement - Element Lookups
 	// ##############################
 
 	@RobotKeywordOverload
@@ -360,7 +360,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	// ##############################
-	// BrowserManagementKeywords - Attributes
+	// KeywordsBrowserManagement - Attributes
 	// ##############################
 
 	/**
@@ -896,7 +896,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	// ##############################
-	// BrowserManagementKeywords - Mouse Input/Events
+	// KeywordsBrowserManagement - Mouse Input/Events
 	// ##############################
 
 	/**
@@ -1252,7 +1252,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	// ##############################
-	// BrowserManagementKeywords - Links
+	// KeywordsBrowserManagement - Links
 	// ##############################
 
 	/**
@@ -1378,7 +1378,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	// ##############################
-	// BrowserManagementKeywords - Images
+	// KeywordsBrowserManagement - Images
 	// ##############################
 
 	/**
@@ -1492,7 +1492,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	// ##############################
-	// BrowserManagementKeywords - Xpath
+	// KeywordsBrowserManagement - Xpath
 	// ##############################
 
 	/**

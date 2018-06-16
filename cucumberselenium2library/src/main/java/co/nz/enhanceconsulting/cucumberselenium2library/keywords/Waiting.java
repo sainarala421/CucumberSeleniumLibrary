@@ -26,7 +26,7 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	protected Element element;
 
 	// ##############################
-	// BrowserManagementKeywords
+	// KeywordsBrowserManagement
 	// ##############################
 
 	@RobotKeywordOverload
