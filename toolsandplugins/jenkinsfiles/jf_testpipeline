@@ -42,7 +42,7 @@
                 withSonarQubeEnv('Local SonarQube') {
                     // sq-scanner value set in Jenkins > Global Tool Configuration seems to not work
                     sh '''#!/bin/bash
-                        cd CucumberWorkspace
+                        cd CucumberSelenium2Library
                         mvn clean
                         $SONAR_SCANNER_PATH/sonar-scanner
                     '''
@@ -60,7 +60,7 @@
         stage ("Stage 3: Run Maven Tests") {
             steps {
                 sh '''#!/bin/bash
-                    cd CucumberWorkspace/$TEST_SUITE_PATH
+                    cd CucumberSelenium2Library/$TEST_SUITE_PATH
                     mvn clean
                     mvn test -Dcucumber.options="--tags $TEST_TAGS"
                 '''
@@ -74,7 +74,7 @@
                 alwaysLinkToLastBuild: false, 
                 keepAll: true,
                 alwaysLinkToLastBuild: true,
-                reportDir: 'CucumberWorkspace/cucumnberselenium2library/target/surefire-reports', 
+                reportDir: 'CucumberSelenium2Library/cucumberselenium2library/target/surefire-reports', 
                 reportFiles: 'index.html', 
                 reportName: 'HTML Report', 
                 reportTitles: ''

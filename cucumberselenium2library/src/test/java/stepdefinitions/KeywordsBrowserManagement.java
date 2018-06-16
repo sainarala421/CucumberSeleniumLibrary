@@ -30,14 +30,21 @@ public class KeywordsBrowserManagement{
     }
     
     /**
-     *  -----------------------------------
+     *  ------------------------------------
      *  Reusable keywords - GIVEN STATEMENTS
-     *  -----------------------------------
+     *  ------------------------------------
      */
     
     @Given("^User opens url \"(.*?)\" in \"(.*?)\" browser$")
     public void user_opens_browser(String url, String browser) throws Throwable{
-    	browserinstance.openBrowser(url, browser);
+    	String x = browserinstance.getRemoteCapabilities();
+    	System.out.println(x);
+    	browserinstance.openBrowser(
+    			url, 
+    			browser, 
+    			"browser1", 
+    			"http://localhost:4444/wd/hub", 
+    			"no-sandbox");
     }
    
     @Given("^User opens url \"(.*?)\" in \"(.*?)\" with browser alias \"(.*?)\"$")
