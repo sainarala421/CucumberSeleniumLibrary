@@ -13,7 +13,7 @@
         label 'master'
     }
     parameters {
-       string (name: 'TEST_SUITE_PATH', defaultValue: 'selenium-java',
+       string (name: 'TEST_SUITE_PATH', defaultValue: 'cucumberselenium2library',
               description: 'Path of cucumber tests.')
 
        string (name: 'TEST_TAGS', defaultValue: '@AvailabilityTest',
@@ -28,6 +28,7 @@
     stages {
         stage ("Stage 1: Get agent details") {
             steps {
+                checkout SCM
                 sh '''#!/bin/bash
                     python --version
                     whoami
@@ -37,11 +38,12 @@
                 '''
             }
         }
+        /*
         stage ("Stage 2 checkout SCM"){
             steps{
                 checkout SCM
             }
-        }
+        }*/
         stage ('Stage 3: Code analysis.') {
             steps {
                 withSonarQubeEnv('Local SonarQube') {
