@@ -12,6 +12,7 @@
     agent {
         label 'master'
     }
+    /* 
     parameters {
        string (name: 'TEST_SUITE_PATH', defaultValue: 'cucumberselenium2library',
               description: 'Path of cucumber tests.')
@@ -22,7 +23,7 @@
       string (name: 'SONAR_SCANNER_PATH', defaultValue: '/usr/local/bin',
               description: 'sonar-scanner path on agent')
     }
-    /* environment {
+    environment {
         ADMIN_USER = credentials('admin-user')
     } */
     stages {
