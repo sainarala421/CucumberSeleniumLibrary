@@ -41,10 +41,12 @@ public class KeywordsBrowserManagement{
     	System.out.println(x);
     	browserinstance.openBrowser(
     			url, 
-    			browser, 
+    			browser
+    			/*, 
     			"browser1", 
     			"http://localhost:4444/wd/hub", 
-    			"no-sandbox");
+    			"no-sandbox"*/
+    			);
     }
    
     @Given("^User opens url \"(.*?)\" in \"(.*?)\" with browser alias \"(.*?)\"$")

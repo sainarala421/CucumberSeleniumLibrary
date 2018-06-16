@@ -1406,9 +1406,10 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	protected WebDriver createLocalWebDriver(String browserName, DesiredCapabilities desiredCapabilities) {
 		if ("ff".equals(browserName) || "firefox".equals(browserName)) {
 			// return new FirefoxDriver(desiredCapabilities);  -- FOR DELETION
+			System.setProperty("webdriver.gecko.driver", "webdrivers/geckodriver");
 			FirefoxOptions options = new FirefoxOptions();
-			options.setCapability(browserName, desiredCapabilities);
-			return new FirefoxDriver(options);
+			desiredCapabilities.setCapability("marionette", true);
+			return new FirefoxDriver(options.merge(desiredCapabilities));
 		} else if ("ie".equals(browserName) || "internetexplorer".equals(browserName)) {
 			// return new InternetExplorerDriver(desiredCapabilities);  -- FOR DELETION
 			InternetExplorerOptions options = new InternetExplorerOptions();
