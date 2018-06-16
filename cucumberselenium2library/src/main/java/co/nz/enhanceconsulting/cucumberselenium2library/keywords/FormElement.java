@@ -29,7 +29,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	protected Logging logging;
 
 	// ##############################
-	// Keywords
+	// BrowserManagementKeywords
 	// ##############################
 
 	@RobotKeywordOverload

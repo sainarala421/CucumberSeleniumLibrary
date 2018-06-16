@@ -40,7 +40,7 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 	protected BrowserManagement browserManagement;
 
 	// ##############################
-	// Keywords
+	// BrowserManagementKeywords
 	// ##############################
 
 	@RobotKeywordOverload

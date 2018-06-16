@@ -28,7 +28,7 @@ public class RunOnFailure extends RunOnFailureKeywordsAdapter {
 	protected Logging logging;
 
 	// ##############################
-	// Keywords
+	// BrowserManagementKeywords
 	// ##############################
 
 	/**

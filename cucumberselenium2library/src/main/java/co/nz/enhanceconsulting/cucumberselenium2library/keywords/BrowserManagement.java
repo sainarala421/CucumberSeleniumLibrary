@@ -124,7 +124,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	// ##############################
-	// Keywords
+	// BrowserManagementKeywords
 	// ##############################
 
 	@RobotKeywordOverload

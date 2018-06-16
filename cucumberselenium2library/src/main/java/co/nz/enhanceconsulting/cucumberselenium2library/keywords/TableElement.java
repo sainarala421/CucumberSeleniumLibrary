@@ -29,7 +29,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	protected Logging logging;
 
 	// ##############################
-	// Keywords
+	// BrowserManagementKeywords
 	// ##############################
 
 	@RobotKeywordOverload

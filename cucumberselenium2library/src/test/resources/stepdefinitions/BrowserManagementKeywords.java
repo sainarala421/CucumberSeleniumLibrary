@@ -1,12 +1,12 @@
-package stepdefinitions;
+package resources.stepdefinitions;
 
 import co.nz.enhanceconsulting.cucumberselenium2library.keywords.BrowserManagement;
 //import cucumber.api.java.Before;
 import cucumber.api.java.en.When;
 
-public class Keywords{
+public class BrowserManagementKeywords{
 
-    public Keywords() throws Exception {
+    public BrowserManagementKeywords() throws Exception {
     }
     BrowserManagement bm = new BrowserManagement();
     
