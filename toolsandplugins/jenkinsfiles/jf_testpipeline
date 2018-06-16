@@ -13,14 +13,14 @@
         label 'master'
     }
     parameters {
-       string (name: 'SONAR_SCANNER_PATH', defaultValue: '/usr/local/bin',
-              description: 'sonar-scanner path on agent')
-
        string (name: 'TEST_SUITE_PATH', defaultValue: 'selenium-java',
               description: 'Path of cucumber tests.')
 
-       string (name: 'TEST_BROWSER', defaultValue: 'chrome',
-              description: 'Browser to use for testing.')
+       string (name: 'TEST_TAGS', defaultValue: '@AvailabilityTest',
+              description: 'Test tags, comma separated.')
+
+      string (name: 'SONAR_SCANNER_PATH', defaultValue: '/usr/local/bin',
+              description: 'sonar-scanner path on agent')
     }
     /* environment {
         ADMIN_USER = credentials('admin-user')
@@ -42,7 +42,7 @@
                 withSonarQubeEnv('Local SonarQube') {
                     // sq-scanner value set in Jenkins > Global Tool Configuration seems to not work
                     sh '''#!/bin/bash
-                        cd EnhanceWorkspace
+                        cd CucumberWorkspace
                         mvn clean
                         $SONAR_SCANNER_PATH/sonar-scanner
                     '''
@@ -60,9 +60,9 @@
         stage ("Stage 3: Run Maven Tests") {
             steps {
                 sh '''#!/bin/bash
-                    cd EnhanceWorkspace/$TEST_SUITE_PATH
+                    cd CucumberWorkspace/$TEST_SUITE_PATH
                     mvn clean
-                    mvn test -DBrowser=TEST_BROWSER
+                    mvn test -Dcucumber.options="--tags $TEST_TAGS"
                 '''
             }
         }
@@ -74,7 +74,7 @@
                 alwaysLinkToLastBuild: false, 
                 keepAll: true,
                 alwaysLinkToLastBuild: true,
-                reportDir: 'EnhanceWorkspace/selenium-java/target/surefire-reports', 
+                reportDir: 'CucumberWorkspace/cucumnberselenium2library/target/surefire-reports', 
                 reportFiles: 'index.html', 
                 reportName: 'HTML Report', 
                 reportTitles: ''
