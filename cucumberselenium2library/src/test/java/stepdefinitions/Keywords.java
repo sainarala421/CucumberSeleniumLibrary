@@ -1,4 +1,4 @@
-package co.nz.enhanceconsulting.cucumberselenium2library.stepdefinitions;
+package stepdefinitions;
 
 import co.nz.enhanceconsulting.cucumberselenium2library.keywords.BrowserManagement;
 //import cucumber.api.java.Before;
@@ -31,6 +31,4 @@ public class Keywords{
     	String title = bm.getTitle();
     	System.out.println(title);
 	}
-    
-
 }
