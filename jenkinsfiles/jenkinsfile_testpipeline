@@ -37,7 +37,12 @@
                 '''
             }
         }
-        stage ('Stage 2: Code analysis.') {
+        stage ("Stage 2 checkout SCM"){
+            steps{
+                checkout SCM
+            }
+        }
+        stage ('Stage 3: Code analysis.') {
             steps {
                 withSonarQubeEnv('Local SonarQube') {
                     // sq-scanner value set in Jenkins > Global Tool Configuration seems to not work
@@ -57,7 +62,7 @@
                 }
             }
         }
-        stage ("Stage 3: Run Maven Tests") {
+        stage ("Stage 4: Run Maven Tests") {
             steps {
                 sh '''#!/bin/bash
                     cd CucumberSelenium2Library/$TEST_SUITE_PATH
