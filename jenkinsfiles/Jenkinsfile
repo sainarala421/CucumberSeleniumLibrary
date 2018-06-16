@@ -80,7 +80,7 @@
                 alwaysLinkToLastBuild: false, 
                 keepAll: true,
                 alwaysLinkToLastBuild: true,
-                reportDir: 'cucumberselenium2library/target/cucumberHtmlReport', 
+                reportDir: 'cucumberselenium2library/target/surefire-reports', 
                 reportFiles: 'index.html', 
                 reportName: 'HTML Report', 
                 reportTitles: ''
