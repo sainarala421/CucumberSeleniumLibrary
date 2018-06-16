@@ -42,7 +42,7 @@
             steps{
                 checkout SCM
             }
-        }*/
+        }
         stage ('Stage 3: Code analysis.') {
             steps {
                 withSonarQubeEnv('Local SonarQube') {
@@ -62,7 +62,7 @@
                     }
                 }
             }
-        }
+        }*/
         stage ("Stage 4: Run Maven Tests") {
             steps {
                 sh '''#!/bin/bash
