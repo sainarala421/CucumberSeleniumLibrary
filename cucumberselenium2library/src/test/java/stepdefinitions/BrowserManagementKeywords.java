@@ -1,4 +1,4 @@
-package resources.stepdefinitions;
+package stepdefinitions;
 
 import co.nz.enhanceconsulting.cucumberselenium2library.keywords.BrowserManagement;
 //import cucumber.api.java.Before;
