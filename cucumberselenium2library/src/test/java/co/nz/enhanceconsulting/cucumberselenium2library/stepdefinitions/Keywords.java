@@ -1,12 +1,12 @@
+package co.nz.enhanceconsulting.cucumberselenium2library.stepdefinitions;
 
-
-import co.nz.enhanceconsulting.library.BrowserManagement;
+import co.nz.enhanceconsulting.cucumberselenium2library.keywords.BrowserManagement;
 //import cucumber.api.java.Before;
 import cucumber.api.java.en.When;
 
-public class RFTestSteps{
+public class Keywords{
 
-    public RFTestSteps() throws Exception {
+    public Keywords() throws Exception {
     }
     BrowserManagement bm = new BrowserManagement();
     
