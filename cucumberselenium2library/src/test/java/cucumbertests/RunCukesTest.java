@@ -1,4 +1,4 @@
-package stepdefinitions;
+package cucumbertests;
 
 import org.junit.runner.RunWith;
 
@@ -13,7 +13,7 @@ import cucumber.api.junit.Cucumber;
 			 "pretty:target/cucumber-json-report.json"   // for json result
 		     },
 		features = "src/test/java/features",
-		glue = {"stepdefinitions"   // predefined step definitions package
+		glue = {"resources"   // predefined step definitions package
 				//"info.seleniumcucumber.userStepDefintions" // user step definitions package
 			   }
 )

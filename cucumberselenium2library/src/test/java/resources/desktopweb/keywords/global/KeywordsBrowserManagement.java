@@ -1,4 +1,7 @@
-package stepdefinitions;
+package resources.desktopweb.keywords.global;
+
+import java.io.FileInputStream;
+import java.util.Properties;
 
 import co.nz.enhanceconsulting.cucumberselenium2library.keywords.BrowserManagement;
 import cucumber.api.java.After;
@@ -7,11 +10,19 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 
 public class KeywordsBrowserManagement{
-
+	// Constructor
     public KeywordsBrowserManagement() throws Exception {
     }
-    BrowserManagement browserinstance = new BrowserManagement();
-
+    static BrowserManagement browserinstance = new BrowserManagement();
+    static Properties prop = new Properties();
+    static String basepoperties = "src/test/java/propertiesfiles/base.properties";
+    
+    public String properties_value(String path, String key) throws Throwable{
+    	prop.load(new FileInputStream(path));
+    	String value = prop.getProperty(key);
+    	return value;
+    }
+    
     /**
      *  --------------------
      *  Suite Setup Keywords
@@ -39,9 +50,9 @@ public class KeywordsBrowserManagement{
     public void user_opens_browser(String url, String browser) throws Throwable{
     	browserinstance.openBrowser(
     			url, 
-    			browser, 
-    			"browser1", 
-    			"http://localhost:4444/wd/hub"
+    			browser
+    			/*"browser1", 
+    			"http://localhost:4444/wd/hub"*/
     			);
     }
    
