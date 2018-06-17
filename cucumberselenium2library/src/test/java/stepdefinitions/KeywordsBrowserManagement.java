@@ -37,15 +37,11 @@ public class KeywordsBrowserManagement{
     
     @Given("^User opens url \"(.*?)\" in \"(.*?)\" browser$")
     public void user_opens_browser(String url, String browser) throws Throwable{
-    	String x = browserinstance.getRemoteCapabilities();
-    	System.out.println(x);
     	browserinstance.openBrowser(
     			url, 
-    			browser
-    			/*, 
+    			browser, 
     			"browser1", 
-    			"http://localhost:4444/wd/hub", 
-    			"no-sandbox"*/
+    			"http://localhost:4444/wd/hub"
     			);
     }
    

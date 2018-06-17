@@ -23,6 +23,9 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.conn.params.ConnRoutePNames;
+import org.apache.http.conn.routing.HttpRoutePlanner;
 // import org.apache.http.client.HttpClient;
 // import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.BasicCredentialsProvider;
@@ -54,6 +57,8 @@ import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.opera.OperaOptions;
 
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.conn.DefaultRoutePlanner;
+import org.apache.http.impl.conn.DefaultSchemePortResolver;
 import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.annotation.RobotKeyword;
@@ -1611,9 +1616,11 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			
 			// Set the RoutePlanner back to something that handles
 			// proxies correctly.
-			// client.setRoutePlanner(new DefaultRoutePlanner(client.getConnectionManager().getSchemeRegistry()));
+			//client.setRoutePlanner(new DefaultRoutePlanner(client.getConnectionManager().getSchemeRegistry()));
+
 			HttpHost proxy = new HttpHost(remoteWebDriverProxyHost, Integer.parseInt(remoteWebDriverProxyPort));
-			//client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+			HttpRoutePlanner route = new DefaultRoutePlanner(DefaultSchemePortResolver.INSTANCE);
+			client.setRoutePlanner(route);
 			client.setProxy(proxy);
 
 		} catch (SecurityException e) {
