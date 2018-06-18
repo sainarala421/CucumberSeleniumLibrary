@@ -39,6 +39,11 @@ public class KeywordsBrowserManagement{
     	String pbaseURL = baseURL == "" ? GlobalVariables.BASE_URL : baseURL;
     	String premoteURL = remoteURL == "" ? GlobalVariables.REMOTE_URL_FALSE : remoteURL;
     	
+    	// Set selenium speed and timeout
+    	browserinstance.setSeleniumSpeed(GlobalVariables.SELENIUM_SPEED);
+    	browserinstance.setSeleniumTimeout(GlobalVariables.SELENIUM_TIMEOUT);
+    	
+    	// Launch Browser
     	browserinstance.openBrowser(
     			pbaseURL, 
     			pbrowser,
