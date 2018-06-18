@@ -75,7 +75,7 @@
                     steps {
                         sh '''#!/bin/bash
                             cd $TEST_SUITE_PATH
-                            mvn clean test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=chrome -DbaseURL=$BASE_URL -DremoteURL="remote_url=$REMOTE_URL"
+                            mvn clean test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=chrome -DbaseURL=$BASE_URL -DremoteURL="$REMOTE_URL"
                         '''
                     }
                 }
@@ -83,7 +83,7 @@
                     steps {
                         sh '''#!/bin/bash
                             cd $TEST_SUITE_PATH
-                            mvn clean test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=firefox -DbaseURL=$BASE_URL -DremoteURL="remote_url=$REMOTE_URL"
+                            mvn clean test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=firefox -DbaseURL=$BASE_URL -DremoteURL="$REMOTE_URL"
                         '''
                     }
                 }
@@ -91,7 +91,7 @@
                     steps {
                         sh '''#!/bin/bash
                             cd $TEST_SUITE_PATH
-                            mvn clean test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=safari -DbaseURL=$BASE_URL -DremoteURL="remote_url=$REMOTE_URL"
+                            mvn clean test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=safari -DbaseURL=$BASE_URL -DremoteURL="$REMOTE_URL"
                         '''
                     }
                 }
