@@ -13,13 +13,19 @@
         label 'master'
     }
     parameters {
-       string (name: 'TEST_SUITE_PATH', defaultValue: 'cucumberselenium2library',
+        string (name: 'TEST_SUITE_PATH', defaultValue: 'cucumberselenium2library',
               description: 'Path of cucumber tests.')
 
-       string (name: 'TEST_TAGS', defaultValue: '@AvailabilityTest',
+        string (name: 'TEST_TAGS', defaultValue: '@SampleTest',
               description: 'Test tags, comma separated.')
 
-      string (name: 'SONAR_SCANNER_PATH', defaultValue: '/usr/local/bin',
+        string (name: 'BASE_URL', defaultValue: 'https://www.2degreesmobile.co.nz',
+            description: 'Base url or test environment')
+
+        string (name: 'REMOTE_URL:', defaultValue: 'False',
+              description: 'Remote url, otherwise set as False')
+
+        string (name: 'SONAR_SCANNER_PATH', defaultValue: '/usr/local/bin',
               description: 'sonar-scanner path on agent')
     }
     /*environment {
@@ -63,13 +69,34 @@
                 }
             }
         }*/
-        stage ("Stage 4: Run Maven Tests") {
-            steps {
+        stage ("Stage 4: Run Parallel Maven Tests") {
+            steps{
                 sh '''#!/bin/bash
                     cd $TEST_SUITE_PATH
-                    mvn clean
-                    mvn test -Dcucumber.options="--tags $TEST_TAGS"
                 '''
+            }
+            parallel {
+                stage ('Chrome Browser'){
+                    steps {
+                        sh '''#!/bin/bash
+                            mvn test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=chrome -DbaseURL=$BASE_URL -DremoteURL=$REMOTE_URL
+                        '''
+                    }
+                }
+                stage ('Firefox Browser'){
+                    steps {
+                        sh '''#!/bin/bash
+                            mvn test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=firefox -DbaseURL=$BASE_URL -DremoteURL=$REMOTE_URL
+                        '''
+                    }
+                }
+                stage ('Safari Browser'){
+                    steps {
+                        sh '''#!/bin/bash
+                            mvn test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=safari -DbaseURL=$BASE_URL -DremoteURL=$REMOTE_URL
+                        '''
+                    }
+                }
             }
         }
     }
