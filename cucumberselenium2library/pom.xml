@@ -238,16 +238,16 @@
                       <encoding>UTF-8</encoding>
                       <systemPropertyVariables>
                         <property>
-                          <name>baseURL</name>
-                          <value>${browser}</value>
-                        </property>
-                        <property>
                           <name>browser</name>
                           <value>${browser}</value>
                         </property>
                         <property>
+                          <name>baseURL</name>
+                          <value>${baseURL}</value>
+                        </property>
+                        <property>
                           <name>remoteURL</name>
-                          <value>${browser}</value>
+                          <value>${remoteURL}</value>
                         </property>
                       </systemPropertyVariables>
                     </configuration>
