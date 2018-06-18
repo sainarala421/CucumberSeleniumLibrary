@@ -78,6 +78,18 @@
                             mvn clean test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=chrome -DbaseURL=$BASE_URL -DremoteURL="False"
                         '''
                     }
+                    always {
+                        publishHTML([
+                            allowMissing: false, 
+                            alwaysLinkToLastBuild: false, 
+                            keepAll: true,
+                            alwaysLinkToLastBuild: true,
+                            reportDir: 'cucumberselenium2library/target/cucumberHtmlReport', 
+                            reportFiles: 'index.html', 
+                            reportName: 'HTML Report', 
+                            reportTitles: ''
+                        ])
+                    }
                 }
                 stage ('Firefox Browser'){
                     steps {
