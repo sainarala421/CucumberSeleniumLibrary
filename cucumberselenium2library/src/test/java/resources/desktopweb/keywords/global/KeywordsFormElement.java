@@ -17,7 +17,7 @@ public class KeywordsFormElement{
      */
     @When("^User inputs \"(.*?)\" in \"(.*?)\" field$")
     public void user_inputs_text_in_field(String text, String locator) throws Throwable{
-    	elementinstance.focus(text);
+    	elementinstance.focus(locator);
     	formelementinstance.inputText(locator, text);
     }
     

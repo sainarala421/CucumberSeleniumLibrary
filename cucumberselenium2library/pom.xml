@@ -233,6 +233,25 @@
                             <version>2.21.0</version>
                         </dependency>
                     </dependencies>
+
+                    <configuration>
+                      <encoding>UTF-8</encoding>
+                      <systemPropertyVariables>
+                        <property>
+                          <name>baseURL</name>
+                          <value>${browser}</value>
+                        </property>
+                        <property>
+                          <name>browser</name>
+                          <value>${browser}</value>
+                        </property>
+                        <property>
+                          <name>remoteURL</name>
+                          <value>${browser}</value>
+                        </property>
+                      </systemPropertyVariables>
+                    </configuration>
+
                 </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -245,4 +264,7 @@
             </plugins>
         </pluginManagement>
     </build>
+
+
+
 </project>

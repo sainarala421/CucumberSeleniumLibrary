@@ -1,26 +1,25 @@
 package resources.desktopweb.keywords.global;
 
-import java.io.FileInputStream;
-import java.util.Properties;
-
 import co.nz.enhanceconsulting.cucumberselenium2library.keywords.BrowserManagement;
 import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
-//import cucumber.api.java.Before;
 import cucumber.api.java.en.When;
+import resources.utils.PropertiesValue;
+import resources.utils.constants.GlobalVariables;
 
 public class KeywordsBrowserManagement{
 	// Constructor
     public KeywordsBrowserManagement() throws Exception {
     }
+    PropertiesValue pvalue = new PropertiesValue();
+    static String propertiesfilepath = GlobalVariables.BASE_PROPERTIES_FILE;
     static BrowserManagement browserinstance = new BrowserManagement();
-    static Properties prop = new Properties();
-    static String basepoperties = "src/test/java/propertiesfiles/base.properties";
+    static String browser = System.getProperty("browser", "");
+    static String baseURL = System.getProperty("baseURL", "");
+    static String remoteURL = System.getProperty("remoteURL", "");
     
-    public String properties_value(String path, String key) throws Throwable{
-    	prop.load(new FileInputStream(path));
-    	String value = prop.getProperty(key);
-    	return value;
+    public void setGlobalVariables() throws Throwable{
     }
     
     /**
@@ -28,7 +27,34 @@ public class KeywordsBrowserManagement{
      *  Suite Setup Keywords
      *  --------------------
      */
-    
+    @Before
+    public void launch_browser() throws Throwable{
+    	/**
+    	 *  Reusable setup to launch browser instance.
+    	 *  Set the properties in base.properties file.
+    	 */
+    	
+    	// Set defaults
+    	if(browser =="") {
+    		browser = GlobalVariables.BROWSER;
+    	}
+    	if(baseURL == "") {
+    		baseURL = GlobalVariables.BASE_URL;
+    	}
+    	if(remoteURL == "") {
+    		remoteURL = GlobalVariables.REMOTE_URL_FALSE;
+    	}
+    	
+    	browserinstance.openBrowser(
+    			baseURL, 
+    			browser,
+    			GlobalVariables.BROWSER_BASE_ALIAS,
+    			remoteURL
+    			);
+    	
+    	// Get browser dimension in properties file.
+    	browserinstance.setWindowSize(GlobalVariables.BROWSER_WIDTH, GlobalVariables.BROWSER_HEIGHT);
+    }
     /**
      *  -----------------------
      *  Suite Teardown Keywords
@@ -51,8 +77,6 @@ public class KeywordsBrowserManagement{
     	browserinstance.openBrowser(
     			url, 
     			browser
-    			/*"browser1", 
-    			"http://localhost:4444/wd/hub"*/
     			);
     }
    
@@ -80,6 +104,12 @@ public class KeywordsBrowserManagement{
     @When("^User reloads page$")
     public void user_reloads_page(String browserAlias) throws Throwable{
     	browserinstance.reloadPage();
+    }
+    
+    @When("^User gets title$")
+    public void user_gets_title() throws Throwable{
+    	String pageTitle = browserinstance.getTitle();
+    	System.out.printf("Page title: %s", pageTitle);
     }
 
     /**

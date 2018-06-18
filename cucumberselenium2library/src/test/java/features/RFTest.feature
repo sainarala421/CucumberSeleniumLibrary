@@ -8,3 +8,8 @@ Feature: Robotframework test cases
   Scenario: User should open webpage in chrome
   	When User opens url "https://www.facebook.com" in "chrome" browser
   	When Get system info
+
+@SampleTest
+  Scenario: Sample test
+  	When Get system info
+  	When User gets title
