@@ -69,31 +69,30 @@
                 }
             }
         }*/
+        stage
         stage ("Stage 4: Run Parallel Maven Tests") {
-            steps{
-                sh '''#!/bin/bash
-                    cd $TEST_SUITE_PATH
-                '''
-            }
             parallel {
                 stage ('Chrome Browser'){
                     steps {
                         sh '''#!/bin/bash
-                            mvn test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=chrome -DbaseURL=$BASE_URL -DremoteURL=$REMOTE_URL
+                            cd $TEST_SUITE_PATH
+                            mvn clean test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=chrome -DbaseURL=$BASE_URL -DremoteURL=$REMOTE_URL
                         '''
                     }
                 }
                 stage ('Firefox Browser'){
                     steps {
                         sh '''#!/bin/bash
-                            mvn test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=firefox -DbaseURL=$BASE_URL -DremoteURL=$REMOTE_URL
+                            cd $TEST_SUITE_PATH
+                            mvn clean test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=firefox -DbaseURL=$BASE_URL -DremoteURL=$REMOTE_URL
                         '''
                     }
                 }
                 stage ('Safari Browser'){
                     steps {
                         sh '''#!/bin/bash
-                            mvn test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=safari -DbaseURL=$BASE_URL -DremoteURL=$REMOTE_URL
+                            cd $TEST_SUITE_PATH
+                            mvn clean test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=safari -DbaseURL=$BASE_URL -DremoteURL=$REMOTE_URL
                         '''
                     }
                 }
