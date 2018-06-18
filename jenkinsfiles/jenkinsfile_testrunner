@@ -69,7 +69,6 @@
                 }
             }
         }*/
-        stage
         stage ("Stage 4: Run Parallel Maven Tests") {
             parallel {
                 stage ('Chrome Browser'){
