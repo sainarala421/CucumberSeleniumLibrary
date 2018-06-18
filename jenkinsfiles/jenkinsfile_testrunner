@@ -77,8 +77,6 @@
                             cd $TEST_SUITE_PATH
                             mvn clean test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=chrome -DbaseURL=$BASE_URL -DremoteURL="False"
                         '''
-                    }
-                    always {
                         publishHTML([
                             allowMissing: false, 
                             alwaysLinkToLastBuild: false, 
@@ -89,6 +87,7 @@
                             reportName: 'HTML Report', 
                             reportTitles: ''
                         ])
+
                     }
                 }
                 stage ('Firefox Browser'){
