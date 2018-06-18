@@ -34,25 +34,19 @@ public class KeywordsBrowserManagement{
     	 *  Set the properties in base.properties file.
     	 */
     	
-    	// Set defaults
-    	if(browser =="") {
-    		browser = GlobalVariables.BROWSER;
-    	}
-    	if(baseURL == "") {
-    		baseURL = GlobalVariables.BASE_URL;
-    	}
-    	if(remoteURL == "") {
-    		remoteURL = GlobalVariables.REMOTE_URL_FALSE;
-    	}
+    	// Set defaults if parameters are blank
+    	String pbrowser = browser == "" ? GlobalVariables.BROWSER : browser;
+    	String pbaseURL = baseURL == "" ? GlobalVariables.BASE_URL : baseURL;
+    	String premoteURL = remoteURL == "" ? GlobalVariables.REMOTE_URL_FALSE : remoteURL;
     	
     	browserinstance.openBrowser(
-    			baseURL, 
-    			browser,
+    			pbaseURL, 
+    			pbrowser,
     			GlobalVariables.BROWSER_BASE_ALIAS,
-    			remoteURL
+    			premoteURL
     			);
     	
-    	// Get browser dimension in properties file.
+    	// Set browser size.
     	browserinstance.setWindowSize(GlobalVariables.BROWSER_WIDTH, GlobalVariables.BROWSER_HEIGHT);
     }
     /**
