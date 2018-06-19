@@ -166,7 +166,7 @@
         <dependency>
             <groupId>com.aventstack</groupId>
             <artifactId>extentreports</artifactId>
-            <version>3.1.0</version>
+            <version>3.1.5</version>
             <scope>provided</scope>
         </dependency>
 
@@ -218,7 +218,26 @@
             <scope>system</scope>
             <systemPath>/Users/jarvis2/Documents/java_libraries/phantomjsdriver-1.4.4.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>com.epam.reportportal</groupId>
+            <artifactId>agent-java-cucumber</artifactId>
+            <version>4.0.2</version>  
+        </dependency>
     </dependencies> 
+
+    <!-- Report Portal Settings -->
+    <repositories>
+         <repository>
+            <snapshots>
+              <enabled>false</enabled>
+            </snapshots>
+            <id>bintray-epam-reportportal</id>
+            <name>bintray</name>
+            <url>http://dl.bintray.com/epam/reportportal</url>
+         </repository>
+    </repositories>
+
+
     <build>
         <pluginManagement>
             <plugins>

@@ -1,5 +1,13 @@
 package resources.desktopweb.keywords.global;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+import com.aventstack.extentreports.reporter.configuration.ChartLocation;
+import com.aventstack.extentreports.reporter.configuration.Protocol;
+import com.aventstack.extentreports.reporter.configuration.Theme;
+
 import co.nz.enhanceconsulting.cucumberselenium2library.keywords.BrowserManagement;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -19,6 +27,7 @@ public class KeywordsBrowserManagement{
     static String baseURL = System.getProperty("baseURL", "");
     static String remoteURL = System.getProperty("remoteURL", "");
     
+
     public void setGlobalVariables() throws Throwable{
     }
     
@@ -33,7 +42,46 @@ public class KeywordsBrowserManagement{
     	 *  Reusable setup to launch browser instance.
     	 *  Set the properties in base.properties file.
     	 */
+        // ExtentReports initialization
+        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter("extent.html");
+        
+    	htmlReporter.loadXMLConfig(GlobalVariables.EXTENT_REPORT_XML_PATH);
+    	htmlReporter.setAppendExisting(true);
+    	// make the charts visible on report open
+    	htmlReporter.config().setChartVisibilityOnOpen(true);
+
+
+    	// report title
+    	htmlReporter.config().setDocumentTitle("ExtentReports");
+
+    	// encoding, default = UTF-8
+    	htmlReporter.config().setEncoding("UTF-8");
+
+    	// protocol (http, https)
+    	htmlReporter.config().setProtocol(Protocol.HTTPS);
+
+    	// report or build name
+    	htmlReporter.config().setReportName("Build-1224");
+
+    	// chart location - top, bottom
+    	htmlReporter.config().setTestViewChartLocation(ChartLocation.BOTTOM);
+
+    	// theme - standard, dark
+    	htmlReporter.config().setTheme(Theme.STANDARD);
+
+    	// set timeStamp format
+    	htmlReporter.config().setTimeStampFormat("mm/dd/yyyy hh:mm:ss a");
+
+    	// add custom css
+    	htmlReporter.config().setCSS("css-string");
+
+    	// add custom javascript
+    	htmlReporter.config().setJS("js-string");
     	
+        ExtentReports extent = new ExtentReports();
+        extent.attachReporter(htmlReporter);
+    	ExtentTest test = extent.createTest("MyFirstTest", "Sample description");
+    	 
     	// Set defaults if parameters are blank
     	String pbrowser = browser == "" ? GlobalVariables.BROWSER : browser;
     	String pbaseURL = baseURL == "" ? GlobalVariables.BASE_URL : baseURL;
@@ -50,9 +98,13 @@ public class KeywordsBrowserManagement{
     			GlobalVariables.BROWSER_BASE_ALIAS,
     			premoteURL
     			);
+    	test.log(Status.INFO, "This step opens the browser");
     	
     	// Set browser size.
     	browserinstance.setWindowSize(GlobalVariables.BROWSER_WIDTH, GlobalVariables.BROWSER_HEIGHT);
+    	test.log(Status.INFO, "This step setst the browser size.");
+    	
+    	extent.flush();
     }
     /**
      *  -----------------------

@@ -9,7 +9,7 @@ package resources.utils.constants;
  *
  */
 public class GlobalVariables{
-    // properties files
+    // Properties files
     public static final String BASE_PROPERTIES_FILE = "src/test/java/propertiesfiles/global/base.properties";
     public static final String FEATURES_PATH = "src/test/java/features";
     public static final String GLUE_KEYWORDS_PATH = "resources.desktopweb.keywords";
@@ -25,4 +25,8 @@ public class GlobalVariables{
     
     public static final String SELENIUM_SPEED = "0.5";
     public static final String SELENIUM_TIMEOUT = "90 sec";
+    
+    // ExtentReports
+    public static final String EXTENT_REPORT_XML_PATH = "extentreports/extent-config.xml";
+    public static final String EXTENT_REPORT_TARGET_PATH = "target/extent-reports/extent.html";
 }
