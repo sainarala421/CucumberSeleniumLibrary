@@ -69,9 +69,9 @@
                 }
             }
         }*/
-        stage ("Stage 4: Run Parallel Maven Tests") {
+        stage ("Stage 2: Run Parallel Maven Tests") {
             parallel {
-                stage ('Chrome Browser'){
+                stage ('Stage 2.1: Chrome Browser Test Execution'){
                     steps {
                         sh '''#!/bin/bash
                             cd $TEST_SUITE_PATH
@@ -90,7 +90,7 @@
 
                     }
                 }
-                stage ('Firefox Browser'){
+                stage ('Stage 2.2: Firefox Browser Test Execution'){
                     steps {
                         sh '''#!/bin/bash
                             cd $TEST_SUITE_PATH
@@ -103,12 +103,12 @@
                             alwaysLinkToLastBuild: true,
                             reportDir: 'cucumberselenium2library', 
                             reportFiles: 'extent.html', 
-                            reportName: 'Extent Report - Chrome', 
+                            reportName: 'Extent Report - Firefox', 
                             reportTitles: ''
                         ])
                     }
                 }
-                stage ('Safari Browser'){
+                stage ('Stage 2.3: Safari Browser Test Execution'){
                     steps {
                         sh '''#!/bin/bash
                             cd $TEST_SUITE_PATH
@@ -121,7 +121,7 @@
                             alwaysLinkToLastBuild: true,
                             reportDir: 'cucumberselenium2library', 
                             reportFiles: 'extent.html', 
-                            reportName: 'Extent Report - Chrome', 
+                            reportName: 'Extent Report - Safari', 
                             reportTitles: ''
                         ])
                     }
