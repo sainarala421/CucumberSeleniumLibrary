@@ -82,9 +82,9 @@
                             alwaysLinkToLastBuild: false, 
                             keepAll: true,
                             alwaysLinkToLastBuild: true,
-                            reportDir: 'cucumberselenium2library/target/cucumberHtmlReport', 
-                            reportFiles: 'index.html', 
-                            reportName: 'HTML Report', 
+                            reportDir: 'cucumberselenium2library', 
+                            reportFiles: 'extent.html', 
+                            reportName: 'Extent Report - Chrome', 
                             reportTitles: ''
                         ])
 
@@ -96,6 +96,16 @@
                             cd $TEST_SUITE_PATH
                             mvn clean test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=firefox -DbaseURL=$BASE_URL -DremoteURL="False"
                         '''
+                        publishHTML([
+                            allowMissing: false, 
+                            alwaysLinkToLastBuild: false, 
+                            keepAll: true,
+                            alwaysLinkToLastBuild: true,
+                            reportDir: 'cucumberselenium2library', 
+                            reportFiles: 'extent.html', 
+                            reportName: 'Extent Report - Chrome', 
+                            reportTitles: ''
+                        ])
                     }
                 }
                 stage ('Safari Browser'){
@@ -104,12 +114,22 @@
                             cd $TEST_SUITE_PATH
                             mvn clean test -Dcucumber.options="--tags $TEST_TAGS" -Dbrowser=safari -DbaseURL=$BASE_URL -DremoteURL="False"
                         '''
+                        publishHTML([
+                            allowMissing: false, 
+                            alwaysLinkToLastBuild: false, 
+                            keepAll: true,
+                            alwaysLinkToLastBuild: true,
+                            reportDir: 'cucumberselenium2library', 
+                            reportFiles: 'extent.html', 
+                            reportName: 'Extent Report - Chrome', 
+                            reportTitles: ''
+                        ])
                     }
                 }
             }
         }
     }
-    post {
+    /*post {
         always {
             publishHTML([
                 allowMissing: false, 
@@ -122,6 +142,6 @@
                 reportTitles: ''
             ])
         }
-    }
+    }*/
 
 }
