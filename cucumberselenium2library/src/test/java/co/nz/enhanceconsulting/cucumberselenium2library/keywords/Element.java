@@ -17,10 +17,14 @@ import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
-import co.nz.enhanceconsulting.cucumberselenium2library.utils.RunOnFailureKeywordsAdapter;
-import co.nz.enhanceconsulting.cucumberselenium2library.utils.Selenium2LibraryNonFatalException;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+
 import co.nz.enhanceconsulting.cucumberselenium2library.locators.ElementFinder;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.Python;
+import co.nz.enhanceconsulting.cucumberselenium2library.utils.RunOnFailureKeywordsAdapter;
+import co.nz.enhanceconsulting.cucumberselenium2library.utils.Selenium2LibraryNonFatalException;
+import resources.desktopweb.keywords.global.KeywordsBrowserManagement;
 
 @RobotKeywords
 public class Element extends RunOnFailureKeywordsAdapter {
@@ -30,7 +34,9 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@Autowired
 	protected BrowserManagement browserManagement;
-
+	
+	protected LoggingExtentReport logExtentReport = new LoggingExtentReport();
+	protected ExtentTest test = KeywordsBrowserManagement.test;
 	/**
 	 * Instantiated FormElement keyword bean
 	 */
@@ -49,8 +55,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	@ArgumentNames({ "text" })
-	public void currentFrameContains(String text) {
-		currentFrameContains(text, "INFO");
+	public void currentFrameContains(WebDriver driver, String text) {
+		currentFrameContains(driver, text, "INFO");
 	}
 
 	/**
@@ -65,8 +71,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "text", "logLevel=INFO" })
-	public void currentFrameContains(String text, String logLevel) {
-		if (!isTextPresent(text)) {
+	public void currentFrameContains(WebDriver driver, String text, String logLevel) {
+		if (!isTextPresent(driver, text)) {
 			logging.log(String.format("Current Frame Contains: %s => FAILED", text), logLevel);
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Page should have contained text '%s', but did not.", text));
@@ -76,8 +82,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void currentFrameShouldNotContain(String text) {
-		currentFrameShouldNotContain(text, "INFO");
+	public void currentFrameShouldNotContain(WebDriver driver, String text) {
+		currentFrameShouldNotContain(driver, text, "INFO");
 	}
 
 	/**
@@ -92,8 +98,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "text", "logLevel=INFO" })
-	public void currentFrameShouldNotContain(String text, String logLevel) {
-		if (isTextPresent(text)) {
+	public void currentFrameShouldNotContain(WebDriver driver, String text, String logLevel) {
+		if (isTextPresent(driver, text)) {
 			logging.log(String.format("Current Frame Should Not Contain: %s => FAILED", text), logLevel);
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Page should have not contained text '%s', but did.", text));
@@ -103,8 +109,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void elementShouldContain(String locator, String text) {
-		elementShouldContain(locator, text, "");
+	public void elementShouldContain(WebDriver driver, String locator, String text) {
+		elementShouldContain(driver, locator, text, "");
 	}
 
 	/**
@@ -121,8 +127,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "message=NONE" })
-	public void elementShouldContain(String locator, String text, String message) {
-		String actual = getText(locator);
+	public void elementShouldContain(WebDriver driver, String locator, String text, String message) {
+		String actual = getText(driver, locator);
 
 		if (!actual.toLowerCase().contains(text.toLowerCase())) {
 			logging.info(String.format("Element Should Contain: %s => FAILED", text));
@@ -134,8 +140,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void elementShouldNotContain(String locator, String text) {
-		elementShouldNotContain(locator, text, "");
+	public void elementShouldNotContain(WebDriver driver, String locator, String text) {
+		elementShouldNotContain(driver, locator, text, "");
 	}
 
 	/**
@@ -153,8 +159,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "message=NONE" })
-	public void elementShouldNotContain(String locator, String text, String message) {
-		String actual = getText(locator);
+	public void elementShouldNotContain(WebDriver driver, String locator, String text, String message) {
+		String actual = getText(driver, locator);
 
 		if (actual.toLowerCase().contains(text.toLowerCase())) {
 			logging.info(String.format("Element Should Not Contain: %s => FAILED", text));
@@ -166,8 +172,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void frameShouldContain(String locator, String text) {
-		frameShouldContain(locator, text, "INFO");
+	public void frameShouldContain(WebDriver driver, String locator, String text) {
+		frameShouldContain(driver, locator, text, "INFO");
 	}
 
 	/**
@@ -184,8 +190,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "logLevel=INFO" })
-	public void frameShouldContain(String locator, String text, String logLevel) {
-		if (!frameContains(locator, text)) {
+	public void frameShouldContain(WebDriver driver, String locator, String text, String logLevel) {
+		if (!frameContains(driver, locator, text)) {
 			logging.log(String.format("Frame Should Contain: %s => FAILED", text), logLevel);
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Frame should have contained text '%s', but did not.", text));
@@ -209,8 +215,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "logLevel=INFO" })
-	public void frameShouldNotContain(String locator, String text, String logLevel) {
-		if (frameContains(locator, text)) {
+	public void frameShouldNotContain(WebDriver driver, String locator, String text, String logLevel) {
+		if (frameContains(driver, locator, text)) {
 			logging.log(String.format("Frame Should Not Contain: %s => FAILED", text), logLevel);
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Frame should not have contained text '%s', but did.", text));
@@ -220,8 +226,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldContain(String text) {
-		pageShouldContain(text, "INFO");
+	public void pageShouldContain(WebDriver driver, String text) {
+		pageShouldContain(driver, text, "INFO");
 	}
 
 	/**
@@ -236,8 +242,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "text", "logLevel=INFO" })
-	public void pageShouldContain(String text, String logLevel) {
-		if (!pageContains(text)) {
+	public void pageShouldContain(WebDriver driver, String text, String logLevel) {
+		if (!pageContains(driver, text)) {
 			logging.log(String.format("Page Should Contain: %s => FAILED", text), logLevel);
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Page should have contained text '%s' but did not.", text));
@@ -247,8 +253,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldNotContain(String text) {
-		pageShouldNotContain(text, "INFO");
+	public void pageShouldNotContain(WebDriver driver, String text) {
+		pageShouldNotContain(driver, text, "INFO");
 	}
 
 	/**
@@ -263,8 +269,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "text", "logLevel=INFO" })
-	public void pageShouldNotContain(String text, String logLevel) {
-		if (pageContains(text)) {
+	public void pageShouldNotContain(WebDriver driver, String text, String logLevel) {
+		if (pageContains(driver, text)) {
 			logging.log(String.format("Page Should Not Contain: %s => FAILED", text), logLevel);
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Page should not have contained text '%s' but did.", text));
@@ -274,13 +280,13 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldContainElement(String locator) {
-		pageShouldContainElement(locator, "", "INFO");
+	public void pageShouldContainElement(WebDriver driver, String locator) {
+		pageShouldContainElement(driver, locator, "", "INFO");
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldContainElement(String locator, String message) {
-		pageShouldContainElement(locator, message, "INFO");
+	public void pageShouldContainElement(WebDriver driver, String locator, String message) {
+		pageShouldContainElement(driver, locator, message, "INFO");
 	}
 
 	/**
@@ -299,13 +305,13 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldContainElement(String locator, String message, String logLevel) {
-		pageShouldContainElement(locator, null, message, "INFO");
+	public void pageShouldContainElement(WebDriver driver, String locator, String message, String logLevel) {
+		pageShouldContainElement(driver, locator, null, message, "INFO");
 	}
 
-	protected void pageShouldContainElement(String locator, String tag, String message, String logLevel) {
+	protected void pageShouldContainElement(WebDriver driver, String locator, String tag, String message, String logLevel) {
 		String name = tag != null ? tag : "element";
-		if (!isElementPresent(locator, tag)) {
+		if (!isElementPresent(driver, locator, tag)) {
 			if (message == null || message.equals("")) {
 				message = String.format("Page should have contained %s '%s' but did not", name, locator);
 			}
@@ -317,13 +323,13 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldNotContainElement(String locator) {
-		pageShouldNotContainElement(locator, "", "INFO");
+	public void pageShouldNotContainElement(WebDriver driver, String locator) {
+		pageShouldNotContainElement(driver, locator, "", "INFO");
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldNotContainElement(String locator, String message) {
-		pageShouldNotContainElement(locator, message, "INFO");
+	public void pageShouldNotContainElement(WebDriver driver, String locator, String message) {
+		pageShouldNotContainElement(driver, locator, message, "INFO");
 	}
 
 	/**
@@ -342,13 +348,13 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldNotContainElement(String locator, String message, String logLevel) {
-		pageShouldNotContainElement(locator, null, message, "INFO");
+	public void pageShouldNotContainElement(WebDriver driver, String locator, String message, String logLevel) {
+		pageShouldNotContainElement(driver, locator, null, message, "INFO");
 	}
 
-	protected void pageShouldNotContainElement(String locator, String tag, String message, String logLevel) {
+	protected void pageShouldNotContainElement(WebDriver driver, String locator, String tag, String message, String logLevel) {
 		String name = tag != null ? tag : "element";
-		if (isElementPresent(locator, tag)) {
+		if (isElementPresent(driver, locator, tag)) {
 			if (message == null || message.equals("")) {
 				message = String.format("Page should not have contained %s '%s' but did", name, locator);
 			}
@@ -391,11 +397,11 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "id" })
-	public void assignIdToElement(String locator, String id) {
+	public void assignIdToElement(WebDriver driver, String locator, String id) {
 		logging.info(String.format("Assigning temporary id '%s' to element '%s'", id, locator));
-		List<WebElement> elements = elementFind(locator, true, true);
+		List<WebElement> elements = elementFind(driver, locator, true, true);
 
-		((JavascriptExecutor) browserManagement.getCurrentWebDriver())
+		((JavascriptExecutor) driver)
 				.executeScript(String.format("arguments[0].id = '%s';", id), elements.get(0));
 	}
 
@@ -410,8 +416,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void elementShouldBeEnabled(String locator) {
-		if (!isEnabled(locator)) {
+	public void elementShouldBeEnabled(WebDriver driver, String locator) {
+		if (!isEnabled(driver, locator)) {
 			throw new Selenium2LibraryNonFatalException(String.format("Element %s is disabled.", locator));
 		}
 	}
@@ -427,15 +433,15 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void elementShouldBeDisabled(String locator) {
-		if (isEnabled(locator)) {
+	public void elementShouldBeDisabled(WebDriver driver, String locator) {
+		if (isEnabled(driver, locator)) {
 			throw new Selenium2LibraryNonFatalException(String.format("Element %s is enabled.", locator));
 		}
 	}
 
 	@RobotKeywordOverload
-	public void elementShouldBeSelected(String locator) {
-		elementShouldBeSelected(locator, "");
+	public void elementShouldBeSelected(WebDriver driver, String locator) {
+		elementShouldBeSelected(driver, locator, "");
 	}
 
 	/**
@@ -451,9 +457,9 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE" })
-	public void elementShouldBeSelected(String locator, String message) {
+	public void elementShouldBeSelected(WebDriver driver, String locator, String message) {
 		logging.info(String.format("Verifying element '%s' is selected.", locator));
-		boolean selected = isSelected(locator);
+		boolean selected = isSelected(driver, locator);
 
 		if (!selected) {
 			if (message == null || message.equals("")) {
@@ -464,8 +470,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void elementShouldNotBeSelected(String locator) {
-		elementShouldNotBeSelected(locator, "");
+	public void elementShouldNotBeSelected(WebDriver driver, String locator) {
+		elementShouldNotBeSelected(driver, locator, "");
 	}
 
 	/**
@@ -481,9 +487,9 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE" })
-	public void elementShouldNotBeSelected(String locator, String message) {
+	public void elementShouldNotBeSelected(WebDriver driver, String locator, String message) {
 		logging.info(String.format("Verifying element '%s' is not selected.", locator));
-		boolean selected = isSelected(locator);
+		boolean selected = isSelected(driver, locator);
 
 		if (selected) {
 			if (message == null || message.equals("")) {
@@ -494,8 +500,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void elementShouldBeVisible(String locator) {
-		elementShouldBeVisible(locator, "");
+	public void elementShouldBeVisible(WebDriver driver, String locator) {
+		elementShouldBeVisible(driver, locator, "");
 	}
 
 	/**
@@ -516,9 +522,9 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE" })
-	public void elementShouldBeVisible(String locator, String message) {
+	public void elementShouldBeVisible(WebDriver driver, String locator, String message) {
 		logging.info(String.format("Verifying element '%s' is visible.", locator));
-		boolean visible = isVisible(locator);
+		boolean visible = isVisible(driver, locator);
 
 		if (!visible) {
 			if (message == null || message.equals("")) {
@@ -529,8 +535,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void elementShouldNotBeVisible(String locator) {
-		elementShouldNotBeVisible(locator, "");
+	public void elementShouldNotBeVisible(WebDriver driver, String locator) {
+		elementShouldNotBeVisible(driver, locator, "");
 	}
 
 	/**
@@ -551,9 +557,9 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE" })
-	public void elementShouldNotBeVisible(String locator, String message) {
+	public void elementShouldNotBeVisible(WebDriver driver, String locator, String message) {
 		logging.info(String.format("Verifying element '%s' is not visible.", locator));
-		boolean visible = isVisible(locator);
+		boolean visible = isVisible(driver, locator);
 
 		if (visible) {
 			if (message == null || message.equals("")) {
@@ -564,8 +570,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void elementShouldBeClickable(String locator) {
-		elementShouldBeClickable(locator, "");
+	public void elementShouldBeClickable(WebDriver driver, String locator) {
+		elementShouldBeClickable(driver, locator, "");
 	}
 
 	/**
@@ -581,9 +587,9 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE" })
-	public void elementShouldBeClickable(String locator, String message) {
+	public void elementShouldBeClickable(WebDriver driver, String locator, String message) {
 		logging.info(String.format("Verifying element '%s' is clickable.", locator));
-		boolean clickable = isClickable(locator);
+		boolean clickable = isClickable(driver, locator);
 
 		if (!clickable) {
 			if (message == null || message.equals("")) {
@@ -594,8 +600,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void elementShouldNotBeClickable(String locator) {
-		elementShouldNotBeClickable(locator, "");
+	public void elementShouldNotBeClickable(WebDriver driver, String locator) {
+		elementShouldNotBeClickable(driver, locator, "");
 	}
 
 	/**
@@ -611,9 +617,9 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE" })
-	public void elementShouldNotBeClickable(String locator, String message) {
+	public void elementShouldNotBeClickable(WebDriver driver, String locator, String message) {
 		logging.info(String.format("Verifying element '%s' is not clickable.", locator));
-		boolean clickable = isClickable(locator);
+		boolean clickable = isClickable(driver, locator);
 
 		if (clickable) {
 			if (message == null || message.equals("")) {
@@ -624,8 +630,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void elementTextShouldBe(String locator, String expected) {
-		elementTextShouldBe(locator, expected, "");
+	public void elementTextShouldBe(WebDriver driver, String locator, String expected) {
+		elementTextShouldBe(driver, locator, expected, "");
 	}
 
 	/**
@@ -648,8 +654,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "message=NONE" })
-	public void elementTextShouldBe(String locator, String text, String message) {
-		List<WebElement> elements = elementFind(locator, true, true);
+	public void elementTextShouldBe(WebDriver driver, String locator, String text, String message) {
+		List<WebElement> elements = elementFind(driver, locator, true, true);
 		String actual = elements.get(0).getText();
 
 		if (!text.equals(actual)) {
@@ -662,8 +668,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void elementTextShouldNotBe(String locator, String expected) {
-		elementTextShouldNotBe(locator, expected, "");
+	public void elementTextShouldNotBe(WebDriver driver, String locator, String expected) {
+		elementTextShouldNotBe(driver, locator, expected, "");
 	}
 
 	/**
@@ -686,8 +692,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "message=NONE" })
-	public void elementTextShouldNotBe(String locator, String text, String message) {
-		List<WebElement> elements = elementFind(locator, true, true);
+	public void elementTextShouldNotBe(WebDriver driver, String locator, String text, String message) {
+		List<WebElement> elements = elementFind(driver, locator, true, true);
 		String actual = elements.get(0).getText();
 
 		if (text.equals(actual)) {
@@ -714,10 +720,10 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "attributeLocator" })
-	public String getElementAttribute(String attributeLocator) {
+	public String getElementAttribute(WebDriver driver, String attributeLocator) {
 		String[] parts = parseAttributeLocator(attributeLocator);
 
-		List<WebElement> elements = elementFind(parts[0], true, false);
+		List<WebElement> elements = elementFind(driver, parts[0], true, false);
 
 		if (elements.size() == 0) {
 			throw new Selenium2LibraryNonFatalException(String.format("Element '%s' not found.", parts[0]));
@@ -746,8 +752,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void clearElementText(String locator) {
-		List<WebElement> elements = elementFind(locator, true, true);
+	public void clearElementText(WebDriver driver, String locator) {
+		List<WebElement> elements = elementFind(driver, locator, true, true);
 
 		elements.get(0).clear();
 	}
@@ -772,8 +778,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "matchid", "index" })
-	public String getInnerElementId(String locator, String matchid, int index) {
-		List<WebElement> elements = elementFind(locator, true, true);
+	public String getInnerElementId(WebDriver driver, String locator, String matchid, int index) {
+		List<WebElement> elements = elementFind(driver, locator, true, true);
 
 		if (elements.size() == 0) {
 			throw new Selenium2LibraryNonFatalException(String.format("get Inner element '%s' not found.", locator));
@@ -809,8 +815,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public int getHorizontalPosition(String locator) {
-		List<WebElement> elements = elementFind(locator, true, false);
+	public int getHorizontalPosition(WebDriver driver, String locator) {
+		List<WebElement> elements = elementFind(driver, locator, true, false);
 
 		if (elements.size() == 0) {
 			throw new Selenium2LibraryNonFatalException(
@@ -833,12 +839,12 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public String getValue(String locator) {
-		return getValue(locator, null);
+	public String getValue(WebDriver driver, String locator) {
+		return getValue(driver, locator, null);
 	}
 
-	protected String getValue(String locator, String tag) {
-		List<WebElement> elements = elementFind(locator, true, false, tag);
+	protected String getValue(WebDriver driver, String locator, String tag) {
+		List<WebElement> elements = elementFind(driver, locator, true, false, tag);
 
 		if (elements.size() == 0) {
 			return null;
@@ -859,8 +865,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public String getText(String locator) {
-		List<WebElement> elements = elementFind(locator, true, true);
+	public String getText(WebDriver driver, String locator) {
+		List<WebElement> elements = elementFind(driver, locator, true, true);
 
 		if (elements.size() == 0) {
 			return null;
@@ -884,8 +890,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public int getVerticalPosition(String locator) {
-		List<WebElement> elements = elementFind(locator, true, false);
+	public int getVerticalPosition(WebDriver driver, String locator) {
+		List<WebElement> elements = elementFind(driver, locator, true, false);
 
 		if (elements.size() == 0) {
 			throw new Selenium2LibraryNonFatalException(
@@ -910,9 +916,10 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void clickElement(String locator) {
-		logging.info(String.format("Clicking element '%s'.", locator));
-		List<WebElement> elements = elementFind(locator, true, true);
+	public void clickElement(WebDriver driver, String locator) {
+		test.log(Status.INFO, String.format("Clicking element '%s'.", locator));
+
+		List<WebElement> elements = elementFind(driver, locator, true, true);
 
 		elements.get(0).click();
 	}
@@ -940,12 +947,12 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "xOffset", "yOffset" })
-	public void clickElementAtCoordinates(String locator, String xOffset, String yOffset) {
+	public void clickElementAtCoordinates(WebDriver driver, String locator, String xOffset, String yOffset) {
 		logging.info(String.format("Clicking element '%s'in coordinates '%s', '%s'.", locator, xOffset, yOffset));
-		List<WebElement> elements = elementFind(locator, true, true);
+		List<WebElement> elements = elementFind(driver, locator, true, true);
 
 		WebElement element = elements.get(0);
-		Actions action = new Actions(browserManagement.getCurrentWebDriver());
+		Actions action = new Actions(driver);
 		action.moveToElement(element).moveByOffset(Integer.parseInt(xOffset), Integer.parseInt(yOffset)).perform();
 	}
 
@@ -960,10 +967,10 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void doubleClickElement(String locator) {
+	public void doubleClickElement(WebDriver driver, String locator) {
 		logging.info(String.format("Double clicking element '%s'.", locator));
 
-		List<WebElement> elements = elementFind(locator, true, true);
+		List<WebElement> elements = elementFind(driver, locator, true, true);
 		Actions action = new Actions(browserManagement.getCurrentWebDriver());
 
 		action.doubleClick(elements.get(0)).perform();
@@ -979,10 +986,11 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 *            The locator to locate the element.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator" })
-	public void focus(String locator) {
-		List<WebElement> elements = elementFind(locator, true, true);
-		((JavascriptExecutor) browserManagement.getCurrentWebDriver()).executeScript("arguments[0].focus();",
+	@ArgumentNames({ "driver", "locator" })
+	public void focus(WebDriver driver, String locator) {
+		test.log(Status.INFO, String.format("Setting focus to element '%s'", locator));
+		List<WebElement> elements = elementFind(driver, locator, true, true);
+		((JavascriptExecutor) driver).executeScript("arguments[0].focus();",
 				elements.get(0));
 	}
 
@@ -1011,9 +1019,9 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "source", "target" })
-	public void dragAndDrop(String source, String target) {
-		List<WebElement> sourceElements = elementFind(source, true, true);
-		List<WebElement> targetElements = elementFind(target, true, true);
+	public void dragAndDrop(WebDriver driver, String source, String target) {
+		List<WebElement> sourceElements = elementFind(driver, source, true, true);
+		List<WebElement> targetElements = elementFind(driver, target, true, true);
 
 		Actions action = new Actions(browserManagement.getCurrentWebDriver());
 		action.dragAndDrop(sourceElements.get(0), targetElements.get(0)).perform();
@@ -1051,10 +1059,10 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "source", "xOffset", "yOffset" })
-	public void dragAndDropByOffset(String source, int xOffset, int yOffset) {
-		List<WebElement> elements = elementFind(source, true, true);
+	public void dragAndDropByOffset(WebDriver driver, String source, int xOffset, int yOffset) {
+		List<WebElement> elements = elementFind(driver, source, true, true);
 
-		Actions action = new Actions(browserManagement.getCurrentWebDriver());
+		Actions action = new Actions(driver);
 		action.dragAndDropBy(elements.get(0), xOffset, yOffset).perform();
 	}
 
@@ -1074,15 +1082,15 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void mouseDown(String locator) {
+	public void mouseDown(WebDriver driver, String locator) {
 		logging.info(String.format("Simulating Mouse Down on element '%s'.", locator));
-		List<WebElement> elements = elementFind(locator, true, false);
+		List<WebElement> elements = elementFind(driver, locator, true, false);
 
 		if (elements.size() == 0) {
 			throw new Selenium2LibraryNonFatalException(String.format("ERROR: Element %s not found.", locator));
 		}
 
-		Actions action = new Actions(browserManagement.getCurrentWebDriver());
+		Actions action = new Actions(driver);
 		action.clickAndHold(elements.get(0)).perform();
 	}
 
@@ -1098,9 +1106,9 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void mouseOut(String locator) {
+	public void mouseOut(WebDriver driver, String locator) {
 		logging.info(String.format("Simulating Mouse Out on element '%s'.", locator));
-		List<WebElement> elements = elementFind(locator, true, false);
+		List<WebElement> elements = elementFind(driver, locator, true, false);
 
 		if (elements.size() == 0) {
 			throw new Selenium2LibraryNonFatalException(String.format("ERROR: Element %s not found.", locator));
@@ -1111,7 +1119,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		int offsetX = size.getWidth() / 2 + 1;
 		int offsetY = size.getHeight() / 2 + 1;
 
-		Actions action = new Actions(browserManagement.getCurrentWebDriver());
+		Actions action = new Actions(driver);
 		action.moveToElement(element).moveByOffset(offsetX, offsetY).perform();
 	}
 
@@ -1127,16 +1135,16 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void mouseOver(String locator) {
+	public void mouseOver(WebDriver driver, String locator) {
 		logging.info(String.format("Simulating Mouse Over on element '%s'.", locator));
-		List<WebElement> elements = elementFind(locator, true, false);
+		List<WebElement> elements = elementFind(driver, locator, true, false);
 
 		if (elements.size() == 0) {
 			throw new Selenium2LibraryNonFatalException(String.format("ERROR: Element %s not found.", locator));
 		}
 
 		WebElement element = elements.get(0);
-		Actions action = new Actions(browserManagement.getCurrentWebDriver());
+		Actions action = new Actions(driver);
 		action.moveToElement(element).perform();
 	}
 
@@ -1152,16 +1160,16 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void mouseUp(String locator) {
+	public void mouseUp(WebDriver driver, String locator) {
 		logging.info(String.format("Simulating Mouse Up on element '%s'.", locator));
-		List<WebElement> elements = elementFind(locator, true, false);
+		List<WebElement> elements = elementFind(driver, locator, true, false);
 
 		if (elements.size() == 0) {
 			throw new Selenium2LibraryNonFatalException(String.format("ERROR: Element %s not found.", locator));
 		}
 
 		WebElement element = elements.get(0);
-		Actions action = new Actions(browserManagement.getCurrentWebDriver());
+		Actions action = new Actions(driver);
 		action.release(element).perform();
 	}
 
@@ -1176,10 +1184,10 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void openContextMenu(String locator) {
-		List<WebElement> elements = elementFind(locator, true, true);
+	public void openContextMenu(WebDriver driver, String locator) {
+		List<WebElement> elements = elementFind(driver, locator, true, true);
 
-		Actions action = new Actions(browserManagement.getCurrentWebDriver());
+		Actions action = new Actions(driver);
 		action.contextClick(elements.get(0)).perform();
 	}
 
@@ -1200,8 +1208,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "event" })
-	public void simulate(String locator, String event) {
-		List<WebElement> elements = elementFind(locator, true, true);
+	public void simulate(WebDriver driver, String locator, String event) {
+		List<WebElement> elements = elementFind(driver, locator, true, true);
 		String script = "element = arguments[0];" + "eventName = arguments[1];" + "if (document.createEventObject) {"
 				+ "return element.fireEvent('on' + eventName, document.createEventObject());" + "}"
 				+ "var evt = document.createEvent(\"HTMLEvents\");" + "evt.initEvent(eventName, true, true);"
@@ -1243,11 +1251,11 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "key" })
-	public void pressKey(String locator, String key) {
+	public void pressKey(WebDriver driver, String locator, String key) {
 		if (key.startsWith("\\") && key.length() > 1) {
 			key = mapAsciiKeyCodeToKey(Integer.parseInt(key.substring(1))).toString();
 		}
-		List<WebElement> element = elementFind(locator, true, true);
+		List<WebElement> element = elementFind(driver, locator, true, true);
 		element.get(0).sendKeys(key);
 	}
 
@@ -1266,9 +1274,9 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void clickLink(String locator) {
+	public void clickLink(WebDriver driver, String locator) {
 		logging.info(String.format("Clicking link '%s'.", locator));
-		List<WebElement> elements = elementFind(locator, true, true, "a");
+		List<WebElement> elements = elementFind(driver, locator, true, true, "a");
 
 		elements.get(0).click();
 	}
@@ -1281,10 +1289,10 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * @return The list of link ids.
 	 */
 	@RobotKeyword
-	public ArrayList<String> getAllLinks() {
+	public ArrayList<String> getAllLinks(WebDriver driver) {
 		ArrayList<String> ret = new ArrayList<String>();
 
-		List<WebElement> elements = elementFind("tag=a", false, false, "a");
+		List<WebElement> elements = elementFind(driver, "tag=a", false, false, "a");
 		for (WebElement element : elements) {
 			ret.add(element.getAttribute("id"));
 		}
@@ -1308,23 +1316,23 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void mouseDownOnLink(String locator) {
-		List<WebElement> elements = elementFind(locator, true, true, "link");
+	public void mouseDownOnLink(WebDriver driver, String locator) {
+		List<WebElement> elements = elementFind(driver, locator, true, true, "link");
 
-		Actions action = new Actions(browserManagement.getCurrentWebDriver());
+		Actions action = new Actions(driver);
 		action.clickAndHold(elements.get(0)).perform();
 	}
 
 	@RobotKeywordOverload
 	@ArgumentNames({ "locator" })
-	public void pageShouldContainLink(String locator) {
-		pageShouldContainLink(locator, "", "INFO");
+	public void pageShouldContainLink(WebDriver driver, String locator) {
+		pageShouldContainLink(driver, locator, "", "INFO");
 	}
 
 	@RobotKeywordOverload
 	@ArgumentNames({ "locator", "message=NONE" })
-	public void pageShouldContainLink(String locator, String message) {
-		pageShouldContainLink(locator, message, "INFO");
+	public void pageShouldContainLink(WebDriver driver, String locator, String message) {
+		pageShouldContainLink(driver, locator, message, "INFO");
 	}
 
 	/**
@@ -1343,18 +1351,18 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldContainLink(String locator, String message, String logLevel) {
-		pageShouldContainElement(locator, "link", message, logLevel);
+	public void pageShouldContainLink(WebDriver driver, String locator, String message, String logLevel) {
+		pageShouldContainElement(driver, locator, "link", message, logLevel);
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldNotContainLink(String locator) {
-		pageShouldNotContainLink(locator, "", "INFO");
+	public void pageShouldNotContainLink(WebDriver driver, String locator) {
+		pageShouldNotContainLink(driver, locator, "", "INFO");
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldNotContainLink(String locator, String message) {
-		pageShouldNotContainLink(locator, message, "INFO");
+	public void pageShouldNotContainLink(WebDriver driver, String locator, String message) {
+		pageShouldNotContainLink(driver, locator, message, "INFO");
 	}
 
 	/**
@@ -1373,8 +1381,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldNotContainLink(String locator, String message, String logLevel) {
-		pageShouldNotContainElement(locator, "link", message, logLevel);
+	public void pageShouldNotContainLink(WebDriver driver, String locator, String message, String logLevel) {
+		pageShouldNotContainElement(driver, locator, "link", message, logLevel);
 	}
 
 	// ##############################
@@ -1392,13 +1400,13 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void clickImage(String locator) {
+	public void clickImage(WebDriver driver, String locator) {
 		logging.info(String.format("Clicking image '%s'.", locator));
 
-		List<WebElement> elements = elementFind(locator, true, false, "image");
+		List<WebElement> elements = elementFind(driver, locator, true, false, "image");
 
 		if (elements.size() == 0) {
-			elements = elementFind(locator, true, true, "input");
+			elements = elementFind(driver, locator, true, true, "input");
 		}
 		WebElement element = elements.get(0);
 		element.click();
@@ -1420,23 +1428,23 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void mouseDownOnImage(String locator) {
-		List<WebElement> elements = elementFind(locator, true, true, "image");
+	public void mouseDownOnImage(WebDriver driver, String locator) {
+		List<WebElement> elements = elementFind(driver, locator, true, true, "image");
 
-		Actions action = new Actions(browserManagement.getCurrentWebDriver());
+		Actions action = new Actions(driver);
 		action.clickAndHold(elements.get(0)).perform();
 	}
 
 	@RobotKeywordOverload
 	@ArgumentNames({ "locator" })
-	public void pageShouldContainImage(String locator) {
-		pageShouldContainImage(locator, "", "INFO");
+	public void pageShouldContainImage(WebDriver driver, String locator) {
+		pageShouldContainImage(driver, locator, "", "INFO");
 	}
 
 	@RobotKeywordOverload
 	@ArgumentNames({ "locator", "message=NONE" })
-	public void pageShouldContainImage(String locator, String message) {
-		pageShouldContainImage(locator, message, "INFO");
+	public void pageShouldContainImage(WebDriver driver, String locator, String message) {
+		pageShouldContainImage(driver, locator, message, "INFO");
 	}
 
 	/**
@@ -1455,20 +1463,20 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldContainImage(String locator, String message, String logLevel) {
-		pageShouldContainElement(locator, "image", message, logLevel);
+	public void pageShouldContainImage(WebDriver driver, String locator, String message, String logLevel) {
+		pageShouldContainElement(driver, locator, "image", message, logLevel);
 	}
 
 	@RobotKeywordOverload
 	@ArgumentNames({ "locator" })
-	public void pageShouldNotContainImage(String locator) {
-		pageShouldNotContainImage(locator, "", "INFO");
+	public void pageShouldNotContainImage(WebDriver driver, String locator) {
+		pageShouldNotContainImage(driver, locator, "", "INFO");
 	}
 
 	@RobotKeywordOverload
 	@ArgumentNames({ "locator", "message=NONE" })
-	public void pageShouldNotContainImage(String locator, String message) {
-		pageShouldNotContainImage(locator, message, "INFO");
+	public void pageShouldNotContainImage(WebDriver driver, String locator, String message) {
+		pageShouldNotContainImage(driver, locator, message, "INFO");
 	}
 
 	/**
@@ -1487,8 +1495,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldNotContainImage(String locator, String message, String logLevel) {
-		pageShouldNotContainElement(locator, "image", message, logLevel);
+	public void pageShouldNotContainImage(WebDriver driver, String locator, String message, String logLevel) {
+		pageShouldNotContainElement(driver, locator, "image", message, logLevel);
 	}
 
 	// ##############################
@@ -1507,25 +1515,25 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "xpath" })
-	public int getMatchingXpathCount(String xpath) {
+	public int getMatchingXpathCount(WebDriver driver, String xpath) {
 		if (!xpath.startsWith("xpath=")) {
 			xpath = "xpath=" + xpath;
 		}
-		List<WebElement> elements = elementFind(xpath, false, false);
+		List<WebElement> elements = elementFind(driver, xpath, false, false);
 
 		return elements.size();
 	}
 
 	@RobotKeywordOverload
 	@ArgumentNames({ "xpath", "expectedXpathCount" })
-	public void xpathShouldMatchXTimes(String xpath, int expectedXpathCount) {
-		xpathShouldMatchXTimes(xpath, expectedXpathCount, "");
+	public void xpathShouldMatchXTimes(WebDriver driver, String xpath, int expectedXpathCount) {
+		xpathShouldMatchXTimes(driver, xpath, expectedXpathCount, "");
 	}
 
 	@RobotKeywordOverload
 	@ArgumentNames({ "xpath", "expectedXpathCount", "message=NONE" })
-	public void xpathShouldMatchXTimes(String xpath, int expectedXpathCount, String message) {
-		xpathShouldMatchXTimes(xpath, expectedXpathCount, message, "INFO");
+	public void xpathShouldMatchXTimes(WebDriver driver, String xpath, int expectedXpathCount, String message) {
+		xpathShouldMatchXTimes(driver, xpath, expectedXpathCount, message, "INFO");
 	}
 
 	/**
@@ -1543,11 +1551,11 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "xpath", "expectedXpathCount", "message=NONE", "logLevel=INFO" })
-	public void xpathShouldMatchXTimes(String xpath, int expectedXpathCount, String message, String logLevel) {
+	public void xpathShouldMatchXTimes(WebDriver driver, String xpath, int expectedXpathCount, String message, String logLevel) {
 		if (!xpath.startsWith("xpath=")) {
 			xpath = "xpath=" + xpath;
 		}
-		List<WebElement> elements = elementFind(xpath, false, false);
+		List<WebElement> elements = elementFind(driver, xpath, false, false);
 		int actualXpathCount = elements.size();
 
 		if (actualXpathCount != expectedXpathCount) {
@@ -1566,12 +1574,12 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	// Internal Methods
 	// ##############################
 
-	protected List<WebElement> elementFind(String locator, boolean firstOnly, boolean required) {
-		return elementFind(locator, firstOnly, required, null);
+	protected List<WebElement> elementFind(WebDriver driver, String locator, boolean firstOnly, boolean required) {
+		return elementFind(driver, locator, firstOnly, required, null);
 	}
 
-	protected List<WebElement> elementFind(String locator, boolean firstOnly, boolean required, String tag) {
-		List<WebElement> elements = ElementFinder.find(browserManagement.getCurrentWebDriver(), locator, tag);
+	protected List<WebElement> elementFind(WebDriver driver, String locator, boolean firstOnly, boolean required, String tag) {
+		List<WebElement> elements = ElementFinder.find(driver, locator, tag);
 
 		if (required && elements.size() == 0) {
 			throw new Selenium2LibraryNonFatalException(
@@ -1589,26 +1597,26 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		return elements;
 	}
 
-	protected boolean frameContains(String locator, String text) {
-		WebDriver current = browserManagement.getCurrentWebDriver();
-		List<WebElement> elements = elementFind(locator, true, true);
+	protected boolean frameContains(WebDriver driver, String locator, String text) {
+		//WebDriver current = browserManagement.getCurrentWebDriver();
+		List<WebElement> elements = elementFind(driver, locator, true, true);
 
-		current.switchTo().frame(elements.get(0));
+		driver.switchTo().frame(elements.get(0));
 		logging.info(String.format("Searching for text from frame '%s'.", locator));
-		boolean found = isTextPresent(text);
-		current.switchTo().defaultContent();
+		boolean found = isTextPresent(driver, text);
+		driver.switchTo().defaultContent();
 
 		return found;
 	}
 
-	protected boolean isTextPresent(String text) {
+	protected boolean isTextPresent(WebDriver driver, String text) {
 		String locator = String.format("xpath=//*[contains(., %s)]", escapeXpathValue(text));
 
-		return isElementPresent(locator);
+		return isElementPresent(driver, locator);
 	}
 
-	protected boolean isEnabled(String locator) {
-		List<WebElement> elements = elementFind(locator, true, true);
+	protected boolean isEnabled(WebDriver driver, String locator) {
+		List<WebElement> elements = elementFind(driver, locator, true, true);
 		WebElement element = elements.get(0);
 
 		if (!formElement.isFormElement(element)) {
@@ -1625,8 +1633,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		return true;
 	}
 
-	protected boolean isVisible(String locator) {
-		List<WebElement> elements = elementFind(locator, true, false);
+	protected boolean isVisible(WebDriver driver, String locator) {
+		List<WebElement> elements = elementFind(driver, locator, true, false);
 		if (elements.size() == 0) {
 			return false;
 		}
@@ -1634,8 +1642,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		return element.isDisplayed();
 	}
 
-	protected boolean isClickable(String locator) {
-		List<WebElement> webElements = elementFind(locator, true, false);
+	protected boolean isClickable(WebDriver driver, String locator) {
+		List<WebElement> webElements = elementFind(driver, locator, true, false);
 		if (webElements.size() == 0) {
 			return false;
 		}
@@ -1643,8 +1651,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		return element.isDisplayed() && element.isEnabled();
 	}
 
-	protected boolean isSelected(String locator) {
-		List<WebElement> webElements = elementFind(locator, true, false);
+	protected boolean isSelected(WebDriver driver, String locator) {
+		List<WebElement> webElements = elementFind(driver, locator, true, false);
 		if (webElements.size() == 0) {
 			return false;
 		}
@@ -1669,27 +1677,27 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		return parts;
 	}
 
-	protected boolean isElementPresent(String locator) {
-		return isElementPresent(locator, null);
+	protected boolean isElementPresent(WebDriver driver, String locator) {
+		return isElementPresent(driver, locator, null);
 	}
 
-	protected boolean isElementPresent(String locator, String tag) {
-		return elementFind(locator, true, false, tag).size() != 0;
+	protected boolean isElementPresent(WebDriver driver, String locator, String tag) {
+		return elementFind(driver, locator, true, false, tag).size() != 0;
 	}
 
-	protected boolean pageContains(String text) {
+	protected boolean pageContains(WebDriver driver, String text) {
 		WebDriver current = browserManagement.getCurrentWebDriver();
 		current.switchTo().defaultContent();
 
-		if (isTextPresent(text)) {
+		if (isTextPresent(driver, text)) {
 			return true;
 		}
 
-		List<WebElement> elements = elementFind("xpath=//frame|//iframe", false, false);
+		List<WebElement> elements = elementFind(driver, "xpath=//frame|//iframe", false, false);
 		Iterator<WebElement> it = elements.iterator();
 		while (it.hasNext()) {
 			current.switchTo().frame(it.next());
-			boolean found = isTextPresent(text);
+			boolean found = isTextPresent(driver, text);
 			current.switchTo().defaultContent();
 			if (found) {
 				return true;

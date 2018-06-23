@@ -9,9 +9,9 @@ import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
+import co.nz.enhanceconsulting.cucumberselenium2library.locators.TableElementFinder;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.RunOnFailureKeywordsAdapter;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.Selenium2LibraryNonFatalException;
-import co.nz.enhanceconsulting.cucumberselenium2library.locators.TableElementFinder;
 
 @RobotKeywords
 public class TableElement extends RunOnFailureKeywordsAdapter {

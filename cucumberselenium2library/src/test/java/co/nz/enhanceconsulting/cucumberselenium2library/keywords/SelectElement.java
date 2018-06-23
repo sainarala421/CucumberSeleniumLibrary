@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.robotframework.javalib.annotation.ArgumentNames;
@@ -12,9 +13,9 @@ import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
+import co.nz.enhanceconsulting.cucumberselenium2library.utils.Python;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.RunOnFailureKeywordsAdapter;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.Selenium2LibraryNonFatalException;
-import co.nz.enhanceconsulting.cucumberselenium2library.utils.Python;
 
 @RobotKeywords
 public class SelectElement extends RunOnFailureKeywordsAdapter {
@@ -48,8 +49,8 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public List<String> getListItems(String locator) {
-		List<WebElement> options = getSelectListOptions(locator);
+	public List<String> getListItems(WebDriver driver, String locator) {
+		List<WebElement> options = getSelectListOptions(driver, locator);
 
 		return getLabelsForOptions(options);
 	}
@@ -68,8 +69,8 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public String getSelectedListLabel(String locator) {
-		Select select = getSelectList(locator);
+	public String getSelectedListLabel(WebDriver driver, String locator) {
+		Select select = getSelectList(driver, locator);
 
 		return select.getFirstSelectedOption().getText();
 	}
@@ -90,8 +91,8 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public List<String> getSelectedListLabels(String locator) {
-		List<WebElement> options = getSelectListOptionsSelected(locator);
+	public List<String> getSelectedListLabels(WebDriver driver, String locator) {
+		List<WebElement> options = getSelectListOptionsSelected(driver, locator);
 
 		if (options.size() == 0) {
 			throw new Selenium2LibraryNonFatalException(String.format(
@@ -118,8 +119,8 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public String getSelectedListValue(String locator) {
-		Select select = getSelectList(locator);
+	public String getSelectedListValue(WebDriver driver, String locator) {
+		Select select = getSelectList(driver, locator);
 
 		return select.getFirstSelectedOption().getAttribute("value");
 	}
@@ -141,8 +142,8 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public List<String> getSelectedListValues(String locator) {
-		List<WebElement> options = getSelectListOptionsSelected(locator);
+	public List<String> getSelectedListValues(WebDriver driver, String locator) {
+		List<WebElement> options = getSelectListOptionsSelected(driver, locator);
 
 		if (options.size() == 0) {
 			throw new Selenium2LibraryNonFatalException(String.format(
@@ -169,14 +170,14 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "*items" })
-	public void listSelectionShouldBe(String locator, String... items) {
+	public void listSelectionShouldBe(WebDriver driver, String locator, String... items) {
 		String itemList = items.length != 0 ? String.format("option(s) [ %s ]", Python.join(" | ", items))
 				: "no options";
 		logging.info(String.format("Verifying list '%s' has %s selected.", locator, itemList));
 
-		pageShouldContainList(locator);
+		pageShouldContainList(driver, locator);
 
-		List<WebElement> options = getSelectListOptionsSelected(locator);
+		List<WebElement> options = getSelectListOptionsSelected(driver, locator);
 		List<String> selectedLabels = getLabelsForOptions(options);
 		String message = String.format("List '%s' should have had selection [ %s ] but it was [ %s ].", locator,
 				Python.join(" | ", items), Python.join(" | ", selectedLabels));
@@ -205,10 +206,10 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void listShouldHaveNoSelections(String locator) {
+	public void listShouldHaveNoSelections(WebDriver driver, String locator) {
 		logging.info(String.format("Verifying list '%s' has no selection.", locator));
 
-		List<WebElement> options = getSelectListOptionsSelected(locator);
+		List<WebElement> options = getSelectListOptionsSelected(driver, locator);
 		if (!options.equals(null)) {
 			List<String> selectedLabels = getLabelsForOptions(options);
 			String items = Python.join(" | ", selectedLabels);
@@ -218,13 +219,13 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldContainList(String locator) {
-		pageShouldContainList(locator, "");
+	public void pageShouldContainList(WebDriver driver, String locator) {
+		pageShouldContainList(driver, locator, "");
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldContainList(String locator, String message) {
-		pageShouldContainList(locator, message, "INFO");
+	public void pageShouldContainList(WebDriver driver, String locator, String message) {
+		pageShouldContainList(driver, locator, message, "INFO");
 	}
 
 	/**
@@ -244,18 +245,18 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldContainList(String locator, String message, String logLevel) {
-		element.pageShouldContainElement(locator, "list", message, logLevel);
+	public void pageShouldContainList(WebDriver driver, String locator, String message, String logLevel) {
+		element.pageShouldContainElement(driver, locator, "list", message, logLevel);
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldNotContainList(String locator) {
-		pageShouldNotContainList(locator, "");
+	public void pageShouldNotContainList(WebDriver driver, String locator) {
+		pageShouldNotContainList(driver, locator, "");
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldNotContainList(String locator, String message) {
-		pageShouldNotContainList(locator, message, "INFO");
+	public void pageShouldNotContainList(WebDriver driver, String locator, String message) {
+		pageShouldNotContainList(driver, locator, message, "INFO");
 	}
 
 	/**
@@ -275,8 +276,8 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldNotContainList(String locator, String message, String logLevel) {
-		element.pageShouldNotContainElement(locator, "list", message, logLevel);
+	public void pageShouldNotContainList(WebDriver driver, String locator, String message, String logLevel) {
+		element.pageShouldNotContainElement(driver, locator, "list", message, logLevel);
 	}
 
 	/**
@@ -291,10 +292,10 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void selectAllFromList(String locator) {
-		logging.info(String.format("Selecting all options from list '%s'.", locator));
+	public void selectAllFromList(WebDriver driver, String locator) {
+		//logging.info(String.format("Selecting all options from list '%s'.", locator));
 
-		Select select = getSelectList(locator);
+		Select select = getSelectList(driver, locator);
 		if (!isMultiselectList(select)) {
 			throw new Selenium2LibraryNonFatalException(
 					"Keyword 'Select all from list' works only for multiselect lists.");
@@ -325,12 +326,12 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "*items" })
-	public void selectFromList(String locator, String... items) {
+	public void selectFromList(WebDriver driver, String locator, String... items) {
 		String itemList = items.length != 0 ? String.format("option(s) [ %s ]", Python.join(" | ", items))
 				: "all options";
 		logging.info(String.format("Selecting %s from list '%s'.", itemList, locator));
 
-		Select select = getSelectList(locator);
+		Select select = getSelectList(driver, locator);
 
 		// If no items given, select all values (of in case of single select
 		// list, go through all values)
@@ -395,7 +396,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "*indexes" })
-	public void selectFromListByIndex(String locator, String... indexes) {
+	public void selectFromListByIndex(WebDriver driver, String locator, String... indexes) {
 		if (indexes.length == 0) {
 			throw new Selenium2LibraryNonFatalException("No index given.");
 		}
@@ -407,7 +408,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		String items = String.format("index(es) '%s'", Python.join(", ", tmp));
 		logging.info(String.format("Selecting %s from list '%s'.", items, locator));
 
-		Select select = getSelectList(locator);
+		Select select = getSelectList(driver, locator);
 		for (String index : indexes) {
 			select.selectByIndex(Integer.parseInt(index));
 		}
@@ -428,7 +429,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "*values" })
-	public void selectFromListByValue(String locator, String... values) {
+	public void selectFromListByValue(WebDriver driver, String locator, String... values) {
 		if (values.length == 0) {
 			throw new Selenium2LibraryNonFatalException("No value given.");
 		}
@@ -436,7 +437,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		String items = String.format("value(s) '%s'", Python.join(", ", values));
 		logging.info(String.format("Selecting %s from list '%s'.", items, locator));
 
-		Select select = getSelectList(locator);
+		Select select = getSelectList(driver, locator);
 		for (String value : values) {
 			select.selectByValue(value);
 		}
@@ -457,7 +458,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "*labels" })
-	public void selectFromListByLabel(String locator, String... labels) {
+	public void selectFromListByLabel(WebDriver driver, String locator, String... labels) {
 		if (labels.length == 0) {
 			throw new Selenium2LibraryNonFatalException("No value given.");
 		}
@@ -465,7 +466,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		String items = String.format("label(s) '%s'", Python.join(", ", labels));
 		logging.info(String.format("Selecting %s from list '%s'.", items, locator));
 
-		Select select = getSelectList(locator);
+		Select select = getSelectList(driver, locator);
 		for (String label : labels) {
 			select.selectByVisibleText(label);
 		}
@@ -492,12 +493,12 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "*items" })
-	public void unselectFromList(String locator, String... items) {
+	public void unselectFromList(WebDriver driver, String locator, String... items) {
 		String itemList = items.length != 0 ? String.format("option(s) [ %s ]", Python.join(" | ", items))
 				: "all options";
 		logging.info(String.format("Unselecting %s from list '%s'.", itemList, locator));
 
-		Select select = getSelectList(locator);
+		Select select = getSelectList(driver, locator);
 
 		if (!isMultiselectList(select)) {
 			throw new Selenium2LibraryNonFatalException(
@@ -531,7 +532,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "*indexes" })
-	public void unselectFromListByIndex(String locator, Integer... indexes) {
+	public void unselectFromListByIndex(WebDriver driver, String locator, Integer... indexes) {
 		if (indexes.equals(null)) {
 			throw new Selenium2LibraryNonFatalException("No index given.");
 		}
@@ -543,7 +544,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		String items = String.format("index(es) '%s'", Python.join(", ", tmp));
 		logging.info(String.format("Unselecting %s from list '%s'.", items, locator));
 
-		Select select = getSelectList(locator);
+		Select select = getSelectList(driver, locator);
 
 		if (!isMultiselectList(select)) {
 			throw new Selenium2LibraryNonFatalException(
@@ -570,7 +571,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "*values" })
-	public void unselectFromListByValue(String locator, String... values) {
+	public void unselectFromListByValue(WebDriver driver, String locator, String... values) {
 		if (values.equals(null)) {
 			throw new Selenium2LibraryNonFatalException("No value given.");
 		}
@@ -578,7 +579,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		String items = String.format("value(s) '%s'", Python.join(", ", values));
 		logging.info(String.format("Unselecting %s from list '%s'.", items, locator));
 
-		Select select = getSelectList(locator);
+		Select select = getSelectList(driver, locator);
 
 		if (!isMultiselectList(select)) {
 			throw new Selenium2LibraryNonFatalException(
@@ -605,7 +606,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "*labels" })
-	public void unselectFromListByLabel(String locator, String... labels) {
+	public void unselectFromListByLabel(WebDriver driver, String locator, String... labels) {
 		if (labels.equals(null)) {
 			throw new Selenium2LibraryNonFatalException("No value given.");
 		}
@@ -613,7 +614,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		String items = String.format("label(s) '%s'", Python.join(", ", labels));
 		logging.info(String.format("Unselecting %s from list '%s'.", items, locator));
 
-		Select select = getSelectList(locator);
+		Select select = getSelectList(driver, locator);
 
 		if (!isMultiselectList(select)) {
 			throw new Selenium2LibraryNonFatalException(
@@ -639,8 +640,8 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		return labels;
 	}
 
-	protected Select getSelectList(String locator) {
-		List<WebElement> webElements = element.elementFind(locator, true, true, "select");
+	protected Select getSelectList(WebDriver driver, String locator) {
+		List<WebElement> webElements = element.elementFind(driver, locator, true, true, "select");
 
 		return new Select(webElements.get(0));
 	}
@@ -649,14 +650,14 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		return new ArrayList<WebElement>(select.getOptions());
 	}
 
-	protected List<WebElement> getSelectListOptions(String locator) {
-		Select select = getSelectList(locator);
+	protected List<WebElement> getSelectListOptions(WebDriver driver, String locator) {
+		Select select = getSelectList(driver, locator);
 
 		return getSelectListOptions(select);
 	}
 
-	protected List<WebElement> getSelectListOptionsSelected(String locator) {
-		Select select = getSelectList(locator);
+	protected List<WebElement> getSelectListOptionsSelected(WebDriver driver, String locator) {
+		Select select = getSelectList(driver, locator);
 
 		return new ArrayList<WebElement>(select.getAllSelectedOptions());
 	}

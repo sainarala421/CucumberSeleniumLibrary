@@ -14,9 +14,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.python.util.PythonInterpreter;
 
-import co.nz.enhanceconsulting.cucumberselenium2library.utils.Selenium2LibraryNonFatalException;
 import co.nz.enhanceconsulting.cucumberselenium2library.keywords.Element;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.Python;
+import co.nz.enhanceconsulting.cucumberselenium2library.utils.Selenium2LibraryNonFatalException;
 
 public class ElementFinder {
 

@@ -3,6 +3,7 @@ package co.nz.enhanceconsulting.cucumberselenium2library.keywords;
 import java.io.File;
 import java.util.List;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.annotation.Autowired;
@@ -33,8 +34,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	// ##############################
 
 	@RobotKeywordOverload
-	public void submitForm() {
-		submitForm(null);
+	public void submitForm(WebDriver driver) {
+		submitForm(driver, null);
 	}
 
 	/**
@@ -50,12 +51,12 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator=NONE" })
-	public void submitForm(String locator) {
+	public void submitForm(WebDriver driver, String locator) {
 		logging.info(String.format("Submitting form '%s'.", locator));
 		if (locator == null) {
 			locator = "xpath=//form";
 		}
-		List<WebElement> webElements = element.elementFind(locator, true, true, "form");
+		List<WebElement> webElements = element.elementFind(driver, locator, true, true, "form");
 		webElements.get(0).submit();
 	}
 
@@ -70,9 +71,9 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void checkboxShouldBeSelected(String locator) {
+	public void checkboxShouldBeSelected(WebDriver driver, String locator) {
 		logging.info(String.format("Verifying checkbox '%s' is selected.", locator));
-		WebElement element = getCheckbox(locator);
+		WebElement element = getCheckbox(driver, locator);
 		if (!element.isSelected()) {
 			throw new Selenium2LibraryNonFatalException(String.format("Checkbox '%s' should have been selected.",
 					locator));
@@ -90,9 +91,9 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void checkboxShouldNotBeSelected(String locator) {
+	public void checkboxShouldNotBeSelected(WebDriver driver, String locator) {
 		logging.info(String.format("Verifying checkbox '%s' is selected.", locator));
-		WebElement element = getCheckbox(locator);
+		WebElement element = getCheckbox(driver, locator);
 		if (element.isSelected()) {
 			throw new Selenium2LibraryNonFatalException(String.format("Checkbox '%s' should not have been selected.",
 					locator));
@@ -100,13 +101,13 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldContainCheckbox(String locator) {
-		pageShouldContainCheckbox(locator, "");
+	public void pageShouldContainCheckbox(WebDriver driver, String locator) {
+		pageShouldContainCheckbox(driver, locator, "");
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldContainCheckbox(String locator, String message) {
-		pageShouldContainCheckbox(locator, message, "INFO");
+	public void pageShouldContainCheckbox(WebDriver driver, String locator, String message) {
+		pageShouldContainCheckbox(driver, locator, message, "INFO");
 	}
 
 	/**
@@ -125,18 +126,18 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldContainCheckbox(String locator, String message, String logLevel) {
-		element.pageShouldContainElement(locator, "checkbox", message, logLevel);
+	public void pageShouldContainCheckbox(WebDriver driver, String locator, String message, String logLevel) {
+		element.pageShouldContainElement(driver, locator, "checkbox", message, logLevel);
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldNotContainCheckbox(String locator) {
-		pageShouldNotContainCheckbox(locator, "");
+	public void pageShouldNotContainCheckbox(WebDriver driver, String locator) {
+		pageShouldNotContainCheckbox(driver, locator, "");
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldNotContainCheckbox(String locator, String message) {
-		pageShouldNotContainCheckbox(locator, message, "INFO");
+	public void pageShouldNotContainCheckbox(WebDriver driver, String locator, String message) {
+		pageShouldNotContainCheckbox(driver, locator, message, "INFO");
 	}
 
 	/**
@@ -155,8 +156,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldNotContainCheckbox(String locator, String message, String logLevel) {
-		element.pageShouldNotContainElement(locator, "checkbox", message, logLevel);
+	public void pageShouldNotContainCheckbox(WebDriver driver, String locator, String message, String logLevel) {
+		element.pageShouldNotContainElement(driver, locator, "checkbox", message, logLevel);
 	}
 
 	/**
@@ -172,9 +173,9 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void selectCheckbox(String locator) {
+	public void selectCheckbox(WebDriver driver, String locator) {
 		logging.info(String.format("Selecting checkbox '%s'.", locator));
-		WebElement element = getCheckbox(locator);
+		WebElement element = getCheckbox(driver, locator);
 		if (!element.isSelected()) {
 			element.click();
 		}
@@ -193,22 +194,22 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void unselectCheckbox(String locator) {
+	public void unselectCheckbox(WebDriver driver, String locator) {
 		logging.info(String.format("Selecting checkbox '%s'.", locator));
-		WebElement element = getCheckbox(locator);
+		WebElement element = getCheckbox(driver, locator);
 		if (element.isSelected()) {
 			element.click();
 		}
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldContainRadioButton(String locator) {
-		pageShouldContainRadioButton(locator, "");
+	public void pageShouldContainRadioButton(WebDriver driver, String locator) {
+		pageShouldContainRadioButton(driver, locator, "");
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldContainRadioButton(String locator, String message) {
-		pageShouldContainRadioButton(locator, message, "INFO");
+	public void pageShouldContainRadioButton(WebDriver driver, String locator, String message) {
+		pageShouldContainRadioButton(driver, locator, message, "INFO");
 	}
 
 	/**
@@ -227,18 +228,18 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldContainRadioButton(String locator, String message, String logLevel) {
-		element.pageShouldContainElement(locator, "radio button", message, logLevel);
+	public void pageShouldContainRadioButton(WebDriver driver, String locator, String message, String logLevel) {
+		element.pageShouldContainElement(driver, locator, "radio button", message, logLevel);
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldNotContainRadioButton(String locator) {
-		pageShouldNotContainRadioButton(locator, "");
+	public void pageShouldNotContainRadioButton(WebDriver driver, String locator) {
+		pageShouldNotContainRadioButton(driver, locator, "");
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldNotContainRadioButton(String locator, String message) {
-		pageShouldNotContainRadioButton(locator, message, "INFO");
+	public void pageShouldNotContainRadioButton(WebDriver driver, String locator, String message) {
+		pageShouldNotContainRadioButton(driver, locator, message, "INFO");
 	}
 
 	/**
@@ -257,8 +258,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldNotContainRadioButton(String locator, String message, String logLevel) {
-		element.pageShouldNotContainElement(locator, "radio button", message, logLevel);
+	public void pageShouldNotContainRadioButton(WebDriver driver, String locator, String message, String logLevel) {
+		element.pageShouldNotContainElement(driver, locator, "radio button", message, logLevel);
 	}
 
 	/**
@@ -274,9 +275,9 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "groupName", "value" })
-	public void radioButtonShouldBeSetTo(String groupName, String value) {
+	public void radioButtonShouldBeSetTo(WebDriver driver, String groupName, String value) {
 		logging.info(String.format("Verifying radio button '%s' has selection '%s'.", groupName, value));
-		List<WebElement> elements = getRadioButtons(groupName);
+		List<WebElement> elements = getRadioButtons(driver, groupName);
 		String actualValue = getValueFromRadioButtons(elements);
 		if (actualValue == null || !actualValue.equals(value)) {
 			throw new Selenium2LibraryNonFatalException(String.format(
@@ -295,9 +296,9 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "groupName" })
-	public void radioButtonShouldNotBeSelected(String groupName) {
+	public void radioButtonShouldNotBeSelected(WebDriver driver, String groupName) {
 		logging.info(String.format("Verifying radio button '%s' has no selection.", groupName));
-		List<WebElement> elements = getRadioButtons(groupName);
+		List<WebElement> elements = getRadioButtons(driver, groupName);
 		String actualValue = getValueFromRadioButtons(elements);
 		if (actualValue != null) {
 			throw new Selenium2LibraryNonFatalException(String.format(
@@ -335,9 +336,9 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "groupName", "value" })
-	public void selectRadioButton(String groupName, String value) {
+	public void selectRadioButton(WebDriver driver, String groupName, String value) {
 		logging.info(String.format("Selecting '%s' from radio button '%s'.", value, groupName));
-		WebElement element = getRadioButtonWithValue(groupName, value);
+		WebElement element = getRadioButtonWithValue(driver, groupName, value);
 		if (!element.isSelected()) {
 			element.click();
 		}
@@ -369,11 +370,11 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "filePath" })
-	public void chooseFile(String locator, String filePath) {
+	public void chooseFile(WebDriver driver, String locator, String filePath) {
 		if (!new File(filePath).isFile()) {
 			logging.info(String.format("File '%s' does not exist on the local file system", filePath));
 		}
-		element.elementFind(locator, true, true).get(0).sendKeys(filePath);
+		element.elementFind(driver, locator, true, true).get(0).sendKeys(filePath);
 	}
 
 	/**
@@ -390,9 +391,9 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text" })
-	public void inputPassword(String locator, String text) {
+	public void inputPassword(WebDriver driver, String locator, String text) {
 		logging.info(String.format("Typing password into text field '%s'", locator));
-		inputTextIntoTextField(locator, text);
+		inputTextIntoTextField(driver, locator, text);
 	}
 
 	/**
@@ -409,19 +410,19 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text" })
-	public void inputText(String locator, String text) {
+	public void inputText(WebDriver driver, String locator, String text) {
 		logging.info(String.format("Typing text '%s' into text field '%s'", text, locator));
-		inputTextIntoTextField(locator, text);
+		inputTextIntoTextField(driver, locator, text);
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldContainTextfield(String locator) {
-		pageShouldContainTextfield(locator, "");
+	public void pageShouldContainTextfield(WebDriver driver, String locator) {
+		pageShouldContainTextfield(driver, locator, "");
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldContainTextfield(String locator, String message) {
-		pageShouldContainTextfield(locator, message, "INFO");
+	public void pageShouldContainTextfield(WebDriver driver, String locator, String message) {
+		pageShouldContainTextfield(driver, locator, message, "INFO");
 	}
 
 	/**
@@ -440,18 +441,18 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldContainTextfield(String locator, String message, String logLevel) {
-		element.pageShouldContainElement(locator, "text field", message, logLevel);
+	public void pageShouldContainTextfield(WebDriver driver, String locator, String message, String logLevel) {
+		element.pageShouldContainElement(driver, locator, "text field", message, logLevel);
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldNotContainTextfield(String locator) {
-		pageShouldNotContainTextfield(locator, "");
+	public void pageShouldNotContainTextfield(WebDriver driver, String locator) {
+		pageShouldNotContainTextfield(driver, locator, "");
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldNotContainTextfield(String locator, String message) {
-		pageShouldNotContainTextfield(locator, message, "INFO");
+	public void pageShouldNotContainTextfield(WebDriver driver, String locator, String message) {
+		pageShouldNotContainTextfield(driver, locator, message, "INFO");
 	}
 
 	/**
@@ -470,13 +471,13 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldNotContainTextfield(String locator, String message, String logLevel) {
-		element.pageShouldNotContainElement(locator, "text field", message, logLevel);
+	public void pageShouldNotContainTextfield(WebDriver driver, String locator, String message, String logLevel) {
+		element.pageShouldNotContainElement(driver, locator, "text field", message, logLevel);
 	}
 
 	@RobotKeywordOverload
-	public void textfieldValueShouldBe(String locator, String text) {
-		textfieldValueShouldBe(locator, text, "");
+	public void textfieldValueShouldBe(WebDriver driver, String locator, String text) {
+		textfieldValueShouldBe(driver, locator, text, "");
 	}
 
 	/**
@@ -499,8 +500,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "message=NONE" })
-	public void textfieldValueShouldBe(String locator, String text, String message) {
-		String actual = element.getValue(locator, "text field");
+	public void textfieldValueShouldBe(WebDriver driver, String locator, String text, String message) {
+		String actual = element.getValue(driver, locator, "text field");
 		if (!actual.contains(text)) {
 			if (message == null) {
 				message = String.format("Value of text field '%s' should have been '%s' but was '%s'", locator, text,
@@ -512,8 +513,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void textfieldValueShouldNotBe(String locator, String text) {
-		textfieldValueShouldNotBe(locator, text, "");
+	public void textfieldValueShouldNotBe(WebDriver driver, String locator, String text) {
+		textfieldValueShouldNotBe(driver, locator, text, "");
 	}
 
 	/**
@@ -536,8 +537,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "message=NONE" })
-	public void textfieldValueShouldNotBe(String locator, String text, String message) {
-		String actual = element.getValue(locator, "text field");
+	public void textfieldValueShouldNotBe(WebDriver driver, String locator, String text, String message) {
+		String actual = element.getValue(driver, locator, "text field");
 		if (actual.contains(text)) {
 			if (message == null) {
 				message = String.format("Value of text field '%s' should not have been '%s' but was '%s'", locator,
@@ -549,8 +550,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void textfieldShouldContain(String locator, String text) {
-		textfieldShouldContain(locator, text, "");
+	public void textfieldShouldContain(WebDriver driver, String locator, String text) {
+		textfieldShouldContain(driver, locator, text, "");
 	}
 
 	/**
@@ -572,8 +573,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "message=NONE" })
-	public void textfieldShouldContain(String locator, String text, String message) {
-		String actual = element.getValue(locator, "text field");
+	public void textfieldShouldContain(WebDriver driver, String locator, String text, String message) {
+		String actual = element.getValue(driver, locator, "text field");
 		if (!actual.contains(text)) {
 			if (message == null) {
 				message = String.format("Text field '%s' should have contained text '%s', but was '%s'", locator, text,
@@ -585,8 +586,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void textfieldShouldNotContain(String locator, String text) {
-		textfieldShouldNotContain(locator, text, "");
+	public void textfieldShouldNotContain(WebDriver driver, String locator, String text) {
+		textfieldShouldNotContain(driver, locator, text, "");
 	}
 
 	/**
@@ -609,8 +610,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "message=NONE" })
-	public void textfieldShouldNotContain(String locator, String text, String message) {
-		String actual = element.getValue(locator, "text field");
+	public void textfieldShouldNotContain(WebDriver driver, String locator, String text, String message) {
+		String actual = element.getValue(driver, locator, "text field");
 		if (actual.contains(text)) {
 			if (message == null) {
 				message = String.format("Text field '%s' should not have contained text '%s', but was '%s'", locator,
@@ -622,8 +623,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void textareaShouldContain(String locator, String text) {
-		textareaShouldContain(locator, text, "");
+	public void textareaShouldContain(WebDriver driver, String locator, String text) {
+		textareaShouldContain(driver, locator, text, "");
 	}
 
 	/**
@@ -645,8 +646,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "message=NONE" })
-	public void textareaShouldContain(String locator, String text, String message) {
-		String actual = element.getValue(locator, "text area");
+	public void textareaShouldContain(WebDriver driver, String locator, String text, String message) {
+		String actual = element.getValue(driver, locator, "text area");
 		if (!actual.contains(text)) {
 			if (message == null) {
 				message = String.format("Text area '%s' should have contained text '%s', but was '%s'", locator, text,
@@ -658,8 +659,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void textareaShouldNotContain(String locator, String text) {
-		textareaShouldNotContain(locator, text, "");
+	public void textareaShouldNotContain(WebDriver driver, String locator, String text) {
+		textareaShouldNotContain(driver, locator, text, "");
 	}
 
 	/**
@@ -681,8 +682,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "message=NONE" })
-	public void textareaShouldNotContain(String locator, String text, String message) {
-		String actual = element.getValue(locator, "text area");
+	public void textareaShouldNotContain(WebDriver driver, String locator, String text, String message) {
+		String actual = element.getValue(driver, locator, "text area");
 		if (!actual.contains(text)) {
 			if (message == null) {
 				message = String.format("Text area '%s' should not have contained text '%s', but was '%s'", locator, text,
@@ -694,8 +695,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void textareaValueShouldBe(String locator, String text) {
-		textareaValueShouldBe(locator, text, "");
+	public void textareaValueShouldBe(WebDriver driver, String locator, String text) {
+		textareaValueShouldBe(driver, locator, text, "");
 	}
 
 	/**
@@ -718,8 +719,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "message=NONE" })
-	public void textareaValueShouldBe(String locator, String text, String message) {
-		String actual = element.getValue(locator, "text area");
+	public void textareaValueShouldBe(WebDriver driver, String locator, String text, String message) {
+		String actual = element.getValue(driver, locator, "text area");
 		if (!actual.contains(text)) {
 			if (message == null) {
 				message = String.format("Value of text area '%s' should have been '%s' but was '%s'", locator, text,
@@ -731,8 +732,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void textareaValueShouldNotBe(String locator, String text) {
-		textareaValueShouldNotBe(locator, text, "");
+	public void textareaValueShouldNotBe(WebDriver driver, String locator, String text) {
+		textareaValueShouldNotBe(driver, locator, text, "");
 	}
 
 	/**
@@ -755,8 +756,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "message=NONE" })
-	public void textareaValueShouldNotBe(String locator, String text, String message) {
-		String actual = element.getValue(locator, "text area");
+	public void textareaValueShouldNotBe(WebDriver driver, String locator, String text, String message) {
+		String actual = element.getValue(driver, locator, "text area");
 		if (actual.contains(text)) {
 			if (message == null) {
 				message = String.format("Value of text area '%s' should not have been '%s' but was '%s'", locator,
@@ -778,23 +779,23 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void clickButton(String locator) {
+	public void clickButton(WebDriver driver, String locator) {
 		logging.info(String.format("Clicking button '%s'.", locator));
-		List<WebElement> elements = element.elementFind(locator, true, false, "input");
+		List<WebElement> elements = element.elementFind(driver, locator, true, false, "input");
 		if (elements.size() == 0) {
-			elements = element.elementFind(locator, true, true, "button");
+			elements = element.elementFind(driver, locator, true, true, "button");
 		}
 		elements.get(0).click();
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldContainButton(String locator) {
-		pageShouldContainButton(locator, "");
+	public void pageShouldContainButton(WebDriver driver, String locator) {
+		pageShouldContainButton(driver, locator, "");
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldContainButton(String locator, String message) {
-		pageShouldContainButton(locator, message, "INFO");
+	public void pageShouldContainButton(WebDriver driver, String locator, String message) {
+		pageShouldContainButton(driver, locator, message, "INFO");
 	}
 
 	/**
@@ -813,22 +814,22 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldContainButton(String locator, String message, String logLevel) {
+	public void pageShouldContainButton(WebDriver driver, String locator, String message, String logLevel) {
 		try {
-			element.pageShouldContainElement(locator, "input", message, logLevel);
+			element.pageShouldContainElement(driver, locator, "input", message, logLevel);
 		} catch (Selenium2LibraryNonFatalException e) {
-			element.pageShouldContainElement(locator, "button", message, logLevel);
+			element.pageShouldContainElement(driver, locator, "button", message, logLevel);
 		}
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldNotContainButton(String locator) {
-		pageShouldNotContainButton(locator, "");
+	public void pageShouldNotContainButton(WebDriver driver, String locator) {
+		pageShouldNotContainButton(driver, locator, "");
 	}
 
 	@RobotKeywordOverload
-	public void pageShouldNotContainButton(String locator, String message) {
-		pageShouldNotContainButton(locator, message, "INFO");
+	public void pageShouldNotContainButton(WebDriver driver, String locator, String message) {
+		pageShouldNotContainButton(driver, locator, message, "INFO");
 	}
 
 	/**
@@ -847,30 +848,30 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldNotContainButton(String locator, String message, String logLevel) {
-		element.pageShouldNotContainElement(locator, "input", message, logLevel);
-		element.pageShouldNotContainElement(locator, "button", message, logLevel);
+	public void pageShouldNotContainButton(WebDriver driver, String locator, String message, String logLevel) {
+		element.pageShouldNotContainElement(driver, locator, "input", message, logLevel);
+		element.pageShouldNotContainElement(driver, locator, "button", message, logLevel);
 	}
 
 	// ##############################
 	// Internal Methods
 	// ##############################
 
-	protected WebElement getCheckbox(String locator) {
-		return element.elementFind(locator, true, true, "input").get(0);
+	protected WebElement getCheckbox(WebDriver driver, String locator) {
+		return element.elementFind(driver, locator, true, true, "input").get(0);
 	}
 
-	protected List<WebElement> getRadioButtons(String groupName) {
+	protected List<WebElement> getRadioButtons(WebDriver driver, String groupName) {
 		String xpath = String.format("xpath=//input[@type='radio' and @name='%s']", groupName);
 		logging.debug("Radio group locator: " + xpath);
-		return element.elementFind(xpath, false, true);
+		return element.elementFind(driver, xpath, false, true);
 	}
 
-	protected WebElement getRadioButtonWithValue(String groupName, String value) {
+	protected WebElement getRadioButtonWithValue(WebDriver driver, String groupName, String value) {
 		String xpath = String.format("xpath=//input[@type='radio' and @name='%s' and (@value='%s' or @id='%s')]",
 				groupName, value, value);
 		logging.debug("Radio group locator: " + xpath);
-		return element.elementFind(xpath, true, true).get(0);
+		return element.elementFind(driver, xpath, true, true).get(0);
 	}
 
 	protected String getValueFromRadioButtons(List<WebElement> elements) {
@@ -882,8 +883,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 		return null;
 	}
 
-	protected void inputTextIntoTextField(String locator, String text) {
-		WebElement webElement = element.elementFind(locator, true, true).get(0);
+	protected void inputTextIntoTextField(WebDriver driver, String locator, String text) {
+		WebElement webElement = element.elementFind(driver, locator, true, true).get(0);
 		webElement.clear();
 		webElement.sendKeys(text);
 	}

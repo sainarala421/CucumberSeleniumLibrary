@@ -64,17 +64,15 @@ import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
-
-import co.nz.enhanceconsulting.cucumberselenium2library.utils.RunOnFailureKeywordsAdapter;
-import co.nz.enhanceconsulting.cucumberselenium2library.utils.Selenium2LibraryFatalException;
-import co.nz.enhanceconsulting.cucumberselenium2library.utils.Selenium2LibraryNonFatalException;
+import co.nz.enhanceconsulting.cucumberselenium2library.keywords.Logging;
 import co.nz.enhanceconsulting.cucumberselenium2library.locators.ElementFinder;
 import co.nz.enhanceconsulting.cucumberselenium2library.locators.WindowManager;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.Robotframework;
+import co.nz.enhanceconsulting.cucumberselenium2library.utils.RunOnFailureKeywordsAdapter;
+import co.nz.enhanceconsulting.cucumberselenium2library.utils.Selenium2LibraryFatalException;
+import co.nz.enhanceconsulting.cucumberselenium2library.utils.Selenium2LibraryNonFatalException;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.WebDriverCache;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.WebDriverCache.SessionIdAliasWebDriverTuple;
-import co.nz.enhanceconsulting.cucumberselenium2library.keywords.Logging;
-//import org.apache.log4j.Logger;
 
 @RobotKeywords
 public class BrowserManagement extends RunOnFailureKeywordsAdapter {
@@ -90,6 +88,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 */
 	protected WebDriverCache webDriverCache = new WebDriverCache();
 
+	protected LoggingExtentReport logExtentReport = new LoggingExtentReport();
+	
 	/**
 	 * Timeout in milliseconds
 	 */
@@ -105,7 +105,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 */
 	@Autowired
 	protected Logging logging;
-
+	
+	
 	/**
 	 * Instantiated Element keyword bean
 	 */
@@ -127,7 +128,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	public double getTimeout() {
 		return timeout;
 	}
-
+	
 	// ##############################
 	// KeywordsBrowserManagement
 	// ##############################
@@ -400,34 +401,51 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			"browserOptions=NONE" })
 	public String openBrowser(String url, String browserName, String alias, String remoteUrl,
 			String desiredCapabilities, String browserOptions) throws Throwable {
+		
+		//logExtentReport.InitialiseExtentReports();
+		//getCurrentExtentTest().log(Status.INFO, "Test");
+		//logExtentReport.LogExtentReports(Status.INFO, "Test");
+		
 		try {
+			System.out.println("Line 411");
+			
+			//getCurrentExtentTest().log(Status.INFO, String.format("browserName: " + browserName));
 			System.out.printf("browserName: " + browserName);
 			//logging.info("browserName: " + browserName);
 			
 			if (remoteUrl != null) {
 				System.out.printf("Opening browser '%s' to base url '%s' through remote server at '%s'",
 						browserName, url, remoteUrl);
+				/*getCurrentExtentTest().log(Status.INFO, String.format("Opening browser '%s' to base url '%s' through remote server at '%s'",
+						browserName, url, remoteUrl));*/
 				/*logging.info(String.format("Opening browser '%s' to base url '%s' through remote server at '%s'",
 						browserName, url, remoteUrl));*/
 			} else {
 				System.out.printf("Opening browser '%s' to base url '%s'", browserName, url);
+				//getCurrentExtentTest().log(Status.INFO, String.format("Opening browser '%s' to base url '%s'", browserName, url));
 				//logging.info(String.format("Opening browser '%s' to base url '%s'", browserName, url));
 			}
 			WebDriver webDriver = createWebDriver(browserName, desiredCapabilities, remoteUrl, browserOptions);
 			webDriver.get(url);
 			String sessionId = webDriverCache.register(webDriver, alias);
 			System.out.printf("Opened browser with session id %s", sessionId);
+			//getCurrentExtentTest().log(Status.INFO, String.format("Opened browser with session id %s", sessionId));
+			
 			//logging.debug(String.format("Opened browser with session id %s", sessionId));
 			return sessionId;
 		} catch (Throwable t) {
 			if (remoteUrl != null) {
 				System.out.printf("Opening browser '%s' to base url '%s' through remote server at '%s' failed", browserName, url,
 						remoteUrl);
+				/*getCurrentExtentTest().log(Status.WARNING, (String.format(
+						"Opening browser '%s' to base url '%s' through remote server at '%s' failed", browserName, url,
+						remoteUrl)));*/
 				/*logging.warn(String.format(
 						"Opening browser '%s' to base url '%s' through remote server at '%s' failed", browserName, url,
 						remoteUrl));*/
 			} else {
 				System.out.printf("Opening browser '%s' to base url '%s' failed", browserName, url);
+				//getCurrentExtentTest().log(Status.WARNING, (String.format("Opening browser '%s' to base url '%s' failed", browserName, url)));
 				//logging.warn(String.format("Opening browser '%s' to base url '%s' failed", browserName, url));
 			}
 			throw new Selenium2LibraryFatalException(t);
@@ -690,10 +708,10 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
-	public void selectFrame(String locator) {
+	public void selectFrame(WebDriver driver, String locator) {
 		System.out.printf("Selecting frame '%s'.", locator);
 		//logging.info(String.format("Selecting frame '%s'.", locator));
-		List<WebElement> elements = element.elementFind(locator, true, true);
+		List<WebElement> elements = element.elementFind(driver, locator, true, true);
 		webDriverCache.getCurrent().switchTo().frame(elements.get(0));
 	}
 

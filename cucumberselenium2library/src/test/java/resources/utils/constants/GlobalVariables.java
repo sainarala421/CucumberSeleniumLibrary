@@ -26,7 +26,4 @@ public class GlobalVariables{
     public static final String SELENIUM_SPEED = "0.5";
     public static final String SELENIUM_TIMEOUT = "90 sec";
     
-    // ExtentReports
-    public static final String EXTENT_REPORT_XML_PATH = "extentreports/extent-config.xml";
-    public static final String EXTENT_REPORT_TARGET_PATH = "target/extent-reports/extent.html";
 }

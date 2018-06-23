@@ -12,8 +12,8 @@ import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
-import co.nz.enhanceconsulting.cucumberselenium2library.utils.RunOnFailureKeywordsAdapter;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.Robotframework;
+import co.nz.enhanceconsulting.cucumberselenium2library.utils.RunOnFailureKeywordsAdapter;
 
 @RobotKeywords
 public class Screenshot extends RunOnFailureKeywordsAdapter {

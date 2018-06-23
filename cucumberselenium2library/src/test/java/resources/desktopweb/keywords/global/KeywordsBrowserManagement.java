@@ -4,11 +4,10 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
-import com.aventstack.extentreports.reporter.configuration.ChartLocation;
-import com.aventstack.extentreports.reporter.configuration.Protocol;
-import com.aventstack.extentreports.reporter.configuration.Theme;
 
 import co.nz.enhanceconsulting.cucumberselenium2library.keywords.BrowserManagement;
+import co.nz.enhanceconsulting.cucumberselenium2library.keywords.Element;
+import co.nz.enhanceconsulting.cucumberselenium2library.keywords.LoggingExtentReport;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -18,79 +17,60 @@ import resources.utils.constants.GlobalVariables;
 
 public class KeywordsBrowserManagement{
 	// Constructor
-    public KeywordsBrowserManagement() throws Exception {
-    }
-    PropertiesValue pvalue = new PropertiesValue();
+
+    PropertiesValue pvalue;
     static String propertiesfilepath = GlobalVariables.BASE_PROPERTIES_FILE;
-    static BrowserManagement browserinstance = new BrowserManagement();
+    public static BrowserManagement browserinstance = new BrowserManagement();
+	protected LoggingExtentReport logExtentReportCache = new LoggingExtentReport();
+	protected ExtentReports report = new ExtentReports();
+	public static ExtentTest test;
+    static Element elementinstance = new Element();
     static String browser = System.getProperty("browser", "");
     static String baseURL = System.getProperty("baseURL", "");
     static String remoteURL = System.getProperty("remoteURL", "");
-    
 
     public void setGlobalVariables() throws Throwable{
     }
+    
+	public LoggingExtentReport getExtentReportCache() {
+		return logExtentReportCache;
+	}
+
+	public ExtentReports getCurrentCachedExtentReport() {
+		return logExtentReportCache.getCurrentExtentReport();
+	}
     
     /**
      *  --------------------
      *  Suite Setup Keywords
      *  --------------------
      */
+    
+	/**
+	 *  Reusable setup to launch browser instance.
+	 *  Set the properties in base.properties file.
+	 */
+
     @Before
-    public void launch_browser() throws Throwable{
-    	/**
-    	 *  Reusable setup to launch browser instance.
-    	 *  Set the properties in base.properties file.
-    	 */
-        // ExtentReports initialization
-        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter("extent.html");
-        
-    	htmlReporter.loadXMLConfig(GlobalVariables.EXTENT_REPORT_XML_PATH);
-    	htmlReporter.setAppendExisting(true);
-    	// make the charts visible on report open
-    	htmlReporter.config().setChartVisibilityOnOpen(true);
-
-
-    	// report title
-    	htmlReporter.config().setDocumentTitle("ExtentReports");
-
-    	// encoding, default = UTF-8
-    	htmlReporter.config().setEncoding("UTF-8");
-
-    	// protocol (http, https)
-    	htmlReporter.config().setProtocol(Protocol.HTTPS);
-
-    	// report or build name
-    	htmlReporter.config().setReportName("Build-1224");
-
-    	// chart location - top, bottom
-    	htmlReporter.config().setTestViewChartLocation(ChartLocation.BOTTOM);
-
-    	// theme - standard, dark
-    	htmlReporter.config().setTheme(Theme.STANDARD);
-
-    	// set timeStamp format
-    	htmlReporter.config().setTimeStampFormat("mm/dd/yyyy hh:mm:ss a");
-
-    	// add custom css
-    	htmlReporter.config().setCSS("css-string");
-
-    	// add custom javascript
-    	htmlReporter.config().setJS("js-string");
-    	
-        ExtentReports extent = new ExtentReports();
-        extent.attachReporter(htmlReporter);
-    	ExtentTest test = extent.createTest("MyFirstTest", "Sample description");
-    	 
+    public void launch_browser() throws Throwable{    	 
     	// Set defaults if parameters are blank
     	String pbrowser = browser == "" ? GlobalVariables.BROWSER : browser;
     	String pbaseURL = baseURL == "" ? GlobalVariables.BASE_URL : baseURL;
     	String premoteURL = remoteURL == "" ? GlobalVariables.REMOTE_URL_FALSE : remoteURL;
+
+    	ExtentHtmlReporter htmlreporter = getExtentReportCache().InitialiseHtmlReporter();
+    	System.out.print(htmlreporter);
+    	report.attachReporter(htmlreporter);
+    	
+    	test = report.createTest("Cucumber Selenium", "Cucumber tests");
+    	test.createNode("Setup: When User launches browser.", "Launch browser keyword.");
+    	test.log(Status.INFO, "Setting defaults");
     	
     	// Set selenium speed and timeout
     	browserinstance.setSeleniumSpeed(GlobalVariables.SELENIUM_SPEED);
     	browserinstance.setSeleniumTimeout(GlobalVariables.SELENIUM_TIMEOUT);
     	
+    	//getCurrentExtentTest().log(Status.INFO, "Opening browser.");
     	// Launch Browser
     	browserinstance.openBrowser(
     			pbaseURL, 
@@ -98,13 +78,11 @@ public class KeywordsBrowserManagement{
     			GlobalVariables.BROWSER_BASE_ALIAS,
     			premoteURL
     			);
-    	test.log(Status.INFO, "This step opens the browser");
     	
     	// Set browser size.
     	browserinstance.setWindowSize(GlobalVariables.BROWSER_WIDTH, GlobalVariables.BROWSER_HEIGHT);
-    	test.log(Status.INFO, "This step setst the browser size.");
+
     	
-    	extent.flush();
     }
     /**
      *  -----------------------
@@ -112,9 +90,14 @@ public class KeywordsBrowserManagement{
      *  -----------------------
      */
     
+	/**
+	 *  Close all browsers.
+	 */
     @After
     public void close_all_browsers() throws Throwable{
     	browserinstance.closeAllBrowsers();
+    	test.log(Status.INFO, "Closing all browsers");
+    	report.flush();
     }
     
     /**

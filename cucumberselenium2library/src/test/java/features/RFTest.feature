@@ -11,5 +11,5 @@ Feature: Robotframework test cases
 
 @SampleTest
   Scenario: Sample test
-  	When Get system info
+  	When User clicks "#id=m-global-toolbar__nav__utility__tools-list__login"
   	When User gets title

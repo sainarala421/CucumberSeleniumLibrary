@@ -1,14 +1,16 @@
 package co.nz.enhanceconsulting.cucumberselenium2library.keywords;
 
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
+
+import co.nz.enhanceconsulting.cucumberselenium2library.utils.Robotframework;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.RunOnFailureKeywordsAdapter;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.Selenium2LibraryNonFatalException;
-import co.nz.enhanceconsulting.cucumberselenium2library.utils.Robotframework;
 
 @RobotKeywords
 public class Waiting extends RunOnFailureKeywordsAdapter {
@@ -30,13 +32,13 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	// ##############################
 
 	@RobotKeywordOverload
-	public void waitForCondition(String condition) {
-		waitForCondition(condition, null);
+	public void waitForCondition(WebDriver driver, String condition) {
+		waitForCondition(driver, condition, null);
 	}
 
 	@RobotKeywordOverload
-	public void waitForCondition(String condition, String timeout) {
-		waitForCondition(condition, timeout, null);
+	public void waitForCondition(WebDriver driver, String condition, String timeout) {
+		waitForCondition(driver, condition, timeout, null);
 	}
 
 	/**
@@ -64,7 +66,7 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "condition", "timeout=NONE", "message=NONE" })
-	public void waitForCondition(final String condition, String timeout, String message) {
+	public void waitForCondition(final WebDriver driver, final String condition, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Condition '%s' did not become true in <TIMEOUT>", condition);
 		}
@@ -72,20 +74,20 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 
 			@Override
 			public boolean isFinished() {
-				return Boolean.TRUE.equals(((JavascriptExecutor) browserManagement.getCurrentWebDriver())
+				return Boolean.TRUE.equals(((JavascriptExecutor) driver)
 						.executeScript(condition));
 			}
 		});
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilPageContains(String condition) {
-		waitUntilPageContains(condition, null);
+	public void waitUntilPageContains(WebDriver driver, String condition) {
+		waitUntilPageContains(driver, condition, null);
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilPageContains(String condition, String timeout) {
-		waitUntilPageContains(condition, timeout, null);
+	public void waitUntilPageContains(WebDriver driver, String condition, String timeout) {
+		waitUntilPageContains(driver, condition, timeout, null);
 	}
 
 	/**
@@ -104,7 +106,7 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "condition", "timeout=NONE", "message=NONE" })
-	public void waitUntilPageContains(final String text, String timeout, String message) {
+	public void waitUntilPageContains(final WebDriver driver, final String text, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Text '%s' did not appear in <TIMEOUT>", text);
 		}
@@ -112,19 +114,19 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 
 			@Override
 			public boolean isFinished() {
-				return element.isTextPresent(text);
+				return element.isTextPresent(driver, text);
 			}
 		});
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilPageNotContains(String condition, String timeout) {
-		waitUntilPageNotContains(condition, timeout, null);
+	public void waitUntilPageNotContains(final WebDriver driver, String condition, String timeout) {
+		waitUntilPageNotContains(driver, condition, timeout, null);
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilPageNotContains(String condition) {
-		waitUntilPageNotContains(condition, null);
+	public void waitUntilPageNotContains(final WebDriver driver, String condition) {
+		waitUntilPageNotContains(driver, condition, null);
 	}
 
 	/**
@@ -143,7 +145,7 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "text", "timeout=NONE", "message=NONE" })
-	public void waitUntilPageNotContains(final String text, String timeout, String message) {
+	public void waitUntilPageNotContains(final WebDriver driver, final String text, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Text '%s' did not disappear in <TIMEOUT>", text);
 		}
@@ -151,19 +153,19 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 
 			@Override
 			public boolean isFinished() {
-				return !element.isTextPresent(text);
+				return !element.isTextPresent(driver, text);
 			}
 		});
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilPageDoesNotContain(String condition, String timeout) {
-		waitUntilPageDoesNotContain(condition, timeout, null);
+	public void waitUntilPageDoesNotContain(final WebDriver driver, String condition, String timeout) {
+		waitUntilPageDoesNotContain(driver, condition, timeout, null);
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilPageDoesNotContain(String condition) {
-		waitUntilPageDoesNotContain(condition, null);
+	public void waitUntilPageDoesNotContain(final WebDriver driver, String condition) {
+		waitUntilPageDoesNotContain(driver, condition, null);
 	}
 
 	/**
@@ -182,18 +184,18 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "text", "timeout=NONE", "message=NONE" })
-	public void waitUntilPageDoesNotContain(final String text, String timeout, String message) {
-		waitUntilPageNotContains(text, timeout, message);
+	public void waitUntilPageDoesNotContain(final WebDriver driver, final String text, String timeout, String message) {
+		waitUntilPageNotContains(driver, text, timeout, message);
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilPageContainsElement(String condition) {
-		waitUntilPageContainsElement(condition, null);
+	public void waitUntilPageContainsElement(final WebDriver driver, String condition) {
+		waitUntilPageContainsElement(driver, condition, null);
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilPageContainsElement(String condition, String timeout) {
-		waitUntilPageContainsElement(condition, timeout, null);
+	public void waitUntilPageContainsElement(final WebDriver driver, String condition, String timeout) {
+		waitUntilPageContainsElement(driver, condition, timeout, null);
 	}
 
 	/**
@@ -213,7 +215,7 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
-	public void waitUntilPageContainsElement(final String locator, String timeout, String message) {
+	public void waitUntilPageContainsElement(final WebDriver driver, final String locator, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Element '%s' did not appear in <TIMEOUT>", locator);
 		}
@@ -221,19 +223,19 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 
 			@Override
 			public boolean isFinished() {
-				return element.isElementPresent(locator);
+				return element.isElementPresent(driver, locator);
 			}
 		});
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilPageNotContainsElement(String locator) {
-		waitUntilPageNotContainsElement(locator, null);
+	public void waitUntilPageNotContainsElement(final WebDriver driver, String locator) {
+		waitUntilPageNotContainsElement(driver, locator, null);
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilPageNotContainsElement(String locator, String timeout) {
-		waitUntilPageNotContainsElement(locator, timeout, null);
+	public void waitUntilPageNotContainsElement(final WebDriver driver, String locator, String timeout) {
+		waitUntilPageNotContainsElement(driver, locator, timeout, null);
 	}
 
 	/**
@@ -252,8 +254,8 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	 *            Default=NONE. Optional custom error message.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
-	public void waitUntilPageNotContainsElement(final String locator, String timeout, String message) {
+	@ArgumentNames({"locator", "timeout=NONE", "message=NONE" })
+	public void waitUntilPageNotContainsElement(final WebDriver driver, final String locator, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Element '%s' did not disappear in <TIMEOUT>", locator);
 		}
@@ -261,19 +263,19 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 
 			@Override
 			public boolean isFinished() {
-				return !element.isElementPresent(locator);
+				return !element.isElementPresent(driver, locator);
 			}
 		});
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilPageDoesNotContainElement(String locator) {
-		waitUntilPageDoesNotContainElement(locator, null);
+	public void waitUntilPageDoesNotContainElement(final WebDriver driver, String locator) {
+		waitUntilPageDoesNotContainElement(driver, locator, null);
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilPageDoesNotContainElement(String locator, String timeout) {
-		waitUntilPageDoesNotContainElement(locator, timeout, null);
+	public void waitUntilPageDoesNotContainElement(final WebDriver driver, String locator, String timeout) {
+		waitUntilPageDoesNotContainElement(driver, locator, timeout, null);
 	}
 
 	/**
@@ -293,18 +295,18 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
-	public void waitUntilPageDoesNotContainElement(final String locator, String timeout, String message) {
-	    waitUntilPageNotContainsElement(locator, timeout, message);
+	public void waitUntilPageDoesNotContainElement(final WebDriver driver, final String locator, String timeout, String message) {
+	    waitUntilPageNotContainsElement(driver, locator, timeout, message);
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsVisible(String locator, String timeout) {
-		waitUntilElementIsVisible(locator, timeout, null);
+	public void waitUntilElementIsVisible(final WebDriver driver, String locator, String timeout) {
+		waitUntilElementIsVisible(driver, locator, timeout, null);
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsVisible(String locator) {
-		waitUntilElementIsVisible(locator, null);
+	public void waitUntilElementIsVisible(final WebDriver driver, String locator) {
+		waitUntilElementIsVisible(driver, locator, null);
 	}
 
 	/**
@@ -323,7 +325,7 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
-	public void waitUntilElementIsVisible(final String locator, String timeout, String message) {
+	public void waitUntilElementIsVisible(final WebDriver driver, final String locator, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Element '%s' not visible in <TIMEOUT>", locator);
 		}
@@ -331,19 +333,19 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 
 			@Override
 			public boolean isFinished() {
-				return element.isVisible(locator);
+				return element.isVisible(driver, locator);
 			}
 		});
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsNotVisible(String locator, String timeout) {
-		waitUntilElementIsNotVisible(locator, timeout, null);
+	public void waitUntilElementIsNotVisible(final WebDriver driver, String locator, String timeout) {
+		waitUntilElementIsNotVisible(driver, locator, timeout, null);
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsNotVisible(String locator) {
-		waitUntilElementIsNotVisible(locator, null);
+	public void waitUntilElementIsNotVisible(final WebDriver driver, String locator) {
+		waitUntilElementIsNotVisible(driver, locator, null);
 	}
 
 	/**
@@ -362,7 +364,7 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
-	public void waitUntilElementIsNotVisible(final String locator, String timeout, String message) {
+	public void waitUntilElementIsNotVisible(final WebDriver driver, final String locator, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Element '%s' still visible in <TIMEOUT>", locator);
 		}
@@ -370,23 +372,23 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 
 			@Override
 			public boolean isFinished() {
-				return !element.isVisible(locator);
+				return !element.isVisible(driver,locator);
 			}
 		});
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsClickable(String locator) {
-		waitUntilElementIsClickable(locator, null, null);
+	public void waitUntilElementIsClickable(final WebDriver driver, String locator) {
+		waitUntilElementIsClickable(driver, locator, null, null);
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsClickable(String locator, String timeout) {
-		waitUntilElementIsClickable(locator, timeout, null);
+	public void waitUntilElementIsClickable(final WebDriver driver, String locator, String timeout) {
+		waitUntilElementIsClickable(driver, locator, timeout, null);
 	}
 
 	/**
-	 * Waits until the element identified by <b>locator</b> is clickable.<br>
+	 * Waits until the element identified by <b>locator</b> is clbrowserinstance.getCurrentWebDriver()ickable.<br>
 	 * <br>
 	 * Fails, if the timeout expires, before the element gets clickable. <br>
 	 * <br>
@@ -401,7 +403,7 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
-	public void waitUntilElementIsClickable(final String locator, String timeout, String message) {
+	public void waitUntilElementIsClickable(final WebDriver driver, final String locator, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Element '%s' not clickable in <TIMEOUT>", locator);
 		}
@@ -409,19 +411,19 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 
 			@Override
 			public boolean isFinished() {
-				return element.isClickable(locator);
+				return element.isClickable(driver, locator);
 			}
 		});
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsNotClickable(String locator, String timeout) {
-		waitUntilElementIsNotClickable(locator, timeout, null);
+	public void waitUntilElementIsNotClickable(final WebDriver driver, String locator, String timeout) {
+		waitUntilElementIsNotClickable(driver, locator, timeout, null);
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsNotClickable(String locator) {
-		waitUntilElementIsNotClickable(locator, null);
+	public void waitUntilElementIsNotClickable(final WebDriver driver, String locator) {
+		waitUntilElementIsNotClickable(driver, locator, null);
 	}
 
 	/**
@@ -440,7 +442,7 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
-	public void waitUntilElementIsNotClickable(final String locator, String timeout, String message) {
+	public void waitUntilElementIsNotClickable(final WebDriver driver, final String locator, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Element '%s' still clickable in <TIMEOUT>", locator);
 		}
@@ -448,19 +450,19 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 
 			@Override
 			public boolean isFinished() {
-				return !element.isClickable(locator);
+				return !element.isClickable(driver, locator);
 			}
 		});
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsSuccessfullyClicked(String locator, String timeout) {
-		waitUntilElementIsSuccessfullyClicked(locator, timeout, null);
+	public void waitUntilElementIsSuccessfullyClicked(final WebDriver driver, String locator, String timeout) {
+		waitUntilElementIsSuccessfullyClicked(driver, locator, timeout, null);
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsSuccessfullyClicked(String locator) {
-		waitUntilElementIsSuccessfullyClicked(locator, null);
+	public void waitUntilElementIsSuccessfullyClicked(final WebDriver driver, String locator) {
+		waitUntilElementIsSuccessfullyClicked(driver, locator, null);
 	}
 
 	/**
@@ -480,7 +482,7 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
-	public void waitUntilElementIsSuccessfullyClicked(final String locator, String timeout, String message) {
+	public void waitUntilElementIsSuccessfullyClicked(final WebDriver driver, final String locator, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Element '%s' not successfully clicked in <TIMEOUT>", locator);
 		}
@@ -488,20 +490,20 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 
 			@Override
 			public boolean isFinished() {
-				element.clickElement(locator);
+				element.clickElement(driver, locator);
 				return true;
 			}
 		});
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsSelected(String locator, String timeout) {
-		waitUntilElementIsSelected(locator, timeout, null);
+	public void waitUntilElementIsSelected(final WebDriver driver, String locator, String timeout) {
+		waitUntilElementIsSelected(driver, locator, timeout, null);
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsSelected(String locator) {
-		waitUntilElementIsSelected(locator, null);
+	public void waitUntilElementIsSelected(final WebDriver driver, String locator) {
+		waitUntilElementIsSelected(driver, locator, null);
 	}
 
 	/**
@@ -520,7 +522,7 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
-	public void waitUntilElementIsSelected(final String locator, String timeout, String message) {
+	public void waitUntilElementIsSelected(final WebDriver driver, final String locator, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Element '%s' not selected in <TIMEOUT>", locator);
 		}
@@ -528,19 +530,19 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 
 			@Override
 			public boolean isFinished() {
-				return element.isSelected(locator);
+				return element.isSelected(driver, locator);
 			}
 		});
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsNotSelected(String locator, String timeout) {
-		waitUntilElementIsNotSelected(locator, timeout, null);
+	public void waitUntilElementIsNotSelected(final WebDriver driver, String locator, String timeout) {
+		waitUntilElementIsNotSelected(driver, locator, timeout, null);
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsNotSelected(String locator) {
-		waitUntilElementIsNotSelected(locator, null);
+	public void waitUntilElementIsNotSelected(final WebDriver driver, String locator) {
+		waitUntilElementIsNotSelected(driver, locator, null);
 	}
 
 	/**
@@ -559,7 +561,7 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
-	public void waitUntilElementIsNotSelected(final String locator, String timeout, String message) {
+	public void waitUntilElementIsNotSelected(final WebDriver driver, final String locator, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Element '%s' still selected in <TIMEOUT>", locator);
 		}
@@ -567,7 +569,7 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 
 			@Override
 			public boolean isFinished() {
-				return !element.isSelected(locator);
+				return !element.isSelected(driver, locator);
 			}
 		});
 	}
