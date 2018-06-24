@@ -12,8 +12,8 @@ public class KeywordsElement{
 	// Constructor
     public KeywordsElement() throws Exception {
     }
-    static Element elementinstance = new Element();
-    static WebDriver driver = KeywordsBrowserManagement.browserinstance.getCurrentWebDriver();
+    static Element elementInstance = new Element();
+    static WebDriver driver = KeywordsBrowserManagement.browserInstance.getCurrentWebDriver();
     static ExtentTest test = KeywordsBrowserManagement.test;
     /**
      *  -----------------------------------
@@ -22,33 +22,33 @@ public class KeywordsElement{
      */
     @When("^User clicks \"(.*?)\"$")
     public void user_clicks_element(String locator) throws Throwable{
-    	test.createNode(String.format("When user clicks element %s", locator), "Click element keyword");
-    	elementinstance.focus(driver, locator);
-    	elementinstance.clickElement(driver, locator);
+    	test.createNode("When", String.format("When user clicks element %s", locator));
+    	elementInstance.focus(driver, locator);
+    	elementInstance.clickElement(driver, locator);
     }
    
     @When("^User double clicks \"(.*?)\"$")
     public void user_double_clicks_element(String locator) throws Throwable{
-    	elementinstance.focus(driver, locator);
-    	elementinstance.doubleClickElement(driver, locator);
+    	elementInstance.focus(driver, locator);
+    	elementInstance.doubleClickElement(driver, locator);
     }
     
     @When("^User clicks image \"(.*?)\"$")
     public void user_clicks_image(String locator) throws Throwable{
-    	elementinstance.focus(driver, locator);
-    	elementinstance.clickImage(driver, locator);
+    	elementInstance.focus(driver, locator);
+    	elementInstance.clickImage(driver, locator);
     }
     
     @When("^User clicks link \"(.*?)\"$")
     public void user_clicks_link(String locator) throws Throwable{
-    	elementinstance.focus(driver, locator);
-    	elementinstance.clickLink(driver, locator);
+    	elementInstance.focus(driver, locator);
+    	elementInstance.clickLink(driver, locator);
     }
     
     @When("^User clears element \"(.*?)\"$")
     public void user_clears_element(String locator) throws Throwable{
-    	elementinstance.focus(driver, locator);
-    	elementinstance.clearElementText(driver, locator);
+    	elementInstance.focus(driver, locator);
+    	elementInstance.clearElementText(driver, locator);
     }
     
     /**
@@ -58,7 +58,7 @@ public class KeywordsElement{
      */
     @Then("^Element \"(.*?)\" should contain text \"(.*?)\"$")
     public void element_should_contain(String locator, String text) throws Throwable{
-    	elementinstance.focus(driver, locator);
-    	elementinstance.elementShouldContain(driver, locator, text);
+    	elementInstance.focus(driver, locator);
+    	elementInstance.elementShouldContain(driver, locator, text);
     }
 }

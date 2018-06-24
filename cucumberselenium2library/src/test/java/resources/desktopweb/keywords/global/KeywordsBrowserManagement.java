@@ -21,8 +21,8 @@ public class KeywordsBrowserManagement{
 
     PropertiesValue pvalue;
     static String propertiesfilepath = GlobalVariables.BASE_PROPERTIES_FILE;
-    public static BrowserManagement browserinstance = new BrowserManagement();
-    static Element elementinstance = new Element();
+    public static BrowserManagement browserInstance = new BrowserManagement();
+    static Element elementInstance = new Element();
 	protected LoggingExtentReport logExtentReportCache = new LoggingExtentReport();
 	public static ExtentReports report = new ExtentReports();
 	public static ExtentTest test;
@@ -64,8 +64,8 @@ public class KeywordsBrowserManagement{
     	test.log(Status.INFO, "Setting defaults");
     	
     	// Set selenium speed and timeout
-    	browserinstance.setSeleniumSpeed(GlobalVariables.SELENIUM_SPEED);
-    	browserinstance.setSeleniumTimeout(GlobalVariables.SELENIUM_TIMEOUT);
+    	browserInstance.setSeleniumSpeed(GlobalVariables.SELENIUM_SPEED);
+    	browserInstance.setSeleniumTimeout(GlobalVariables.SELENIUM_TIMEOUT);
     	
     	// Set defaults if parameters are blank
     	String pbrowser = browser == "" ? GlobalVariables.BROWSER : browser;
@@ -73,7 +73,7 @@ public class KeywordsBrowserManagement{
     	String premoteURL = remoteURL == "" ? GlobalVariables.REMOTE_URL_FALSE : remoteURL;
 
     	// Launch Browser
-    	browserinstance.openBrowser(
+    	browserInstance.openBrowser(
     			pbaseURL, 
     			pbrowser,
     			GlobalVariables.BROWSER_BASE_ALIAS,
@@ -81,7 +81,8 @@ public class KeywordsBrowserManagement{
     			);
     	
     	// Set browser size.
-    	browserinstance.setWindowSize(GlobalVariables.BROWSER_WIDTH, GlobalVariables.BROWSER_HEIGHT);
+    	browserInstance.maximizeBrowserWindow();
+    	//browserInstance.setWindowSize(GlobalVariables.BROWSER_WIDTH, GlobalVariables.BROWSER_HEIGHT);
     }
     /**
      *  -----------------------
@@ -96,7 +97,7 @@ public class KeywordsBrowserManagement{
     public void close_all_browsers() throws Throwable{
     	test.createNode("Test Teardown","User closes all browsers");
     	test.log(Status.INFO, "Closing all browsers");
-    	browserinstance.closeAllBrowsers();
+    	browserInstance.closeAllBrowsers();
     	report.flush();
     }
     
@@ -108,7 +109,7 @@ public class KeywordsBrowserManagement{
     
     @Given("^User opens url \"(.*?)\" in \"(.*?)\" browser$")
     public void user_opens_browser(String url, String browser) throws Throwable{
-    	browserinstance.openBrowser(
+    	browserInstance.openBrowser(
     			url, 
     			browser
     			);
@@ -116,7 +117,7 @@ public class KeywordsBrowserManagement{
    
     @Given("^User opens url \"(.*?)\" in \"(.*?)\" with browser alias \"(.*?)\"$")
     public void user_opens_browser_with_alias(String url, String browser, String browserAlias) throws Throwable{
-    	browserinstance.openBrowser(url, browser, browserAlias);
+    	browserInstance.openBrowser(url, browser, browserAlias);
     }
     
     /**
@@ -127,22 +128,22 @@ public class KeywordsBrowserManagement{
     
     @When("^User navigates to \"(.*?)\"$")
     public void user_navigates_to(String url) throws Throwable{
-    	browserinstance.goTo(url);
+    	browserInstance.goTo(url);
     }
    
     @When("^User switches to browser \"(.*?)\"$")
     public void user_switches_to_browser(String browserAlias) throws Throwable{
-    	browserinstance.switchBrowser(browserAlias);
+    	browserInstance.switchBrowser(browserAlias);
     }
     
     @When("^User reloads page$")
     public void user_reloads_page(String browserAlias) throws Throwable{
-    	browserinstance.reloadPage();
+    	browserInstance.reloadPage();
     }
     
     @When("^User gets title$")
     public void user_gets_title() throws Throwable{
-    	String pageTitle = browserinstance.getTitle();
+    	String pageTitle = browserInstance.getTitle();
     	System.out.printf("Page title: %s", pageTitle);
     }
 
@@ -151,7 +152,11 @@ public class KeywordsBrowserManagement{
      *  Reusable keywords - THEN STATEMENTS
      *  -----------------------------------
      */
-    
+    @When("^User should be forwarded to \"(.*?)\"$")
+    public void user_should_be_forwarded_to_correct_page(String uri) throws Throwable{
+    	test.createNode("Then",String.format("User should be forwarded to '%s'", uri));
+    	browserInstance.locationShouldContain(uri);
+    }
     /**
      *  -----------------
      *  Utilities
@@ -160,7 +165,7 @@ public class KeywordsBrowserManagement{
     
     @When("^Get system info$")
     public void get_system_info() throws Throwable {
-    	String sysinfo = browserinstance.getSystemInfo();
+    	String sysinfo = browserInstance.getSystemInfo();
     	System.out.println(sysinfo);
 	}
 }
