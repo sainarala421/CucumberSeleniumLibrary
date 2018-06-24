@@ -144,7 +144,7 @@ public class KeywordsBrowserManagement{
     @When("^User gets title$")
     public void user_gets_title() throws Throwable{
     	String pageTitle = browserInstance.getTitle();
-    	System.out.printf("Page title: %s", pageTitle);
+    	test.log(Status.INFO, String.format("Page title: '%s'", pageTitle));
     }
 
     /**
