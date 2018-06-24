@@ -3,6 +3,7 @@ package resources.desktopweb.keywords.global;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.gherkin.model.Feature;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 
 import co.nz.enhanceconsulting.cucumberselenium2library.keywords.BrowserManagement;
@@ -21,10 +22,10 @@ public class KeywordsBrowserManagement{
     PropertiesValue pvalue;
     static String propertiesfilepath = GlobalVariables.BASE_PROPERTIES_FILE;
     public static BrowserManagement browserinstance = new BrowserManagement();
-	protected LoggingExtentReport logExtentReportCache = new LoggingExtentReport();
-	protected ExtentReports report = new ExtentReports();
-	public static ExtentTest test;
     static Element elementinstance = new Element();
+	protected LoggingExtentReport logExtentReportCache = new LoggingExtentReport();
+	public static ExtentReports report = new ExtentReports();
+	public static ExtentTest test;
     static String browser = System.getProperty("browser", "");
     static String baseURL = System.getProperty("baseURL", "");
     static String remoteURL = System.getProperty("remoteURL", "");
@@ -50,27 +51,27 @@ public class KeywordsBrowserManagement{
 	 *  Reusable setup to launch browser instance.
 	 *  Set the properties in base.properties file.
 	 */
-
-    @Before
-    public void launch_browser() throws Throwable{    	 
-    	// Set defaults if parameters are blank
-    	String pbrowser = browser == "" ? GlobalVariables.BROWSER : browser;
-    	String pbaseURL = baseURL == "" ? GlobalVariables.BASE_URL : baseURL;
-    	String premoteURL = remoteURL == "" ? GlobalVariables.REMOTE_URL_FALSE : remoteURL;
-
-    	ExtentHtmlReporter htmlreporter = getExtentReportCache().InitialiseHtmlReporter();
-    	System.out.print(htmlreporter);
+    @Before(order=0)
+    public void initialise_htmlreporter() throws Throwable{
+        ExtentHtmlReporter htmlreporter = getExtentReportCache().InitialiseHtmlReporter();
     	report.attachReporter(htmlreporter);
-    	
-    	test = report.createTest("Cucumber Selenium", "Cucumber tests");
-    	test.createNode("Setup: When User launches browser.", "Launch browser keyword.");
+    	test = report.createTest(Feature.class, "Cucumber tests");
+    }
+	
+    @Before(order=1)
+    public void launch_browser() throws Throwable{
+    	test.createNode("Test Setup", "Launch browser");
     	test.log(Status.INFO, "Setting defaults");
     	
     	// Set selenium speed and timeout
     	browserinstance.setSeleniumSpeed(GlobalVariables.SELENIUM_SPEED);
     	browserinstance.setSeleniumTimeout(GlobalVariables.SELENIUM_TIMEOUT);
     	
-    	//getCurrentExtentTest().log(Status.INFO, "Opening browser.");
+    	// Set defaults if parameters are blank
+    	String pbrowser = browser == "" ? GlobalVariables.BROWSER : browser;
+    	String pbaseURL = baseURL == "" ? GlobalVariables.BASE_URL : baseURL;
+    	String premoteURL = remoteURL == "" ? GlobalVariables.REMOTE_URL_FALSE : remoteURL;
+
     	// Launch Browser
     	browserinstance.openBrowser(
     			pbaseURL, 
@@ -81,8 +82,6 @@ public class KeywordsBrowserManagement{
     	
     	// Set browser size.
     	browserinstance.setWindowSize(GlobalVariables.BROWSER_WIDTH, GlobalVariables.BROWSER_HEIGHT);
-
-    	
     }
     /**
      *  -----------------------
@@ -95,8 +94,9 @@ public class KeywordsBrowserManagement{
 	 */
     @After
     public void close_all_browsers() throws Throwable{
-    	browserinstance.closeAllBrowsers();
+    	test.createNode("Test Teardown","User closes all browsers");
     	test.log(Status.INFO, "Closing all browsers");
+    	browserinstance.closeAllBrowsers();
     	report.flush();
     }
     

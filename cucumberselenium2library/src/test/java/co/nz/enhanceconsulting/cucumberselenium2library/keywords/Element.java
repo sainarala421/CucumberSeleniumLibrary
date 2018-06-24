@@ -35,7 +35,6 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	@Autowired
 	protected BrowserManagement browserManagement;
 	
-	protected LoggingExtentReport logExtentReport = new LoggingExtentReport();
 	protected ExtentTest test = KeywordsBrowserManagement.test;
 	/**
 	 * Instantiated FormElement keyword bean
@@ -523,7 +522,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE" })
 	public void elementShouldBeVisible(WebDriver driver, String locator, String message) {
-		logging.info(String.format("Verifying element '%s' is visible.", locator));
+		test.log(Status.INFO, String.format("Verifying element '%s' is visible.", locator));
+		//logging.info(String.format("Verifying element '%s' is visible.", locator));
 		boolean visible = isVisible(driver, locator);
 
 		if (!visible) {
@@ -918,7 +918,6 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	@ArgumentNames({ "locator" })
 	public void clickElement(WebDriver driver, String locator) {
 		test.log(Status.INFO, String.format("Clicking element '%s'.", locator));
-
 		List<WebElement> elements = elementFind(driver, locator, true, true);
 
 		elements.get(0).click();

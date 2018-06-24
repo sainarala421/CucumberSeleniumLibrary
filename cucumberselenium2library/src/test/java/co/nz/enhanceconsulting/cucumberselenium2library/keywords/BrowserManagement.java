@@ -1,6 +1,7 @@
 package co.nz.enhanceconsulting.cucumberselenium2library.keywords;
 
 import io.appium.java_client.ios.IOSDriver;
+import resources.desktopweb.keywords.global.KeywordsBrowserManagement;
 import io.appium.java_client.android.AndroidDriver;
 
 import java.io.File;
@@ -64,6 +65,11 @@ import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+
 import co.nz.enhanceconsulting.cucumberselenium2library.keywords.Logging;
 import co.nz.enhanceconsulting.cucumberselenium2library.locators.ElementFinder;
 import co.nz.enhanceconsulting.cucumberselenium2library.locators.WindowManager;
@@ -88,7 +94,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 */
 	protected WebDriverCache webDriverCache = new WebDriverCache();
 
-	protected LoggingExtentReport logExtentReport = new LoggingExtentReport();
+	protected ExtentTest test = KeywordsBrowserManagement.test;
 	
 	/**
 	 * Timeout in milliseconds
@@ -401,51 +407,41 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			"browserOptions=NONE" })
 	public String openBrowser(String url, String browserName, String alias, String remoteUrl,
 			String desiredCapabilities, String browserOptions) throws Throwable {
-		
-		//logExtentReport.InitialiseExtentReports();
-		//getCurrentExtentTest().log(Status.INFO, "Test");
-		//logExtentReport.LogExtentReports(Status.INFO, "Test");
-		
 		try {
-			System.out.println("Line 411");
-			
-			//getCurrentExtentTest().log(Status.INFO, String.format("browserName: " + browserName));
-			System.out.printf("browserName: " + browserName);
+			//test.log(Status.INFO, String.format("browserName: " + browserName));
 			//logging.info("browserName: " + browserName);
-			
 			if (remoteUrl != null) {
 				System.out.printf("Opening browser '%s' to base url '%s' through remote server at '%s'",
 						browserName, url, remoteUrl);
-				/*getCurrentExtentTest().log(Status.INFO, String.format("Opening browser '%s' to base url '%s' through remote server at '%s'",
+				/*test.log(Status.INFO, String.format("Opening browser '%s' to base url '%s' through remote server at '%s'",
 						browserName, url, remoteUrl));*/
 				/*logging.info(String.format("Opening browser '%s' to base url '%s' through remote server at '%s'",
 						browserName, url, remoteUrl));*/
 			} else {
 				System.out.printf("Opening browser '%s' to base url '%s'", browserName, url);
-				//getCurrentExtentTest().log(Status.INFO, String.format("Opening browser '%s' to base url '%s'", browserName, url));
+				//test.log(Status.INFO, String.format("Opening browser '%s' to base url '%s'", browserName, url));
 				//logging.info(String.format("Opening browser '%s' to base url '%s'", browserName, url));
 			}
 			WebDriver webDriver = createWebDriver(browserName, desiredCapabilities, remoteUrl, browserOptions);
 			webDriver.get(url);
 			String sessionId = webDriverCache.register(webDriver, alias);
 			System.out.printf("Opened browser with session id %s", sessionId);
-			//getCurrentExtentTest().log(Status.INFO, String.format("Opened browser with session id %s", sessionId));
-			
+			//test.log(Status.DEBUG, String.format("Opened browser with session id %s", sessionId));
 			//logging.debug(String.format("Opened browser with session id %s", sessionId));
 			return sessionId;
 		} catch (Throwable t) {
 			if (remoteUrl != null) {
 				System.out.printf("Opening browser '%s' to base url '%s' through remote server at '%s' failed", browserName, url,
 						remoteUrl);
-				/*getCurrentExtentTest().log(Status.WARNING, (String.format(
+				/*test.log(Status.WARNING, String.format(
 						"Opening browser '%s' to base url '%s' through remote server at '%s' failed", browserName, url,
-						remoteUrl)));*/
+						remoteUrl));*/
 				/*logging.warn(String.format(
 						"Opening browser '%s' to base url '%s' through remote server at '%s' failed", browserName, url,
 						remoteUrl));*/
 			} else {
 				System.out.printf("Opening browser '%s' to base url '%s' failed", browserName, url);
-				//getCurrentExtentTest().log(Status.WARNING, (String.format("Opening browser '%s' to base url '%s' failed", browserName, url)));
+				//test.log(Status.WARNING, String.format("Opening browser '%s' to base url '%s' failed", browserName, url));
 				//logging.warn(String.format("Opening browser '%s' to base url '%s' failed", browserName, url));
 			}
 			throw new Selenium2LibraryFatalException(t);
@@ -574,7 +570,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	public void closeAllBrowsers() {
-		System.out.printf("Closing all browsers");
+		System.out.printf("Closing all browsers");		
+		//test.log(Status.DEBUG, "Closing all browsers");
 		//logging.debug("Closing all browsers");
 		
 		webDriverCache.closeAll();
