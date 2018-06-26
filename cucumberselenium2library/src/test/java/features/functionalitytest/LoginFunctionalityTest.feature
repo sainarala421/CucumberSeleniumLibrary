@@ -1,5 +1,5 @@
 Feature: Login With Invalid Credentials
- @AutomationPractice
+ @AutomationPractice @FunctionalityTest @EndToEndTest
   Scenario: User login with valid credentials
   	When User clicks "Login Button"
   	Then User should be forwarded to "Login Page"
@@ -8,7 +8,7 @@ Feature: Login With Invalid Credentials
   	And User clicks "Signin Button"
   	Then User should be forwarded to "User Home Page"
 
-  @AutomationPractice
+  @AutomationPractice @FunctionalityTest
   Scenario: User login with invalid credentials
   	When User clicks "Login Button"
   	Then User should be forwarded to "Login Page"
