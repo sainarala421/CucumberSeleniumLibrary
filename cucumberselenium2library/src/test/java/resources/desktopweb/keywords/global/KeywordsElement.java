@@ -7,6 +7,7 @@ import com.aventstack.extentreports.ExtentTest;
 import co.nz.enhanceconsulting.cucumberselenium2library.keywords.Element;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import resources.utils.PropertiesValue;
 
 public class KeywordsElement{
 	// Constructor
@@ -15,6 +16,7 @@ public class KeywordsElement{
     static Element elementInstance = new Element();
     static WebDriver driver = KeywordsBrowserManagement.browserInstance.getCurrentWebDriver();
     static ExtentTest test = KeywordsBrowserManagement.test;
+    protected static PropertiesValue pvalue = KeywordsBrowserManagement.pvalue;
     /**
      *  -----------------------------------
      *  Reusable keywords - WHEN STATEMENTS
@@ -22,9 +24,13 @@ public class KeywordsElement{
      */
     @When("^User clicks \"(.*?)\"$")
     public void user_clicks_element(String locator) throws Throwable{
-    	test.createNode("When", String.format("When user clicks element %s", locator));
-    	elementInstance.focus(driver, locator);
-    	elementInstance.clickElement(driver, locator);
+    	pvalue.setKey(locator);
+    	String p_locator = pvalue.getPropertiesValue();
+    	
+    	test.createNode("When", String.format("When user clicks element %s", p_locator));
+    	elementInstance.elementShouldBeVisible(driver, p_locator);
+    	elementInstance.focus(driver, p_locator);
+    	elementInstance.clickElement(driver, p_locator);
     }
    
     @When("^User double clicks \"(.*?)\"$")

@@ -21,7 +21,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 * Instantiated Element keyword bean
 	 */
 	@Autowired
-	protected Element element;
+	protected Element element = new Element();
 
 	/**
 	 * Instantiated Logging keyword bean
@@ -392,7 +392,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text" })
 	public void inputPassword(WebDriver driver, String locator, String text) {
-		logging.info(String.format("Typing password into text field '%s'", locator));
+		//logging.info(String.format("Typing password into text field '%s'", locator));
 		inputTextIntoTextField(driver, locator, text);
 	}
 
@@ -411,7 +411,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text" })
 	public void inputText(WebDriver driver, String locator, String text) {
-		logging.info(String.format("Typing text '%s' into text field '%s'", text, locator));
+		//logging.info(String.format("Typing text '%s' into text field '%s'", text, locator));
+		System.out.printf("Line 415 %s", driver);
 		inputTextIntoTextField(driver, locator, text);
 	}
 

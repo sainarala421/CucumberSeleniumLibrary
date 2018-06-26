@@ -11,6 +11,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.annotation.RobotKeyword;
@@ -25,6 +27,7 @@ import co.nz.enhanceconsulting.cucumberselenium2library.utils.Python;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.RunOnFailureKeywordsAdapter;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.Selenium2LibraryNonFatalException;
 import resources.desktopweb.keywords.global.KeywordsBrowserManagement;
+import resources.utils.constants.GlobalVariables;
 
 @RobotKeywords
 public class Element extends RunOnFailureKeywordsAdapter {
@@ -1579,7 +1582,6 @@ public class Element extends RunOnFailureKeywordsAdapter {
 
 	protected List<WebElement> elementFind(WebDriver driver, String locator, boolean firstOnly, boolean required, String tag) {
 		List<WebElement> elements = ElementFinder.find(driver, locator, tag);
-
 		if (required && elements.size() == 0) {
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Element locator '%s' did not match any elements.", locator));
@@ -1638,6 +1640,11 @@ public class Element extends RunOnFailureKeywordsAdapter {
 			return false;
 		}
 		WebElement element = elements.get(0);
+		
+		// Added wait for Image visibility
+    	WebDriverWait wait = new WebDriverWait(driver, GlobalVariables.WAIT_FOR_VISIBILITY);
+    	wait.until(ExpectedConditions.visibilityOf(element));
+		
 		return element.isDisplayed();
 	}
 

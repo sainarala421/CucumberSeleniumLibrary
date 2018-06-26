@@ -13,4 +13,4 @@ Feature: Robotframework test cases
   Scenario: Sample test
   	When User clicks "css=#m-global-toolbar__nav__utility__tools-list__login"
   	And User clicks "css=.m-global-toolbar__nav__menu__item--y2d__login"
-  	When User should be forwarded to "/2d/mobile/common/login/login.jsp"
+  	Then User should be forwarded to "/2d/mobile/common/login/login.jsp"

@@ -9,10 +9,6 @@ public class PropertiesValue{
     private String key;
     static String value = ""; 
     
-	// Constructor
-    public PropertiesValue() throws Exception {
-    }
-    
     public String getPropertiesValue() throws Throwable{
     	FileInputStream inputStream = null;
     	try {
@@ -28,8 +24,8 @@ public class PropertiesValue{
     	return value;
     }
     
-    public void setKey(String propfile) {
-		this.key = propfile;
+    public void setKey(String pkey) {
+		this.key = pkey.replaceAll("\\s","");
 	}
    
     public void setPropertiesFilePath(String propfilepath) {

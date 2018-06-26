@@ -19,8 +19,7 @@ import resources.utils.constants.GlobalVariables;
 public class KeywordsBrowserManagement{
 	// Constructor
 
-    PropertiesValue pvalue;
-    static String propertiesfilepath = GlobalVariables.BASE_PROPERTIES_FILE;
+    protected static PropertiesValue pvalue = new PropertiesValue();
     public static BrowserManagement browserInstance = new BrowserManagement();
     static Element elementInstance = new Element();
 	protected LoggingExtentReport logExtentReportCache = new LoggingExtentReport();
@@ -53,6 +52,7 @@ public class KeywordsBrowserManagement{
 	 */
     @Before(order=0)
     public void initialise_htmlreporter() throws Throwable{
+    	pvalue.setPropertiesFilePath(GlobalVariables.BASE_PROPERTIES_FILE);
         ExtentHtmlReporter htmlreporter = getExtentReportCache().InitialiseHtmlReporter();
     	report.attachReporter(htmlreporter);
     	test = report.createTest(Feature.class, "Cucumber tests");
@@ -80,8 +80,10 @@ public class KeywordsBrowserManagement{
     			premoteURL
     			);
     	
-    	// Set browser size.
+    	// Set maximum browser size.
     	browserInstance.maximizeBrowserWindow();
+    	
+    	// Set browser size to 1024 by 768
     	//browserInstance.setWindowSize(GlobalVariables.BROWSER_WIDTH, GlobalVariables.BROWSER_HEIGHT);
     }
     /**
@@ -93,6 +95,7 @@ public class KeywordsBrowserManagement{
 	/**
 	 *  Close all browsers.
 	 */
+    
     @After
     public void close_all_browsers() throws Throwable{
     	test.createNode("Test Teardown","User closes all browsers");
@@ -154,8 +157,10 @@ public class KeywordsBrowserManagement{
      */
     @When("^User should be forwarded to \"(.*?)\"$")
     public void user_should_be_forwarded_to_correct_page(String uri) throws Throwable{
-    	test.createNode("Then",String.format("User should be forwarded to '%s'", uri));
-    	browserInstance.locationShouldContain(uri);
+    	pvalue.setKey(uri);
+    	String p_uri = pvalue.getPropertiesValue();
+    	test.createNode("Then",String.format("User should be forwarded to '%s': %s", uri, p_uri));
+    	browserInstance.locationShouldContain(p_uri);
     }
     /**
      *  -----------------

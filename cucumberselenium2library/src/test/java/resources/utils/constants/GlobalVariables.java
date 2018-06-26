@@ -26,4 +26,9 @@ public class GlobalVariables{
     public static final String SELENIUM_SPEED = "0.5";
     public static final String SELENIUM_TIMEOUT = "90 sec";
     
+    public static final String USER_NAME = "abc@123.com";
+    public static final String USER_PASSWORD = "Test@123";
+    
+    public static final int WAIT_FOR_VISIBILITY = 5;
+    
 }
