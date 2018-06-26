@@ -11,11 +11,11 @@ public class KeywordsFormElement{
 	// Constructor
     public KeywordsFormElement() throws Exception {
     }
-    static FormElement formelementInstance = new FormElement();
-    static Element elementInstance = new Element();
-    static WebDriver driver = KeywordsBrowserManagement.browserInstance.getCurrentWebDriver();
-    static ExtentTest test = KeywordsBrowserManagement.test;
-    protected static PropertiesValue pvalue = KeywordsBrowserManagement.pvalue;
+    protected FormElement formelementInstance = new FormElement();
+    protected Element elementInstance = new Element();
+    protected WebDriver driver = KeywordsBrowserManagement.browserInstance.getCurrentWebDriver();
+    protected ExtentTest test = KeywordsBrowserManagement.test;
+    protected PropertiesValue pvalue = KeywordsBrowserManagement.pvalue;
     /**
      *  -----------------------------------
      *  Reusable keywords - WHEN STATEMENTS

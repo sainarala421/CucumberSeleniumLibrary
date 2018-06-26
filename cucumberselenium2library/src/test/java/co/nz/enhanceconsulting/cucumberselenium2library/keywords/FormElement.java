@@ -412,7 +412,6 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	@ArgumentNames({ "locator", "text" })
 	public void inputText(WebDriver driver, String locator, String text) {
 		//logging.info(String.format("Typing text '%s' into text field '%s'", text, locator));
-		System.out.printf("Line 415 %s", driver);
 		inputTextIntoTextField(driver, locator, text);
 	}
 

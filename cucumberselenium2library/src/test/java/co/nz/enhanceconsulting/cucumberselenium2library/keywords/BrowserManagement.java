@@ -66,10 +66,7 @@ import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
-import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.Status;
-
 import co.nz.enhanceconsulting.cucumberselenium2library.keywords.Logging;
 import co.nz.enhanceconsulting.cucumberselenium2library.locators.ElementFinder;
 import co.nz.enhanceconsulting.cucumberselenium2library.locators.WindowManager;

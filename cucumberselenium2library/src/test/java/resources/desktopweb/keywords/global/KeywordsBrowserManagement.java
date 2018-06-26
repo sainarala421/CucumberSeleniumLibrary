@@ -19,15 +19,15 @@ import resources.utils.constants.GlobalVariables;
 public class KeywordsBrowserManagement{
 	// Constructor
 
-    protected static PropertiesValue pvalue = new PropertiesValue();
+    public static PropertiesValue pvalue = new PropertiesValue();
     public static BrowserManagement browserInstance = new BrowserManagement();
-    static Element elementInstance = new Element();
-	protected LoggingExtentReport logExtentReportCache = new LoggingExtentReport();
-	public static ExtentReports report = new ExtentReports();
-	public static ExtentTest test;
-    static String browser = System.getProperty("browser", "");
-    static String baseURL = System.getProperty("baseURL", "");
-    static String remoteURL = System.getProperty("remoteURL", "");
+    public static LoggingExtentReport logExtentReportCache = new LoggingExtentReport();
+    public static ExtentReports report = new ExtentReports();
+    public static Element elementInstance = new Element();
+    public static ExtentTest test;
+	protected static String browser = System.getProperty("browser", "");
+    protected static String baseURL = System.getProperty("baseURL", "");
+    protected static String remoteURL = System.getProperty("remoteURL", "");
 
     public void setGlobalVariables() throws Throwable{
     }
@@ -162,6 +162,7 @@ public class KeywordsBrowserManagement{
     	test.createNode("Then",String.format("User should be forwarded to '%s': %s", uri, p_uri));
     	browserInstance.locationShouldContain(p_uri);
     }
+    
     /**
      *  -----------------
      *  Utilities
