@@ -1,5 +1,7 @@
 package co.nz.enhanceconsulting.cucumberselenium2library.keywords;
 import java.util.ArrayList;
+
+import org.openqa.selenium.WebDriver;
 import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.annotation.RobotKeyword;
@@ -26,8 +28,8 @@ public class Cookie extends RunOnFailureKeywordsAdapter {
 	 * Deletes all cookies.<br>
 	 */
 	@RobotKeyword
-	public void deleteAllCookies() {
-		browserManagement.getCurrentWebDriver().manage().deleteAllCookies();
+	public void deleteAllCookies(WebDriver driver) {
+		driver.manage().deleteAllCookies();
 	}
 
 	/**
@@ -40,8 +42,8 @@ public class Cookie extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "name" })
-	public void deleteCookie(String name) {
-		browserManagement.getCurrentWebDriver().manage().deleteCookieNamed(name);
+	public void deleteCookie(WebDriver driver, String name) {
+		driver.manage().deleteCookieNamed(name);
 	}
 
 	/**
@@ -50,11 +52,11 @@ public class Cookie extends RunOnFailureKeywordsAdapter {
 	 * @return All cookies of the current page.
 	 */
 	@RobotKeyword
-	public String getCookies() {
+	public String getCookies(WebDriver driver) {
 		StringBuffer ret = new StringBuffer();
 
-		ArrayList<org.openqa.selenium.Cookie> cookies = new ArrayList<org.openqa.selenium.Cookie>(browserManagement
-				.getCurrentWebDriver().manage().getCookies());
+		ArrayList<org.openqa.selenium.Cookie> cookies = new ArrayList<org.openqa.selenium.Cookie>(
+				driver.manage().getCookies());
 		for (int i = 0; i < cookies.size(); i++) {
 			ret.append(cookies.get(i).getName() + "=" + cookies.get(i).getValue());
 			if (i != cookies.size() - 1) {
@@ -76,8 +78,8 @@ public class Cookie extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "name" })
-	public String getCookieValue(String name) {
-		org.openqa.selenium.Cookie cookie = browserManagement.getCurrentWebDriver().manage().getCookieNamed(name);
+	public String getCookieValue(WebDriver driver, String name) {
+		org.openqa.selenium.Cookie cookie = driver.manage().getCookieNamed(name);
 
 		if (cookie != null) {
 			return cookie.getValue();
@@ -87,23 +89,23 @@ public class Cookie extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void addCookie(String name, String value) {
-		addCookie(name, value, null);
+	public void addCookie(WebDriver driver, String name, String value) {
+		addCookie(driver, name, value, null);
 	}
 
 	@RobotKeywordOverload
-	public void addCookie(String name, String value, String path) {
-		addCookie(name, value, path, null);
+	public void addCookie(WebDriver driver, String name, String value, String path) {
+		addCookie(driver, name, value, path, null);
 	}
 
 	@RobotKeywordOverload
-	public void addCookie(String name, String value, String path, String domain) {
-		addCookie(name, value, path, domain, "");
+	public void addCookie(WebDriver driver, String name, String value, String path, String domain) {
+		addCookie(driver, name, value, path, domain, "");
 	}
 
 	@RobotKeywordOverload
-	public void addCookie(String name, String value, String path, String domain, String secure) {
-		addCookie(name, value, path, domain, secure, null);
+	public void addCookie(WebDriver driver, String name, String value, String path, String domain, String secure) {
+		addCookie(driver, name, value, path, domain, secure, null);
 	}
 
 	/**
@@ -125,10 +127,10 @@ public class Cookie extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "name", "value", "path=NONE", "domain=NONE", "secure=NONE", "expiry=NONE" })
-	public void addCookie(String name, String value, String path, String domain, String secure, String expiry) {
+	public void addCookie(WebDriver driver, String name, String value, String path, String domain, String secure, String expiry) {
 		// Parameter expiry not used by Python library
 		org.openqa.selenium.Cookie cookie = new org.openqa.selenium.Cookie(name, value, domain, path, null,
 				"true".equals(secure.toLowerCase()));
-		browserManagement.getCurrentWebDriver().manage().addCookie(cookie);
+		driver.manage().addCookie(cookie);
 	}
 }

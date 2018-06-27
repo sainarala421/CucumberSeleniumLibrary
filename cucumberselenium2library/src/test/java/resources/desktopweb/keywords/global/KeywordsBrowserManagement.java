@@ -12,13 +12,12 @@ import co.nz.enhanceconsulting.cucumberselenium2library.keywords.LoggingExtentRe
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import resources.utils.PropertiesValue;
 import resources.utils.constants.GlobalVariables;
 
 public class KeywordsBrowserManagement{
-	// Constructor
-
     public static PropertiesValue pvalue = new PropertiesValue();
     public static BrowserManagement browserInstance = new BrowserManagement();
     public static LoggingExtentReport logExtentReportCache = new LoggingExtentReport();
@@ -81,8 +80,7 @@ public class KeywordsBrowserManagement{
     			);
     	
     	// Set maximum browser size.
-    	browserInstance.maximizeBrowserWindow();
-    	
+    	browserInstance.maximizeBrowserWindow();    	
     	// Set browser size to 1024 by 768
     	//browserInstance.setWindowSize(GlobalVariables.BROWSER_WIDTH, GlobalVariables.BROWSER_HEIGHT);
     }
@@ -150,12 +148,18 @@ public class KeywordsBrowserManagement{
     	test.log(Status.INFO, String.format("Page title: '%s'", pageTitle));
     }
 
+    @When("^User closes browser$")
+    public void user_closes_browser() throws Throwable{
+    	test.log(Status.INFO, "User closes browser");
+    	browserInstance.closeBrowser();
+    }
+   
     /**
      *  -----------------------------------
      *  Reusable keywords - THEN STATEMENTS
      *  -----------------------------------
      */
-    @When("^User should be forwarded to \"(.*?)\"$")
+    @Then("^User should be forwarded to \"(.*?)\"$")
     public void user_should_be_forwarded_to_correct_page(String uri) throws Throwable{
     	pvalue.setKey(uri);
     	String p_uri = pvalue.getPropertiesValue();
@@ -163,6 +167,17 @@ public class KeywordsBrowserManagement{
     	browserInstance.locationShouldContain(p_uri);
     }
     
+    @Then("^Page title should contain \"(.*?)\"$")
+    public void page_title_should_contain(String title) throws Throwable{
+    	test.log(Status.INFO, String.format("Page title contains: '%s'", title));
+    	browserInstance.titleShouldContain(title);;
+    } 
+    
+    @Then("^Page title should be \"(.*?)\"$")
+    public void page_title_should_be(String title) throws Throwable{
+    	test.log(Status.INFO, String.format("Page title is: '%s'", title));
+    	browserInstance.titleShouldBe(title);;
+    } 
     /**
      *  -----------------
      *  Utilities

@@ -5,7 +5,9 @@ Feature: Login With Invalid Credentials
   	Then User should be forwarded to "Login Page"
   	When User inputs "abc@234.com" in "Email Field"
   	And User inputs password "Test@123" in "Password Field"
+  	When User gets value of all cookies
   	And User clicks "Signin Button"
+  	When User gets value of all cookies
   	Then User should be forwarded to "User Home Page"
 
   @AutomationPractice @FunctionalityTest

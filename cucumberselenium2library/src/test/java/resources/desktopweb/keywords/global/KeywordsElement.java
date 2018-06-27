@@ -10,9 +10,6 @@ import cucumber.api.java.en.When;
 import resources.utils.PropertiesValue;
 
 public class KeywordsElement{
-	// Constructor
-    public KeywordsElement() throws Exception {
-    }
     protected Element elementInstance = new Element();
     protected WebDriver driver = KeywordsBrowserManagement.browserInstance.getCurrentWebDriver();
     protected ExtentTest test = KeywordsBrowserManagement.test;
