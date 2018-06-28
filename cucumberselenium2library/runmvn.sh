@@ -1,3 +1,3 @@
 #!/bin/bash
 cd cucumberselenium2library
-mvn test
+mvn test $tags $2browser $baseurl $remoteurl
