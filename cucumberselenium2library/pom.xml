@@ -191,32 +191,25 @@
             <version>1.2.17</version>
         </dependency>
         <dependency>
-            <groupId>co.nz.enchanceconsulting</groupId>
-            <artifactId>javalib-core-1.2</artifactId>
-            <version>1.2</version>
-            <scope>system</scope>
-            <systemPath>/Users/jarvis2/Documents/java_libraries/javalib-core-1.2.jar</systemPath>
+            <groupId>org.robotframework</groupId>
+            <artifactId>javalib-core</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.python</groupId>
+            <artifactId>jython-standalone</artifactId>
+            <version>2.7.1</version>
         </dependency>
         <dependency>
-            <groupId>co.nz.enchanceconsulting</groupId>
-            <artifactId>jython-standalone-2.7.0</artifactId>
-            <version>2.7.0</version>
-            <scope>system</scope>
-            <systemPath>/Users/jarvis2/Documents/java_libraries/jython-standalone-2.7.0.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>co.nz.enchanceconsulting</groupId>
-            <artifactId>htmlunit-2.31</artifactId>
+            <groupId>net.sourceforge.htmlunit</groupId>
+            <artifactId>htmlunit</artifactId>
             <version>2.31</version>
-            <scope>system</scope>
-            <systemPath>/Users/jarvis2/Documents/java_libraries/htmlunit-2.31.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>co.nz.enchanceconsulting</groupId>
-            <artifactId>phantomjsdriver-1.4.4</artifactId>
+            <groupId>com.codeborne</groupId>
+            <artifactId>phantomjsdriver</artifactId>
             <version>1.4.4</version>
-            <scope>system</scope>
-            <systemPath>/Users/jarvis2/Documents/java_libraries/phantomjsdriver-1.4.4.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.epam.reportportal</groupId>
