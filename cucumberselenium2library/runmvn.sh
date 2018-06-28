@@ -1,2 +1,3 @@
 #!/bin/bash
-mvn test 
+cd cucumberselenium2library
+mvn test
