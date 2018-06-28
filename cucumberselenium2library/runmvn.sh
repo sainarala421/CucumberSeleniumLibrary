@@ -1,3 +1,3 @@
 #!/bin/bash
 cd cucumberselenium2library
-mvn test -Dcucumber.options="--tags @EndToEndTest" -Dbrowser=firefox -DbaseURL=http://automationpractice.com -DremoteURL="False" -q
+mvn test -Dcucumber.options="--tags $1" -Dbrowser=$2 -DbaseURL=$3 -DremoteURL="$4" -q
