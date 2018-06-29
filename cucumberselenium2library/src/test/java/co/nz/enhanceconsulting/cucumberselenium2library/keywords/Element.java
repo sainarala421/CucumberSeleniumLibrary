@@ -1644,7 +1644,6 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		// Added wait for Image visibility
     	WebDriverWait wait = new WebDriverWait(driver, GlobalVariables.WAIT_FOR_VISIBILITY);
     	wait.until(ExpectedConditions.visibilityOf(element));
-		
 		return element.isDisplayed();
 	}
 

@@ -2,6 +2,7 @@ package co.nz.enhanceconsulting.cucumberselenium2library.keywords;
 
 import io.appium.java_client.ios.IOSDriver;
 import resources.desktopweb.keywords.global.KeywordsBrowserManagement;
+import resources.utils.constants.GlobalVariables;
 import io.appium.java_client.android.AndroidDriver;
 
 import java.io.File;
@@ -54,6 +55,8 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.safari.SafariOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.opera.OperaOptions;
 
@@ -420,7 +423,10 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 				//logging.info(String.format("Opening browser '%s' to base url '%s'", browserName, url));
 			}
 			WebDriver webDriver = createWebDriver(browserName, desiredCapabilities, remoteUrl, browserOptions);
+			WebDriverWait wait = new WebDriverWait(webDriver, GlobalVariables.WAIT_FOR_VISIBILITY);
+			wait.until(ExpectedConditions.urlToBe(url));
 			webDriver.get(url);
+			
 			String sessionId = webDriverCache.register(webDriver, alias);
 			System.out.printf("Opened browser with session id %s", sessionId);
 			//test.log(Status.DEBUG, String.format("Opened browser with session id %s", sessionId));
