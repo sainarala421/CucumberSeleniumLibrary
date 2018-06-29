@@ -423,9 +423,9 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 				//logging.info(String.format("Opening browser '%s' to base url '%s'", browserName, url));
 			}
 			WebDriver webDriver = createWebDriver(browserName, desiredCapabilities, remoteUrl, browserOptions);
+			webDriver.get(url);
 			WebDriverWait wait = new WebDriverWait(webDriver, GlobalVariables.WAIT_FOR_VISIBILITY);
 			wait.until(ExpectedConditions.urlToBe(url));
-			webDriver.get(url);
 			
 			String sessionId = webDriverCache.register(webDriver, alias);
 			System.out.printf("Opened browser with session id %s", sessionId);
