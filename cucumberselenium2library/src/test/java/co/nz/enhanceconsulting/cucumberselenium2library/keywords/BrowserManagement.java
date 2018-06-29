@@ -425,7 +425,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			WebDriver webDriver = createWebDriver(browserName, desiredCapabilities, remoteUrl, browserOptions);
 			webDriver.get(url);
 			WebDriverWait wait = new WebDriverWait(webDriver, GlobalVariables.WAIT_FOR_VISIBILITY);
-			wait.until(ExpectedConditions.urlToBe(url));
+			wait.until(ExpectedConditions.urlContains(url));
 			
 			String sessionId = webDriverCache.register(webDriver, alias);
 			System.out.printf("Opened browser with session id %s", sessionId);
