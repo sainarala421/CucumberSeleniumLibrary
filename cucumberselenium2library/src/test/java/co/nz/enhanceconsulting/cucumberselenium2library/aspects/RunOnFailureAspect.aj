@@ -3,14 +3,14 @@ package co.nz.enhanceconsulting.cucumberselenium2library.aspects;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 
-import com.github.markusbernhardt.selenium2library.RunOnFailureKeywords;
+import co.nz.enhanceconsulting.cucumberselenium2library.utils.RunOnFailureKeywords;
 
 public aspect RunOnFailureAspect {
 
 	private static ThreadLocal<Throwable> lastThrowable = new ThreadLocal<Throwable>();
 
 	pointcut handleThrowable() : 
-    execution(public * com.github.markusbernhardt.selenium2library.keywords.*.*(..));
+    execution(public * co.nz.enhanceconsulting.selenium2library.keywords.*.*(..));
 
 	after() throwing(Throwable t) : handleThrowable() {
 		if (lastThrowable.get() == t) {
