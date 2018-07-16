@@ -3,14 +3,14 @@ exclamation: Installation documentation is for MacOS. Installing in Ubuntu or Wi
 
 ## Prerequisites
   - Text Editor / IDE
-    [] SublimeText or Eclipse
+    - SublimeText or Eclipse
   - Softwares / Apps
-    [] java
-    [] maven
-    [] jenkins
-    [] docker
-    [] docker-selenium
-    [] sonarqube
+    - java
+    - maven
+    - jenkins
+    - docker
+    - docker-selenium
+    - sonarqube
 
 ## Environment Variables
 _Note: Add the following in ~/.bash_profile. Replace the values with the correct version of the software you are using._
@@ -37,7 +37,7 @@ export PATH=$PATH:$GECKODRIVER
 git clone https://github.com/enhanceTAfrancis/CucumberSelenium2Library.git
 ```
 
-## Running docker selenium remote url ===
+## Running docker selenium remote url
 _Note: cd to the `dockerfiles` directory inside this workspace, then run the following. Note that the docker must be installed and running. See documentation for_ [docker-selenium](https://github.com/SeleniumHQ/docker-selenium)
 ``` bash
 docker-compose -f df_dockercompose.yml up
