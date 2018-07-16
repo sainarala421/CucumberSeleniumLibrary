@@ -5,6 +5,7 @@
   - Text Editor / IDE
     - SublimeText or Eclipse
   - Softwares / Apps
+    - git
     - java
     - maven
     - jenkins
@@ -30,26 +31,25 @@ export PATH=$PATH:$CHROMEDRIVER
 
 export GECKODRIVER="/usr/local/bin/geckodriver"
 export PATH=$PATH:$GECKODRIVER
-
 ``` 
 
 ## Clone this repository 
 ``` bash
-git clone https://github.com/enhanceTAfrancis/CucumberSelenium2Library.git
+$ git clone https://github.com/enhanceTAfrancis/CucumberSelenium2Library.git
 ```
 
 ## Running docker selenium remote url
 _Note: cd to the `dockerfiles` directory inside this workspace, then run the following. Note that the docker must be installed and running. See documentation for_ [docker-selenium](https://github.com/SeleniumHQ/docker-selenium)
 ``` bash
-docker-compose -f df_dockercompose.yml up
+$ docker-compose -f df_dockercompose.yml up
 ```
 
 ## Run the sample tests
 _Note: Play with this maven script by changing the values of the browser, baseURL and remoteURL. You may remove -q and replace it with -X for debugging, or simply remove it._
 ``` bash
-## Running tests locally, set DremoteURL="False":
-mvn test -Dcucumber.options="--tags @EndToEndTest" -Dbrowser=firefox -DbaseURL=http://automationpractice.com -DremoteURL="False" -q
+$ ## Running tests locally, set DremoteURL="False":
+$ mvn test -Dcucumber.options="--tags @EndToEndTest" -Dbrowser=firefox -DbaseURL=http://automationpractice.com -DremoteURL="False" -q
 
-## Running tests remotely,:
-mvn test -Dcucumber.options="--tags @EndToEndTest" -Dbrowser=chrome -DbaseURL=http://automationpractice.com -q
+$ ## Running tests remotely,:
+$ mvn test -Dcucumber.options="--tags @EndToEndTest" -Dbrowser=chrome -DbaseURL=http://automationpractice.com -q
 ```
