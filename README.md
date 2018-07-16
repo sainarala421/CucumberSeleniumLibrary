@@ -31,9 +31,10 @@ export PATH=$PATH:$CHROMEDRIVER
 export GECKODRIVER="/usr/local/bin/geckodriver"
 export PATH=$PATH:$GECKODRIVER
 
-``` bash
+``` 
+
 ## Clone this repository 
-```
+``` bash
 git clone https://github.com/enhanceTAfrancis/CucumberSelenium2Library.git
 ```
 
