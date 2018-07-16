@@ -1,5 +1,5 @@
 # Cucumber Selenium2library 
-exclamation: Installation documentation is for MacOS. Installing in Ubuntu or Windows, kindly troubleshoot according to the error message on installation
+:exclamation: Installation documentation is for MacOS. Installing in Ubuntu or Windows, kindly troubleshoot according to the error message on installation
 
 ## Prerequisites
   - Text Editor / IDE
