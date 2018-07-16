@@ -47,9 +47,9 @@ $ docker-compose -f df_dockercompose.yml up
 ## Run the sample tests
 _Note: Play with this maven script by changing the values of the browser, baseURL and remoteURL. You may remove -q and replace it with -X for debugging, or simply remove it._
 ``` bash
-$ ## Running tests locally, set DremoteURL="False":
+$ # Running tests locally, set DremoteURL="False":
 $ mvn test -Dcucumber.options="--tags @EndToEndTest" -Dbrowser=firefox -DbaseURL=http://automationpractice.com -DremoteURL="False" -q
 
-$ ## Running tests remotely,:
+$ # Running tests remotely,:
 $ mvn test -Dcucumber.options="--tags @EndToEndTest" -Dbrowser=chrome -DbaseURL=http://automationpractice.com -q
 ```
