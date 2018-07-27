@@ -1,4 +1,4 @@
-Feature: Login With Invalid Credentials
+Feature: Login With Valid and Invalid Credentials
  @AutomationPractice @FunctionalityTest @EndToEndTest
   Scenario: User login with valid credentials
   	When User clicks "Login Button"
@@ -16,4 +16,4 @@ Feature: Login With Invalid Credentials
   	And User inputs password "Test@1234" in "Password Field"
   	And User clicks "Signin Button"
   	Then The "Authentication Failed Alert" should be displayed
-  	
+  
