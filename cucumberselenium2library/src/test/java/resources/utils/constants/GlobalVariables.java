@@ -20,7 +20,7 @@ public class GlobalVariables{
     
     public static final String BROWSER = "chrome";
     public static final String BROWSER_BASE_ALIAS = "base_browser";
-    public static final String BROWSER_WIDTH = "1024";
+    public static final String BROWSER_WIDTH = "1366";
     public static final String BROWSER_HEIGHT = "768";
     
     public static final String SELENIUM_SPEED = "0.5";
