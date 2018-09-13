@@ -13,8 +13,11 @@ public class GlobalVariables{
     public static final String BASE_PROPERTIES_FILE = "src/test/java/propertiesfiles/global/base.properties";
     public static final String FEATURES_PATH = "src/test/java/features";
     public static final String GLUE_KEYWORDS_PATH = "resources.desktopweb.keywords";
+    public static final String LOG4J_PROPERTIES = "src/test/resources/log4j.properties";
+    public static final String CUCUMBER_REPORTS_DIR = "target/cucumber-html-report";
+    public static final String CUCUMBER_LOGS_TEMPLATES = "src/test/resources/templates";
     
-    public static final String BASE_URL = "https://www.2degreesmobile.co.nz";
+    public static final String BASE_URL = "http://automationpractice.com";
     public static final String REMOTE_URL = "http://localhost:4444/wd/hub";
     public static final String REMOTE_URL_FALSE = "False";
     
@@ -30,5 +33,4 @@ public class GlobalVariables{
     public static final String USER_PASSWORD = "Test@123";
     
     public static final int WAIT_FOR_VISIBILITY = 60;
-    
 }
