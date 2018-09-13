@@ -28,6 +28,9 @@ import co.nz.enhanceconsulting.cucumberselenium2library.utils.RunOnFailureKeywor
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.Selenium2LibraryNonFatalException;
 import resources.desktopweb.keywords.global.KeywordsBrowserManagement;
 import resources.utils.constants.GlobalVariables;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @RobotKeywords
 public class Element extends RunOnFailureKeywordsAdapter {
@@ -49,7 +52,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * Instantiated Logging keyword bean
 	 */
 	@Autowired
-	protected Logging logging;
+	private static final Logger logging = LogManager.getLogger(BrowserManagement.class.getName());
 
 	// ##############################
 	// KeywordsBrowserManagement - Element Lookups
@@ -58,7 +61,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	@RobotKeywordOverload
 	@ArgumentNames({ "text" })
 	public void currentFrameContains(WebDriver driver, String text) {
-		currentFrameContains(driver, text, "INFO");
+		currentFrameContains(driver, text, GlobalVariables.INFO);
 	}
 
 	/**
@@ -73,19 +76,19 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "text", "logLevel=INFO" })
-	public void currentFrameContains(WebDriver driver, String text, String logLevel) {
+	public void currentFrameContains(WebDriver driver, String text, Level logLevel) {
 		if (!isTextPresent(driver, text)) {
-			logging.log(String.format("Current Frame Contains: %s => FAILED", text), logLevel);
+			logging.log(logLevel, String.format("Current Frame Contains: %s => FAILED", text));
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Page should have contained text '%s', but did not.", text));
 		} else {
-			logging.log(String.format("Current Frame Contains: %s => OK", text), logLevel);
+			logging.log(logLevel, String.format("Current Frame Contains: %s => OK", text));
 		}
 	}
 
 	@RobotKeywordOverload
 	public void currentFrameShouldNotContain(WebDriver driver, String text) {
-		currentFrameShouldNotContain(driver, text, "INFO");
+		currentFrameShouldNotContain(driver, text, GlobalVariables.INFO);
 	}
 
 	/**
@@ -100,13 +103,13 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "text", "logLevel=INFO" })
-	public void currentFrameShouldNotContain(WebDriver driver, String text, String logLevel) {
+	public void currentFrameShouldNotContain(WebDriver driver, String text, Level logLevel) {
 		if (isTextPresent(driver, text)) {
-			logging.log(String.format("Current Frame Should Not Contain: %s => FAILED", text), logLevel);
+			logging.log(logLevel, String.format("Current Frame Should Not Contain: %s => FAILED", text));
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Page should have not contained text '%s', but did.", text));
 		} else {
-			logging.log(String.format("Current Frame Should Not Contain: %s => OK", text), logLevel);
+			logging.log(logLevel, String.format("Current Frame Should Not Contain: %s => OK", text));
 		}
 	}
 
@@ -175,7 +178,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	public void frameShouldContain(WebDriver driver, String locator, String text) {
-		frameShouldContain(driver, locator, text, "INFO");
+		frameShouldContain(driver, locator, text, GlobalVariables.INFO);
 	}
 
 	/**
@@ -192,13 +195,13 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "logLevel=INFO" })
-	public void frameShouldContain(WebDriver driver, String locator, String text, String logLevel) {
+	public void frameShouldContain(WebDriver driver, String locator, String text, Level logLevel) {
 		if (!frameContains(driver, locator, text)) {
-			logging.log(String.format("Frame Should Contain: %s => FAILED", text), logLevel);
+			logging.log(logLevel, String.format("Frame Should Contain: %s => FAILED", text));
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Frame should have contained text '%s', but did not.", text));
 		} else {
-			logging.log(String.format("Frame Should Contain: %s => OK", text), logLevel);
+			logging.log(logLevel, String.format("Frame Should Contain: %s => OK", text));
 		}
 	}
 
@@ -217,19 +220,19 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "logLevel=INFO" })
-	public void frameShouldNotContain(WebDriver driver, String locator, String text, String logLevel) {
+	public void frameShouldNotContain(WebDriver driver, String locator, String text, Level logLevel) {
 		if (frameContains(driver, locator, text)) {
-			logging.log(String.format("Frame Should Not Contain: %s => FAILED", text), logLevel);
+			logging.log(logLevel, String.format("Frame Should Not Contain: %s => FAILED", text));
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Frame should not have contained text '%s', but did.", text));
 		} else {
-			logging.log(String.format("Frame Should Not Contain: %s => OK", text), logLevel);
+			logging.log(logLevel, String.format("Frame Should Not Contain: %s => OK", text));
 		}
 	}
 
 	@RobotKeywordOverload
 	public void pageShouldContain(WebDriver driver, String text) {
-		pageShouldContain(driver, text, "INFO");
+		pageShouldContain(driver, text, GlobalVariables.INFO);
 	}
 
 	/**
@@ -244,19 +247,19 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "text", "logLevel=INFO" })
-	public void pageShouldContain(WebDriver driver, String text, String logLevel) {
+	public void pageShouldContain(WebDriver driver, String text, Level logLevel) {
 		if (!pageContains(driver, text)) {
-			logging.log(String.format("Page Should Contain: %s => FAILED", text), logLevel);
+			logging.log(logLevel, String.format("Page Should Contain: %s => FAILED", text));
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Page should have contained text '%s' but did not.", text));
 		} else {
-			logging.log(String.format("Page Should Contain: %s => OK", text), logLevel);
+			logging.log(logLevel, String.format("Page Should Contain: %s => OK", text));
 		}
 	}
 
 	@RobotKeywordOverload
 	public void pageShouldNotContain(WebDriver driver, String text) {
-		pageShouldNotContain(driver, text, "INFO");
+		pageShouldNotContain(driver, text, GlobalVariables.INFO);
 	}
 
 	/**
@@ -271,24 +274,24 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "text", "logLevel=INFO" })
-	public void pageShouldNotContain(WebDriver driver, String text, String logLevel) {
+	public void pageShouldNotContain(WebDriver driver, String text, Level logLevel) {
 		if (pageContains(driver, text)) {
-			logging.log(String.format("Page Should Not Contain: %s => FAILED", text), logLevel);
+			logging.log(logLevel, String.format("Page Should Not Contain: %s => FAILED", text));
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Page should not have contained text '%s' but did.", text));
 		} else {
-			logging.log(String.format("Page Should Not Contain: %s => OK", text), logLevel);
+			logging.log(logLevel, String.format("Page Should Not Contain: %s => OK", text));
 		}
 	}
 
 	@RobotKeywordOverload
 	public void pageShouldContainElement(WebDriver driver, String locator) {
-		pageShouldContainElement(driver, locator, "", "INFO");
+		pageShouldContainElement(driver, locator, "", GlobalVariables.INFO);
 	}
 
 	@RobotKeywordOverload
 	public void pageShouldContainElement(WebDriver driver, String locator, String message) {
-		pageShouldContainElement(driver, locator, message, "INFO");
+		pageShouldContainElement(driver, locator, message, GlobalVariables.INFO);
 	}
 
 	/**
@@ -307,31 +310,31 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldContainElement(WebDriver driver, String locator, String message, String logLevel) {
-		pageShouldContainElement(driver, locator, null, message, "INFO");
+	public void pageShouldContainElement(WebDriver driver, String locator, String message, Level logLevel) {
+		pageShouldContainElement(driver, locator, null, message, GlobalVariables.INFO);
 	}
 
-	protected void pageShouldContainElement(WebDriver driver, String locator, String tag, String message, String logLevel) {
+	protected void pageShouldContainElement(WebDriver driver, String locator, String tag, String message, Level logLevel) {
 		String name = tag != null ? tag : "element";
 		if (!isElementPresent(driver, locator, tag)) {
 			if (message == null || message.equals("")) {
 				message = String.format("Page should have contained %s '%s' but did not", name, locator);
 			}
-			logging.log(message, logLevel);
+			logging.log(logLevel, message);
 			throw new Selenium2LibraryNonFatalException(message);
 		} else {
-			logging.log(String.format("Current page contains %s '%s'.", name, locator), logLevel);
+			logging.log(logLevel, String.format("Current page contains %s '%s'.", name, locator));
 		}
 	}
 
 	@RobotKeywordOverload
 	public void pageShouldNotContainElement(WebDriver driver, String locator) {
-		pageShouldNotContainElement(driver, locator, "", "INFO");
+		pageShouldNotContainElement(driver, locator, "", GlobalVariables.INFO);
 	}
 
 	@RobotKeywordOverload
 	public void pageShouldNotContainElement(WebDriver driver, String locator, String message) {
-		pageShouldNotContainElement(driver, locator, message, "INFO");
+		pageShouldNotContainElement(driver, locator, message, GlobalVariables.INFO);
 	}
 
 	/**
@@ -350,20 +353,20 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldNotContainElement(WebDriver driver, String locator, String message, String logLevel) {
-		pageShouldNotContainElement(driver, locator, null, message, "INFO");
+	public void pageShouldNotContainElement(WebDriver driver, String locator, String message, Level logLevel) {
+		pageShouldNotContainElement(driver, locator, null, message, GlobalVariables.INFO);
 	}
 
-	protected void pageShouldNotContainElement(WebDriver driver, String locator, String tag, String message, String logLevel) {
+	protected void pageShouldNotContainElement(WebDriver driver, String locator, String tag, String message, Level logLevel) {
 		String name = tag != null ? tag : "element";
 		if (isElementPresent(driver, locator, tag)) {
 			if (message == null || message.equals("")) {
 				message = String.format("Page should not have contained %s '%s' but did", name, locator);
 			}
-			logging.log(message, logLevel);
+			logging.log(logLevel, message);
 			throw new Selenium2LibraryNonFatalException(message);
 		} else {
-			logging.log(String.format("Current page does not contain %s '%s'.", name, locator), logLevel);
+			logging.log(logLevel, String.format("Current page does not contain %s '%s'.", name, locator));
 		}
 	}
 
@@ -1328,13 +1331,13 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	@RobotKeywordOverload
 	@ArgumentNames({ "locator" })
 	public void pageShouldContainLink(WebDriver driver, String locator) {
-		pageShouldContainLink(driver, locator, "", "INFO");
+		pageShouldContainLink(driver, locator, "", GlobalVariables.INFO);
 	}
 
 	@RobotKeywordOverload
 	@ArgumentNames({ "locator", "message=NONE" })
 	public void pageShouldContainLink(WebDriver driver, String locator, String message) {
-		pageShouldContainLink(driver, locator, message, "INFO");
+		pageShouldContainLink(driver, locator, message, GlobalVariables.INFO);
 	}
 
 	/**
@@ -1353,18 +1356,18 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldContainLink(WebDriver driver, String locator, String message, String logLevel) {
+	public void pageShouldContainLink(WebDriver driver, String locator, String message, Level logLevel) {
 		pageShouldContainElement(driver, locator, "link", message, logLevel);
 	}
 
 	@RobotKeywordOverload
 	public void pageShouldNotContainLink(WebDriver driver, String locator) {
-		pageShouldNotContainLink(driver, locator, "", "INFO");
+		pageShouldNotContainLink(driver, locator, "", GlobalVariables.INFO);
 	}
 
 	@RobotKeywordOverload
 	public void pageShouldNotContainLink(WebDriver driver, String locator, String message) {
-		pageShouldNotContainLink(driver, locator, message, "INFO");
+		pageShouldNotContainLink(driver, locator, message, GlobalVariables.INFO);
 	}
 
 	/**
@@ -1383,7 +1386,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldNotContainLink(WebDriver driver, String locator, String message, String logLevel) {
+	public void pageShouldNotContainLink(WebDriver driver, String locator, String message, Level logLevel) {
 		pageShouldNotContainElement(driver, locator, "link", message, logLevel);
 	}
 
@@ -1440,13 +1443,13 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	@RobotKeywordOverload
 	@ArgumentNames({ "locator" })
 	public void pageShouldContainImage(WebDriver driver, String locator) {
-		pageShouldContainImage(driver, locator, "", "INFO");
+		pageShouldContainImage(driver, locator, "", GlobalVariables.INFO);
 	}
 
 	@RobotKeywordOverload
 	@ArgumentNames({ "locator", "message=NONE" })
 	public void pageShouldContainImage(WebDriver driver, String locator, String message) {
-		pageShouldContainImage(driver, locator, message, "INFO");
+		pageShouldContainImage(driver, locator, message, GlobalVariables.INFO);
 	}
 
 	/**
@@ -1465,20 +1468,20 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldContainImage(WebDriver driver, String locator, String message, String logLevel) {
+	public void pageShouldContainImage(WebDriver driver, String locator, String message, Level logLevel) {
 		pageShouldContainElement(driver, locator, "image", message, logLevel);
 	}
 
 	@RobotKeywordOverload
 	@ArgumentNames({ "locator" })
 	public void pageShouldNotContainImage(WebDriver driver, String locator) {
-		pageShouldNotContainImage(driver, locator, "", "INFO");
+		pageShouldNotContainImage(driver, locator, "", GlobalVariables.INFO);
 	}
 
 	@RobotKeywordOverload
 	@ArgumentNames({ "locator", "message=NONE" })
 	public void pageShouldNotContainImage(WebDriver driver, String locator, String message) {
-		pageShouldNotContainImage(driver, locator, message, "INFO");
+		pageShouldNotContainImage(driver, locator, message, GlobalVariables.INFO);
 	}
 
 	/**
@@ -1497,7 +1500,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldNotContainImage(WebDriver driver, String locator, String message, String logLevel) {
+	public void pageShouldNotContainImage(WebDriver driver, String locator, String message, Level logLevel) {
 		pageShouldNotContainElement(driver, locator, "image", message, logLevel);
 	}
 
@@ -1535,7 +1538,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	@RobotKeywordOverload
 	@ArgumentNames({ "xpath", "expectedXpathCount", "message=NONE" })
 	public void xpathShouldMatchXTimes(WebDriver driver, String xpath, int expectedXpathCount, String message) {
-		xpathShouldMatchXTimes(driver, xpath, expectedXpathCount, message, "INFO");
+		xpathShouldMatchXTimes(driver, xpath, expectedXpathCount, message, GlobalVariables.INFO);
 	}
 
 	/**
@@ -1553,7 +1556,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "xpath", "expectedXpathCount", "message=NONE", "logLevel=INFO" })
-	public void xpathShouldMatchXTimes(WebDriver driver, String xpath, int expectedXpathCount, String message, String logLevel) {
+	public void xpathShouldMatchXTimes(WebDriver driver, String xpath, int expectedXpathCount, String message, Level logLevel) {
 		if (!xpath.startsWith("xpath=")) {
 			xpath = "xpath=" + xpath;
 		}
@@ -1568,8 +1571,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 			throw new Selenium2LibraryNonFatalException(message);
 		}
 
-		logging.log(String.format("Current page contains %s elements matching '%s'.", actualXpathCount, xpath),
-				logLevel);
+		logging.log(logLevel, String.format("Current page contains %s elements matching '%s'.", actualXpathCount, xpath));
 	}
 
 	// ##############################

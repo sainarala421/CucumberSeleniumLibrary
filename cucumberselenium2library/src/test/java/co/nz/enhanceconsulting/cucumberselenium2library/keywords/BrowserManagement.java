@@ -106,8 +106,6 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 */
 	@Autowired
 	private static final Logger logging = LogManager.getLogger(BrowserManagement.class.getName());
-	final Level INFO = Level.forName("INFO", 400);
-	final Level DEBUG = Level.forName("DEBUG", 500);
 	
 	/**
 	 * Instantiated Element keyword bean

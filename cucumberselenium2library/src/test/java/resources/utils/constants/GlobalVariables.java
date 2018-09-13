@@ -1,5 +1,7 @@
 package resources.utils.constants;
 
+import org.apache.logging.log4j.Level;
+
 /**
  * @author Francis John Agunday
  *
@@ -33,4 +35,6 @@ public class GlobalVariables{
     public static final String USER_PASSWORD = "Test@123";
     
     public static final int WAIT_FOR_VISIBILITY = 60;
+	public static final Level INFO = Level.forName("INFO", 400);
+	public static final Level DEBUG = Level.forName("DEBUG", 500);
 }

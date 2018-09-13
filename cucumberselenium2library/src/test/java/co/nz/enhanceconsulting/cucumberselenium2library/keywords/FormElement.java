@@ -3,6 +3,7 @@ package co.nz.enhanceconsulting.cucumberselenium2library.keywords;
 import java.io.File;
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.robotframework.javalib.annotation.ArgumentNames;
@@ -13,6 +14,7 @@ import org.robotframework.javalib.annotation.RobotKeywords;
 
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.RunOnFailureKeywordsAdapter;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.Selenium2LibraryNonFatalException;
+import resources.utils.constants.GlobalVariables;
 
 @RobotKeywords
 public class FormElement extends RunOnFailureKeywordsAdapter {
@@ -107,7 +109,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	public void pageShouldContainCheckbox(WebDriver driver, String locator, String message) {
-		pageShouldContainCheckbox(driver, locator, message, "INFO");
+		pageShouldContainCheckbox(driver, locator, message, GlobalVariables.INFO);
 	}
 
 	/**
@@ -126,7 +128,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldContainCheckbox(WebDriver driver, String locator, String message, String logLevel) {
+	public void pageShouldContainCheckbox(WebDriver driver, String locator, String message, Level logLevel) {
 		element.pageShouldContainElement(driver, locator, "checkbox", message, logLevel);
 	}
 
@@ -137,7 +139,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	public void pageShouldNotContainCheckbox(WebDriver driver, String locator, String message) {
-		pageShouldNotContainCheckbox(driver, locator, message, "INFO");
+		pageShouldNotContainCheckbox(driver, locator, message, GlobalVariables.INFO);
 	}
 
 	/**
@@ -156,7 +158,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldNotContainCheckbox(WebDriver driver, String locator, String message, String logLevel) {
+	public void pageShouldNotContainCheckbox(WebDriver driver, String locator, String message, Level logLevel) {
 		element.pageShouldNotContainElement(driver, locator, "checkbox", message, logLevel);
 	}
 
@@ -209,7 +211,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	public void pageShouldContainRadioButton(WebDriver driver, String locator, String message) {
-		pageShouldContainRadioButton(driver, locator, message, "INFO");
+		pageShouldContainRadioButton(driver, locator, message, GlobalVariables.INFO);
 	}
 
 	/**
@@ -228,7 +230,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldContainRadioButton(WebDriver driver, String locator, String message, String logLevel) {
+	public void pageShouldContainRadioButton(WebDriver driver, String locator, String message, Level logLevel) {
 		element.pageShouldContainElement(driver, locator, "radio button", message, logLevel);
 	}
 
@@ -239,7 +241,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	public void pageShouldNotContainRadioButton(WebDriver driver, String locator, String message) {
-		pageShouldNotContainRadioButton(driver, locator, message, "INFO");
+		pageShouldNotContainRadioButton(driver, locator, message, GlobalVariables.INFO);
 	}
 
 	/**
@@ -258,7 +260,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldNotContainRadioButton(WebDriver driver, String locator, String message, String logLevel) {
+	public void pageShouldNotContainRadioButton(WebDriver driver, String locator, String message, Level logLevel) {
 		element.pageShouldNotContainElement(driver, locator, "radio button", message, logLevel);
 	}
 
@@ -422,7 +424,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	public void pageShouldContainTextfield(WebDriver driver, String locator, String message) {
-		pageShouldContainTextfield(driver, locator, message, "INFO");
+		pageShouldContainTextfield(driver, locator, message, GlobalVariables.INFO);
 	}
 
 	/**
@@ -441,7 +443,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldContainTextfield(WebDriver driver, String locator, String message, String logLevel) {
+	public void pageShouldContainTextfield(WebDriver driver, String locator, String message, Level logLevel) {
 		element.pageShouldContainElement(driver, locator, "text field", message, logLevel);
 	}
 
@@ -452,7 +454,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	public void pageShouldNotContainTextfield(WebDriver driver, String locator, String message) {
-		pageShouldNotContainTextfield(driver, locator, message, "INFO");
+		pageShouldNotContainTextfield(driver, locator, message, GlobalVariables.INFO);
 	}
 
 	/**
@@ -471,7 +473,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldNotContainTextfield(WebDriver driver, String locator, String message, String logLevel) {
+	public void pageShouldNotContainTextfield(WebDriver driver, String locator, String message, Level logLevel) {
 		element.pageShouldNotContainElement(driver, locator, "text field", message, logLevel);
 	}
 
@@ -795,7 +797,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	public void pageShouldContainButton(WebDriver driver, String locator, String message) {
-		pageShouldContainButton(driver, locator, message, "INFO");
+		pageShouldContainButton(driver, locator, message, GlobalVariables.INFO);
 	}
 
 	/**
@@ -814,7 +816,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldContainButton(WebDriver driver, String locator, String message, String logLevel) {
+	public void pageShouldContainButton(WebDriver driver, String locator, String message, Level logLevel) {
 		try {
 			element.pageShouldContainElement(driver, locator, "input", message, logLevel);
 		} catch (Selenium2LibraryNonFatalException e) {
@@ -829,7 +831,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	public void pageShouldNotContainButton(WebDriver driver, String locator, String message) {
-		pageShouldNotContainButton(driver, locator, message, "INFO");
+		pageShouldNotContainButton(driver, locator, message, GlobalVariables.INFO);
 	}
 
 	/**
@@ -848,7 +850,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldNotContainButton(WebDriver driver, String locator, String message, String logLevel) {
+	public void pageShouldNotContainButton(WebDriver driver, String locator, String message, Level logLevel) {
 		element.pageShouldNotContainElement(driver, locator, "input", message, logLevel);
 		element.pageShouldNotContainElement(driver, locator, "button", message, logLevel);
 	}
