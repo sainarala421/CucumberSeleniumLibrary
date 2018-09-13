@@ -3,6 +3,7 @@ package co.nz.enhanceconsulting.cucumberselenium2library.keywords;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,6 +17,7 @@ import org.robotframework.javalib.annotation.RobotKeywords;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.Python;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.RunOnFailureKeywordsAdapter;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.Selenium2LibraryNonFatalException;
+import resources.utils.constants.GlobalVariables;
 
 @RobotKeywords
 public class SelectElement extends RunOnFailureKeywordsAdapter {
@@ -225,7 +227,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	public void pageShouldContainList(WebDriver driver, String locator, String message) {
-		pageShouldContainList(driver, locator, message, "INFO");
+		pageShouldContainList(driver, locator, message, GlobalVariables.INFO);
 	}
 
 	/**
@@ -245,7 +247,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldContainList(WebDriver driver, String locator, String message, String logLevel) {
+	public void pageShouldContainList(WebDriver driver, String locator, String message, Level logLevel) {
 		element.pageShouldContainElement(driver, locator, "list", message, logLevel);
 	}
 
@@ -256,7 +258,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	public void pageShouldNotContainList(WebDriver driver, String locator, String message) {
-		pageShouldNotContainList(driver, locator, message, "INFO");
+		pageShouldNotContainList(driver, locator, message, GlobalVariables.INFO);
 	}
 
 	/**
@@ -276,7 +278,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
-	public void pageShouldNotContainList(WebDriver driver, String locator, String message, String logLevel) {
+	public void pageShouldNotContainList(WebDriver driver, String locator, String message, Level logLevel) {
 		element.pageShouldNotContainElement(driver, locator, "list", message, logLevel);
 	}
 

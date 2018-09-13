@@ -13,10 +13,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-//import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-//import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
@@ -25,15 +23,8 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
-// import org.apache.http.client.config.RequestConfig;
-// import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.conn.routing.HttpRoutePlanner;
-// import org.apache.http.client.HttpClient;
-// import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.BasicCredentialsProvider;
-// import org.apache.http.impl.client.CloseableHttpClient;
-// import org.apache.http.impl.client.DefaultHttpClient;
-// import org.apache.http.impl.conn.DefaultRoutePlanner;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -80,6 +71,10 @@ import co.nz.enhanceconsulting.cucumberselenium2library.utils.Selenium2LibraryNo
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.WebDriverCache;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.WebDriverCache.SessionIdAliasWebDriverTuple;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 @RobotKeywords
 public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	public String remoteWebDriverProxyHost = "";
@@ -110,8 +105,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * Instantiated Logging keyword bean
 	 */
 	@Autowired
-	protected Logging logging;
-	
+	private static final Logger logging = LogManager.getLogger(BrowserManagement.class.getName());
 	
 	/**
 	 * Instantiated Element keyword bean
@@ -206,8 +200,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	@RobotKeyword
 	public void closeBrowser() {
 		if (webDriverCache.getCurrentSessionId() != null) {
-			System.out.printf("Closing browser with session id %s", webDriverCache.getCurrentSessionId());
-			//logging.debug(String.format("Closing browser with session id %s", webDriverCache.getCurrentSessionId()));
+			logging.debug(String.format("Closing browser with session id %s", webDriverCache.getCurrentSessionId()));
 			webDriverCache.close();
 		}
 	}
@@ -408,19 +401,12 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	public String openBrowser(String url, String browserName, String alias, String remoteUrl,
 			String desiredCapabilities, String browserOptions) throws Throwable {
 		try {
-			//test.log(Status.INFO, String.format("browserName: " + browserName));
-			//logging.info("browserName: " + browserName);
+			logging.info("browserName: " + browserName);
 			if (remoteUrl != null) {
-				System.out.printf("Opening browser '%s' to base url '%s' through remote server at '%s'",
-						browserName, url, remoteUrl);
-				/*test.log(Status.INFO, String.format("Opening browser '%s' to base url '%s' through remote server at '%s'",
-						browserName, url, remoteUrl));*/
-				/*logging.info(String.format("Opening browser '%s' to base url '%s' through remote server at '%s'",
-						browserName, url, remoteUrl));*/
+				logging.info(String.format("Opening browser '%s' to base url '%s' through remote server at '%s'",
+						browserName, url, remoteUrl));
 			} else {
-				System.out.printf("Opening browser '%s' to base url '%s'", browserName, url);
-				//test.log(Status.INFO, String.format("Opening browser '%s' to base url '%s'", browserName, url));
-				//logging.info(String.format("Opening browser '%s' to base url '%s'", browserName, url));
+				logging.info(String.format("Opening browser '%s' to base url '%s'", browserName, url));
 			}
 			WebDriver webDriver = createWebDriver(browserName, desiredCapabilities, remoteUrl, browserOptions);
 			webDriver.get(url);
@@ -428,24 +414,15 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			wait.until(ExpectedConditions.urlContains(url));
 			
 			String sessionId = webDriverCache.register(webDriver, alias);
-			System.out.printf("Opened browser with session id %s", sessionId);
-			//test.log(Status.DEBUG, String.format("Opened browser with session id %s", sessionId));
-			//logging.debug(String.format("Opened browser with session id %s", sessionId));
+			logging.debug(String.format("Opened browser with session id %s", sessionId));
 			return sessionId;
 		} catch (Throwable t) {
 			if (remoteUrl != null) {
-				System.out.printf("Opening browser '%s' to base url '%s' through remote server at '%s' failed", browserName, url,
-						remoteUrl);
-				/*test.log(Status.WARNING, String.format(
+				logging.warn(String.format(
 						"Opening browser '%s' to base url '%s' through remote server at '%s' failed", browserName, url,
-						remoteUrl));*/
-				/*logging.warn(String.format(
-						"Opening browser '%s' to base url '%s' through remote server at '%s' failed", browserName, url,
-						remoteUrl));*/
+						remoteUrl));
 			} else {
-				System.out.printf("Opening browser '%s' to base url '%s' failed", browserName, url);
-				//test.log(Status.WARNING, String.format("Opening browser '%s' to base url '%s' failed", browserName, url));
-				//logging.warn(String.format("Opening browser '%s' to base url '%s' failed", browserName, url));
+				logging.warn(String.format("Opening browser '%s' to base url '%s' failed", browserName, url));
 			}
 			throw new Selenium2LibraryFatalException(t);
 		}
@@ -550,10 +527,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	public void switchBrowser(String indexOrAlias) {
 		try {
 			webDriverCache.switchBrowser(indexOrAlias);
-			System.out.printf("Switched to browser with Selenium session id %s",
-					webDriverCache.getCurrentSessionId());
-			/*logging.debug(String.format("Switched to browser with Selenium session id %s",
-					webDriverCache.getCurrentSessionId()));*/
+			logging.debug(String.format("Switched to browser with Selenium session id %s",
+					webDriverCache.getCurrentSessionId()));
 		} catch (Throwable t) {
 			throw new Selenium2LibraryFatalException(String.format("No browser with index or alias '%s' found.",
 					indexOrAlias));
@@ -573,9 +548,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	public void closeAllBrowsers() {
-		System.out.printf("Closing all browsers");		
-		//test.log(Status.DEBUG, "Closing all browsers");
-		//logging.debug("Closing all browsers");
+		logging.debug("Closing all browsers");
 		
 		webDriverCache.closeAll();
 	}
@@ -709,8 +682,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
 	public void selectFrame(WebDriver driver, String locator) {
-		System.out.printf("Selecting frame '%s'.", locator);
-		//logging.info(String.format("Selecting frame '%s'.", locator));
+		logging.info(String.format("Selecting frame '%s'.", locator));
 		List<WebElement> elements = element.elementFind(driver, locator, true, true);
 		webDriverCache.getCurrent().switchTo().frame(elements.get(0));
 	}
@@ -910,8 +882,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			throw new Selenium2LibraryNonFatalException(String.format("Location should have been '%s', but was '%s'",
 					url, actual));
 		}
-		System.out.printf("Current location is '%s'.", url);
-		//logging.info(String.format("Current location is '%s'.", url));
+		logging.info(String.format("Current location is '%s'.", url));
 	}
 
 	/**
@@ -930,8 +901,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			throw new Selenium2LibraryNonFatalException(String.format(
 					"Location should have contained '%s', but was '%s'", url, actual));
 		}
-		System.out.printf("Current location is '%s'.", url);
-		//logging.info(String.format("Current location is '%s'.", url));
+		logging.info(String.format("Current location is '%s'.", url));
 	}
 
 	/**
@@ -952,8 +922,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			throw new Selenium2LibraryNonFatalException(String.format("Title should have been '%s', but was '%s'",
 					title, actual));
 		}
-		System.out.printf("Page title is '%s'.", title);
-		//logging.info(String.format("Page title is '%s'.", title));
+		logging.info(String.format("Page title is '%s'.", title));
 	}
 
 	/**
@@ -974,8 +943,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			throw new Selenium2LibraryNonFatalException(String.format("Title should not have been '%s', but was '%s'",
 					title, actual));
 		}
-		System.out.printf("Page title is '%s'.", title);
-		//logging.info(String.format("Page title is '%s'.", title));
+		logging.info(String.format("Page title is '%s'.", title));
 	}
 
 	/**
@@ -996,8 +964,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			throw new Selenium2LibraryNonFatalException(String.format("Title should have contained '%s', but was '%s'",
 					title, actual));
 		}
-		System.out.printf("Page title is '%s'.", title);
-		//logging.info(String.format("Page title is '%s'.", title));
+		logging.info(String.format("Page title is '%s'.", title));
 	}
 
 	/**
@@ -1018,8 +985,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			throw new Selenium2LibraryNonFatalException(String.format(
 					"Title should not have contained '%s', but was '%s'", title, actual));
 		}
-		System.out.printf("Page title is '%s'.", title);
-		//logging.info(String.format("Page title is '%s'.", title));
+		logging.info(String.format("Page title is '%s'.", title));
 	}
 
 	/**
@@ -1039,8 +1005,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	@RobotKeyword
 	@ArgumentNames({ "url" })
 	public void goTo(String url) {
-		System.out.printf("Opening url '%s'", url);
-		//logging.info(String.format("Opening url '%s'", url));
+		logging.info(String.format("Opening url '%s'", url));
 		webDriverCache.getCurrent().get(url);
 	}
 
@@ -1372,8 +1337,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			try {
 				workstation = InetAddress.getLocalHost().getHostName().split("\\.")[0];
 			} catch (UnknownHostException e) {
-				//logging.warn("No workstation name found");
-				System.out.println("No workstation name found");
+				logging.warn("No workstation name found");
 			}
 		}
 
@@ -1540,8 +1504,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 					if (keyValue.length == 2) {
 						desiredCapabilities.setCapability(keyValue[0], keyValue[1]);
 					} else {
-						System.out.println("Invalid desiredCapabilities: " + desiredCapabilitiesString);
-						//logging.warn("Invalid desiredCapabilities: " + desiredCapabilitiesString);
+						logging.warn("Invalid desiredCapabilities: " + desiredCapabilitiesString);
 					}
 				}
 			}
@@ -1585,14 +1548,12 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 							firefoxProfile.addExtension(file);
 						}
 					} else {
-						System.out.println("Unknown browserOption: " + key + ":" + entry.getValue());
-						//logging.warn("Unknown browserOption: " + key + ":" + entry.getValue());
+						logging.warn("Unknown browserOption: " + key + ":" + entry.getValue());
 					}
 				}
 				desiredCapabilities.setCapability(FirefoxDriver.PROFILE, firefoxProfile);
 			} else {
-				System.out.println("Invalid browserOptions: " + browserOptions);
-				//logging.warn("Invalid browserOptions: " + browserOptions);
+				logging.warn("Invalid browserOptions: " + browserOptions);
 			}
 		}
 	}
