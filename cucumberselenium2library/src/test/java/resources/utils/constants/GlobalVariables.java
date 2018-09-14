@@ -17,6 +17,7 @@ public class GlobalVariables{
     public static final String GLUE_KEYWORDS_PATH = "resources.desktopweb.keywords";
     public static final String LOG4J_PROPERTIES = "src/test/resources/log4j.properties";
     public static final String CUCUMBER_REPORTS_DIR = "target/cucumber-html-report";
+    public static final String CUCUMBER_LOGS_DIR = "target/cucumber-logs";
     public static final String CUCUMBER_LOGS_TEMPLATES = "src/test/resources/templates";
     
     public static final String BASE_URL = "http://automationpractice.com";
@@ -35,6 +36,12 @@ public class GlobalVariables{
     public static final String USER_PASSWORD = "Test@123";
     
     public static final int WAIT_FOR_VISIBILITY = 60;
+   
+	public static final Level OFF = Level.forName("OFF", 0);
+	public static final Level FATAL = Level.forName("FATAL", 100);
+	public static final Level ERROR = Level.forName("DEBUG", 200);
+	public static final Level WARN = Level.forName("WARN", 300);
 	public static final Level INFO = Level.forName("INFO", 400);
 	public static final Level DEBUG = Level.forName("DEBUG", 500);
+	public static final Level TRACE = Level.forName("TRACE", 600);
 }

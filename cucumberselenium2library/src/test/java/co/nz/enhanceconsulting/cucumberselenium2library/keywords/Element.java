@@ -52,7 +52,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * Instantiated Logging keyword bean
 	 */
 	@Autowired
-	private static final Logger logging = LogManager.getLogger(BrowserManagement.class.getName());
+	private static final Logger logging = LogManager.getLogger(Element.class.getName());
 
 	// ##############################
 	// KeywordsBrowserManagement - Element Lookups

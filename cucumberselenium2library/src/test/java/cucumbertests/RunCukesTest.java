@@ -20,7 +20,10 @@ import resources.utils.constants.GlobalVariables;
 	    toPDF = true,
 	    excludeCoverageTags = {"@flaky" },
 	    includeCoverageTags = {"@passed" },
-		outputFolder = "target/cucumber-logs/DATE(dd-MM-yyyy)")
+	    
+	    // Logs and screenshots directory
+		outputFolder = "target/cucumber-logs/"
+		)
 @CucumberOptions(
 		plugin = { 
 				"html:target/cucumber-html-report",
