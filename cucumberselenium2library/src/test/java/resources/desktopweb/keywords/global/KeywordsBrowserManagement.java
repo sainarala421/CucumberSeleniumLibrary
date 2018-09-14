@@ -94,7 +94,7 @@ public class KeywordsBrowserManagement{
 	 *  Close all browsers.
 	 */
     
-    @After
+    @After(order=0)
     public void close_all_browsers() throws Throwable{
     	test.createNode("Test Teardown","User closes all browsers");
     	test.log(Status.INFO, "Closing all browsers");
