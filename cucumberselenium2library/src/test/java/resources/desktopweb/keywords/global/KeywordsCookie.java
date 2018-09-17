@@ -1,7 +1,6 @@
 package resources.desktopweb.keywords.global;
 
 import org.openqa.selenium.WebDriver;
-import com.aventstack.extentreports.ExtentTest;
 import co.nz.enhanceconsulting.cucumberselenium2library.keywords.Cookie;
 import cucumber.api.java.en.When;
 import resources.utils.PropertiesValue;
@@ -9,7 +8,6 @@ import resources.utils.PropertiesValue;
 public class KeywordsCookie{
     protected Cookie cookieInstance = new Cookie();
     protected WebDriver driver = KeywordsBrowserManagement.browserInstance.getCurrentWebDriver();
-    protected ExtentTest test = KeywordsBrowserManagement.test;
     protected PropertiesValue pvalue = KeywordsBrowserManagement.pvalue;
     /**
      *  -----------------------------------

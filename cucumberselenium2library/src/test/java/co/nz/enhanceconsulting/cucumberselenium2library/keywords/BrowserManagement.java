@@ -1,7 +1,6 @@
 package co.nz.enhanceconsulting.cucumberselenium2library.keywords;
 
 import io.appium.java_client.ios.IOSDriver;
-import resources.desktopweb.keywords.global.KeywordsBrowserManagement;
 import resources.utils.constants.GlobalVariables;
 import io.appium.java_client.android.AndroidDriver;
 
@@ -60,7 +59,6 @@ import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
-import com.aventstack.extentreports.ExtentTest;
 import co.nz.enhanceconsulting.cucumberselenium2library.keywords.Logging;
 import co.nz.enhanceconsulting.cucumberselenium2library.locators.ElementFinder;
 import co.nz.enhanceconsulting.cucumberselenium2library.locators.WindowManager;
@@ -70,8 +68,6 @@ import co.nz.enhanceconsulting.cucumberselenium2library.utils.Selenium2LibraryFa
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.Selenium2LibraryNonFatalException;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.WebDriverCache;
 import co.nz.enhanceconsulting.cucumberselenium2library.utils.WebDriverCache.SessionIdAliasWebDriverTuple;
-
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -88,9 +84,6 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * Cache for all open browsers.
 	 */
 	protected WebDriverCache webDriverCache = new WebDriverCache();
-
-	protected ExtentTest test = KeywordsBrowserManagement.test;
-	
 	/**
 	 * Timeout in milliseconds
 	 */

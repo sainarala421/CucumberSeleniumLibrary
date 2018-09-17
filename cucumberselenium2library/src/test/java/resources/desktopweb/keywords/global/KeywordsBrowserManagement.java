@@ -1,11 +1,5 @@
 package resources.desktopweb.keywords.global;
 
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.Status;
-import com.aventstack.extentreports.gherkin.model.Feature;
-import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
-
 import co.nz.enhanceconsulting.cucumberselenium2library.keywords.BrowserManagement;
 import co.nz.enhanceconsulting.cucumberselenium2library.keywords.Element;
 import co.nz.enhanceconsulting.cucumberselenium2library.keywords.LoggingExtentReport;
@@ -21,9 +15,7 @@ public class KeywordsBrowserManagement{
     public static PropertiesValue pvalue = new PropertiesValue();
     public static BrowserManagement browserInstance = new BrowserManagement();
     public static LoggingExtentReport logExtentReportCache = new LoggingExtentReport();
-    public static ExtentReports report = new ExtentReports();
     public static Element elementInstance = new Element();
-    public static ExtentTest test;
 	protected static String browser = System.getProperty("browser", "");
     protected static String baseURL = System.getProperty("baseURL", "");
     protected static String remoteURL = System.getProperty("remoteURL", "");
@@ -33,10 +25,6 @@ public class KeywordsBrowserManagement{
     
 	public LoggingExtentReport getExtentReportCache() {
 		return logExtentReportCache;
-	}
-
-	public ExtentReports getCurrentCachedExtentReport() {
-		return logExtentReportCache.getCurrentExtentReport();
 	}
     
     /**
@@ -52,16 +40,10 @@ public class KeywordsBrowserManagement{
     @Before(order=0)
     public void initialise_htmlreporter() throws Throwable{
     	pvalue.setPropertiesFilePath(GlobalVariables.BASE_PROPERTIES_FILE);
-        ExtentHtmlReporter htmlreporter = getExtentReportCache().InitialiseHtmlReporter();
-    	report.attachReporter(htmlreporter);
-    	test = report.createTest(Feature.class, "Cucumber tests");
     }
 	
     @Before(order=1)
     public void launch_browser() throws Throwable{
-    	test.createNode("Test Setup", "Launch browser");
-    	test.log(Status.INFO, "Setting defaults");
-    	
     	// Set selenium speed and timeout
     	browserInstance.setSeleniumSpeed(GlobalVariables.SELENIUM_SPEED);
     	browserInstance.setSeleniumTimeout(GlobalVariables.SELENIUM_TIMEOUT);
@@ -96,10 +78,7 @@ public class KeywordsBrowserManagement{
     
     @After(order=0)
     public void close_all_browsers() throws Throwable{
-    	test.createNode("Test Teardown","User closes all browsers");
-    	test.log(Status.INFO, "Closing all browsers");
     	browserInstance.closeAllBrowsers();
-    	report.flush();
     }
     
     /**
@@ -145,12 +124,10 @@ public class KeywordsBrowserManagement{
     @When("^User gets title$")
     public void user_gets_title() throws Throwable{
     	String pageTitle = browserInstance.getTitle();
-    	test.log(Status.INFO, String.format("Page title: '%s'", pageTitle));
     }
 
     @When("^User closes browser$")
     public void user_closes_browser() throws Throwable{
-    	test.log(Status.INFO, "User closes browser");
     	browserInstance.closeBrowser();
     }
    
@@ -163,19 +140,16 @@ public class KeywordsBrowserManagement{
     public void user_should_be_forwarded_to_correct_page(String uri) throws Throwable{
     	pvalue.setKey(uri);
     	String p_uri = pvalue.getPropertiesValue();
-    	test.createNode("Then",String.format("User should be forwarded to '%s': %s", uri, p_uri));
     	browserInstance.locationShouldContain(p_uri);
     }
     
     @Then("^Page title should contain \"(.*?)\"$")
     public void page_title_should_contain(String title) throws Throwable{
-    	test.log(Status.INFO, String.format("Page title contains: '%s'", title));
     	browserInstance.titleShouldContain(title);;
     } 
     
     @Then("^Page title should be \"(.*?)\"$")
     public void page_title_should_be(String title) throws Throwable{
-    	test.log(Status.INFO, String.format("Page title is: '%s'", title));
     	browserInstance.titleShouldBe(title);;
     } 
     /**

@@ -14,7 +14,6 @@ public class KeywordsFormElement{
     protected FormElement formelementInstance = new FormElement();
     protected Element elementInstance = new Element();
     protected WebDriver driver = KeywordsBrowserManagement.browserInstance.getCurrentWebDriver();
-    protected ExtentTest test = KeywordsBrowserManagement.test;
     protected PropertiesValue pvalue = KeywordsBrowserManagement.pvalue;
     /**
      *  -----------------------------------
@@ -25,8 +24,6 @@ public class KeywordsFormElement{
     public void user_inputs_text_in_field(String text, String locator) throws Throwable{
     	pvalue.setKey(locator);
     	String p_locator = pvalue.getPropertiesValue();
-    	
-    	test.createNode("When", String.format("When user inputs text '%s' in '%s' field", text, p_locator));
     	elementInstance.elementShouldBeVisible(driver, p_locator);
     	elementInstance.focus(driver, p_locator);
     	formelementInstance.inputText(driver, p_locator, text);
@@ -36,8 +33,6 @@ public class KeywordsFormElement{
     public void user_inputs_password_in_field(String password, String locator) throws Throwable{
     	pvalue.setKey(locator);
     	String p_locator = pvalue.getPropertiesValue();
-    	
-    	test.createNode("When", String.format("When user inputs password in '%s' field", password, p_locator));
     	elementInstance.elementShouldBeVisible(driver, p_locator);
     	elementInstance.focus(driver, p_locator);
     	formelementInstance.inputPassword(driver, p_locator, password);

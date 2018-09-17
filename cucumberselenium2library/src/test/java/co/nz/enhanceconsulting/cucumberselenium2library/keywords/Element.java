@@ -40,8 +40,6 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 */
 	@Autowired
 	protected BrowserManagement browserManagement;
-	
-	protected ExtentTest test = KeywordsBrowserManagement.test;
 	/**
 	 * Instantiated FormElement keyword bean
 	 */
@@ -528,7 +526,6 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE" })
 	public void elementShouldBeVisible(WebDriver driver, String locator, String message) {
-		test.log(Status.INFO, String.format("Verifying element '%s' is visible.", locator));
 		//logging.info(String.format("Verifying element '%s' is visible.", locator));
 		boolean visible = isVisible(driver, locator);
 
@@ -923,7 +920,6 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	@RobotKeyword
 	@ArgumentNames({ "locator" })
 	public void clickElement(WebDriver driver, String locator) {
-		test.log(Status.INFO, String.format("Clicking element '%s'.", locator));
 		List<WebElement> elements = elementFind(driver, locator, true, true);
 
 		elements.get(0).click();
@@ -993,7 +989,6 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	@RobotKeyword
 	@ArgumentNames({ "driver", "locator" })
 	public void focus(WebDriver driver, String locator) {
-		test.log(Status.INFO, String.format("Setting focus to element '%s'", locator));
 		List<WebElement> elements = elementFind(driver, locator, true, true);
 		((JavascriptExecutor) driver).executeScript("arguments[0].focus();",
 				elements.get(0));
