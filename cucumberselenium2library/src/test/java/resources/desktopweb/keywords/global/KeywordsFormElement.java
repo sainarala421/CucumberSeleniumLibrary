@@ -1,9 +1,10 @@
 package resources.desktopweb.keywords.global;
 
-import co.nz.enhanceconsulting.cucumberselenium2library.keywords.FormElement;
 import org.openqa.selenium.WebDriver;
-import com.aventstack.extentreports.ExtentTest;
-import co.nz.enhanceconsulting.cucumberselenium2library.keywords.Element;
+
+import com.github.enhancetafrancis.cucumberseleniumlibrary.keywords.Element;
+import com.github.enhancetafrancis.cucumberseleniumlibrary.keywords.FormElement;
+
 import cucumber.api.java.en.When;
 import resources.utils.PropertiesValue;
 

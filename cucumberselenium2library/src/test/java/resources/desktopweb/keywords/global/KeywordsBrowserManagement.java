@@ -1,8 +1,5 @@
 package resources.desktopweb.keywords.global;
 
-import co.nz.enhanceconsulting.cucumberselenium2library.keywords.BrowserManagement;
-import co.nz.enhanceconsulting.cucumberselenium2library.keywords.Element;
-import co.nz.enhanceconsulting.cucumberselenium2library.keywords.LoggingExtentReport;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -10,6 +7,11 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import resources.utils.PropertiesValue;
 import resources.utils.constants.GlobalVariables;
+import org.openqa.selenium.WebDriver;
+
+import com.github.enhancetafrancis.cucumberseleniumlibrary.keywords.BrowserManagement;
+import com.github.enhancetafrancis.cucumberseleniumlibrary.keywords.Element;
+import com.github.enhancetafrancis.cucumberseleniumlibrary.keywords.LoggingExtentReport;
 
 public class KeywordsBrowserManagement{
     public static PropertiesValue pvalue = new PropertiesValue();
@@ -19,7 +21,8 @@ public class KeywordsBrowserManagement{
 	protected static String browser = System.getProperty("browser", "");
     protected static String baseURL = System.getProperty("baseURL", "");
     protected static String remoteURL = System.getProperty("remoteURL", "");
-
+    protected WebDriver driver = browserInstance.getCurrentWebDriver();
+    
     public void setGlobalVariables() throws Throwable{
     }
     
@@ -60,7 +63,6 @@ public class KeywordsBrowserManagement{
     			GlobalVariables.BROWSER_BASE_ALIAS,
     			premoteURL
     			);
-    	
     	// Set maximum browser size.
     	browserInstance.maximizeBrowserWindow();    	
     	// Set browser size to 1024 by 768

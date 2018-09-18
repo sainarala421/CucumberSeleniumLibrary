@@ -1,7 +1,9 @@
 package resources.desktopweb.keywords.global;
 
 import org.openqa.selenium.WebDriver;
-import co.nz.enhanceconsulting.cucumberselenium2library.keywords.Cookie;
+
+import com.github.enhancetafrancis.cucumberseleniumlibrary.keywords.Cookie;
+
 import cucumber.api.java.en.When;
 import resources.utils.PropertiesValue;
 
