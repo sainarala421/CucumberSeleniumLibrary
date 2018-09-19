@@ -11,12 +11,10 @@ import org.openqa.selenium.WebDriver;
 
 import com.github.enhancetafrancis.cucumberseleniumlibrary.keywords.BrowserManagement;
 import com.github.enhancetafrancis.cucumberseleniumlibrary.keywords.Element;
-import com.github.enhancetafrancis.cucumberseleniumlibrary.keywords.LoggingExtentReport;
 
 public class KeywordsBrowserManagement{
     public static PropertiesValue pvalue = new PropertiesValue();
     public static BrowserManagement browserInstance = new BrowserManagement();
-    public static LoggingExtentReport logExtentReportCache = new LoggingExtentReport();
     public static Element elementInstance = new Element();
 	protected static String browser = System.getProperty("browser", "");
     protected static String baseURL = System.getProperty("baseURL", "");
@@ -25,10 +23,6 @@ public class KeywordsBrowserManagement{
     
     public void setGlobalVariables() throws Throwable{
     }
-    
-	public LoggingExtentReport getExtentReportCache() {
-		return logExtentReportCache;
-	}
     
     /**
      *  --------------------

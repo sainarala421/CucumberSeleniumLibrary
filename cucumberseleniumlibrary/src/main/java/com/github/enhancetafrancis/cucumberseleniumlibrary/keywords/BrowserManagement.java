@@ -15,7 +15,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
-
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
@@ -69,9 +68,6 @@ import com.github.enhancetafrancis.cucumberseleniumlibrary.utils.Selenium2Librar
 import com.github.enhancetafrancis.cucumberseleniumlibrary.utils.WebDriverCache;
 import com.github.enhancetafrancis.cucumberseleniumlibrary.utils.WebDriverCache.SessionIdAliasWebDriverTuple;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 @RobotKeywords
 public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	public String remoteWebDriverProxyHost = "";
@@ -99,8 +95,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * Instantiated Logging keyword bean
 	 */
 	@Autowired
-	private static final Logger logging = LogManager.getLogger(BrowserManagement.class.getName());
-	
+	protected LoggingLog4j logging = new LoggingLog4j();
 	/**
 	 * Instantiated Element keyword bean
 	 */
@@ -394,6 +389,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			"browserOptions=NONE" })
 	public String openBrowser(String url, String browserName, String alias, String remoteUrl,
 			String desiredCapabilities, String browserOptions) throws Throwable {
+		
 		try {
 			logging.info("browserName: " + browserName);
 			if (remoteUrl != null) {

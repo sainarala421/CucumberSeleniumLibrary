@@ -26,8 +26,6 @@ import com.github.enhancetafrancis.cucumberseleniumlibrary.utils.RunOnFailureKey
 import com.github.enhancetafrancis.cucumberseleniumlibrary.utils.Selenium2LibraryNonFatalException;
 
 import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 @RobotKeywords
 public class Element extends RunOnFailureKeywordsAdapter {
@@ -47,8 +45,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * Instantiated Logging keyword bean
 	 */
 	@Autowired
-	private static final Logger logging = LogManager.getLogger(Element.class.getName());
-
+	protected LoggingLog4j logging = new LoggingLog4j();
+	
 	// ##############################
 	// KeywordsBrowserManagement - Element Lookups
 	// ##############################
@@ -73,11 +71,11 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	@ArgumentNames({ "text", "logLevel=INFO" })
 	public void currentFrameContains(WebDriver driver, String text, Level logLevel) {
 		if (!isTextPresent(driver, text)) {
-			logging.log(logLevel, String.format("Current Frame Contains: %s => FAILED", text));
+			logging.log(String.format("Current Frame Contains: %s => FAILED", text), logLevel);
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Page should have contained text '%s', but did not.", text));
 		} else {
-			logging.log(logLevel, String.format("Current Frame Contains: %s => OK", text));
+			logging.log(String.format("Current Frame Contains: %s => OK", text), logLevel);
 		}
 	}
 
@@ -100,11 +98,11 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	@ArgumentNames({ "text", "logLevel=INFO" })
 	public void currentFrameShouldNotContain(WebDriver driver, String text, Level logLevel) {
 		if (isTextPresent(driver, text)) {
-			logging.log(logLevel, String.format("Current Frame Should Not Contain: %s => FAILED", text));
+			logging.log(String.format("Current Frame Should Not Contain: %s => FAILED", text), logLevel);
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Page should have not contained text '%s', but did.", text));
 		} else {
-			logging.log(logLevel, String.format("Current Frame Should Not Contain: %s => OK", text));
+			logging.log(String.format("Current Frame Should Not Contain: %s => OK", text), logLevel);
 		}
 	}
 
@@ -192,11 +190,11 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	@ArgumentNames({ "locator", "text", "logLevel=INFO" })
 	public void frameShouldContain(WebDriver driver, String locator, String text, Level logLevel) {
 		if (!frameContains(driver, locator, text)) {
-			logging.log(logLevel, String.format("Frame Should Contain: %s => FAILED", text));
+			logging.log(String.format("Frame Should Contain: %s => FAILED", text), logLevel);
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Frame should have contained text '%s', but did not.", text));
 		} else {
-			logging.log(logLevel, String.format("Frame Should Contain: %s => OK", text));
+			logging.log(String.format("Frame Should Contain: %s => OK", text), logLevel);
 		}
 	}
 
@@ -217,11 +215,11 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	@ArgumentNames({ "locator", "text", "logLevel=INFO" })
 	public void frameShouldNotContain(WebDriver driver, String locator, String text, Level logLevel) {
 		if (frameContains(driver, locator, text)) {
-			logging.log(logLevel, String.format("Frame Should Not Contain: %s => FAILED", text));
+			logging.log(String.format("Frame Should Not Contain: %s => FAILED", text), logLevel);
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Frame should not have contained text '%s', but did.", text));
 		} else {
-			logging.log(logLevel, String.format("Frame Should Not Contain: %s => OK", text));
+			logging.log(String.format("Frame Should Not Contain: %s => OK", text), logLevel);
 		}
 	}
 
@@ -244,11 +242,11 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	@ArgumentNames({ "text", "logLevel=INFO" })
 	public void pageShouldContain(WebDriver driver, String text, Level logLevel) {
 		if (!pageContains(driver, text)) {
-			logging.log(logLevel, String.format("Page Should Contain: %s => FAILED", text));
+			logging.log(String.format("Page Should Contain: %s => FAILED", text), logLevel);
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Page should have contained text '%s' but did not.", text));
 		} else {
-			logging.log(logLevel, String.format("Page Should Contain: %s => OK", text));
+			logging.log(String.format("Page Should Contain: %s => OK", text), logLevel);
 		}
 	}
 
@@ -271,11 +269,11 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	@ArgumentNames({ "text", "logLevel=INFO" })
 	public void pageShouldNotContain(WebDriver driver, String text, Level logLevel) {
 		if (pageContains(driver, text)) {
-			logging.log(logLevel, String.format("Page Should Not Contain: %s => FAILED", text));
+			logging.log(String.format("Page Should Not Contain: %s => FAILED", text), logLevel);
 			throw new Selenium2LibraryNonFatalException(
 					String.format("Page should not have contained text '%s' but did.", text));
 		} else {
-			logging.log(logLevel, String.format("Page Should Not Contain: %s => OK", text));
+			logging.log(String.format("Page Should Not Contain: %s => OK", text), logLevel);
 		}
 	}
 
@@ -315,10 +313,10 @@ public class Element extends RunOnFailureKeywordsAdapter {
 			if (message == null || message.equals("")) {
 				message = String.format("Page should have contained %s '%s' but did not", name, locator);
 			}
-			logging.log(logLevel, message);
+			logging.log(message, logLevel);
 			throw new Selenium2LibraryNonFatalException(message);
 		} else {
-			logging.log(logLevel, String.format("Current page contains %s '%s'.", name, locator));
+			logging.log(String.format("Current page contains %s '%s'.", name, locator), logLevel);
 		}
 	}
 
@@ -358,10 +356,10 @@ public class Element extends RunOnFailureKeywordsAdapter {
 			if (message == null || message.equals("")) {
 				message = String.format("Page should not have contained %s '%s' but did", name, locator);
 			}
-			logging.log(logLevel, message);
+			logging.log(message, logLevel);
 			throw new Selenium2LibraryNonFatalException(message);
 		} else {
-			logging.log(logLevel, String.format("Current page does not contain %s '%s'.", name, locator));
+			logging.log(String.format("Current page does not contain %s '%s'.", name, locator), logLevel);
 		}
 	}
 
@@ -1563,7 +1561,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 			throw new Selenium2LibraryNonFatalException(message);
 		}
 
-		logging.log(logLevel, String.format("Current page contains %s elements matching '%s'.", actualXpathCount, xpath));
+		logging.log(String.format("Current page contains %s elements matching '%s'.", actualXpathCount, xpath), logLevel);
 	}
 
 	// ##############################

@@ -1,7 +1,5 @@
 package resources.utils.constants;
 
-import org.apache.logging.log4j.Level;
-
 /**
  * @author Francis John Agunday
  *
