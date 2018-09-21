@@ -303,7 +303,7 @@ public class LoggingLog4j extends RunOnFailureKeywordsAdapter {
 		log(msg, GlobalConstants.INFO);
 	}
 
-	protected void warn(String msg) {
+	public void warn(String msg) {
 		log(msg, GlobalConstants.WARN);
 	}
 

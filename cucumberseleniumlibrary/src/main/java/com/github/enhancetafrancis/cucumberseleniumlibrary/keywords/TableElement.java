@@ -1,6 +1,8 @@
 package com.github.enhancetafrancis.cucumberseleniumlibrary.keywords;
 
 import java.util.List;
+
+import org.apache.logging.log4j.Level;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.robotframework.javalib.annotation.ArgumentNames;
@@ -10,6 +12,7 @@ import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
 import com.github.enhancetafrancis.cucumberseleniumlibrary.locators.TableElementFinder;
+import com.github.enhancetafrancis.cucumberseleniumlibrary.utils.GlobalConstants;
 import com.github.enhancetafrancis.cucumberseleniumlibrary.utils.RunOnFailureKeywordsAdapter;
 import com.github.enhancetafrancis.cucumberseleniumlibrary.utils.Selenium2LibraryNonFatalException;
 
@@ -26,7 +29,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	 * Instantiated Logging keyword bean
 	 */
 	@Autowired
-	protected Logging logging;
+	protected LoggingLog4j logging = new LoggingLog4j();
 
 	// ##############################
 	// KeywordsBrowserManagement
@@ -34,7 +37,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	public String getTableCell(String tableLocator, int row, int column) {
-		return getTableCell(tableLocator, row, column, "INFO");
+		return getTableCell(tableLocator, row, column, GlobalConstants.INFO);
 	}
 
 	/**
@@ -60,7 +63,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "tableLocator", "row", "column", "logLevel=INFO" })
-	public String getTableCell(String tableLocator, int row, int column, String logLevel) {
+	public String getTableCell(String tableLocator, int row, int column, Level logLevel) {
 		int rowIndex = row - 1;
 		int columnIndex = column - 1;
 		WebElement table = TableElementFinder.find(browserManagement.getCurrentWebDriver(), tableLocator);
@@ -89,7 +92,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	public void tableCellShouldContain(String tableLocator, int row, int column, String text) {
-		tableCellShouldContain(tableLocator, row, column, text, "INFO");
+		tableCellShouldContain(tableLocator, row, column, text, GlobalConstants.INFO);
 	}
 
 	/**
@@ -117,7 +120,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "tableLocator", "row", "column", "text", "logLevel=INFO" })
-	public void tableCellShouldContain(String tableLocator, int row, int column, String text, String logLevel) {
+	public void tableCellShouldContain(String tableLocator, int row, int column, String text, Level logLevel) {
 		String message = String.format("Cell in table '%s' in row #%d and column #%d should have contained text '%s'.",
 				tableLocator, row, column, text);
 
@@ -138,7 +141,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	public void tableColumnShouldContain(String tableLocator, int col, String text) {
-		tableColumnShouldContain(tableLocator, col, text, "INFO");
+		tableColumnShouldContain(tableLocator, col, text, GlobalConstants.INFO);
 	}
 
 	/**
@@ -180,7 +183,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "tableLocator", "col", "text", "logLevel=INFO" })
-	public void tableColumnShouldContain(String tableLocator, int col, String text, String logLevel) {
+	public void tableColumnShouldContain(String tableLocator, int col, String text, Level logLevel) {
 		WebElement element = TableElementFinder.findByCol(browserManagement.getCurrentWebDriver(), tableLocator, col,
 				text);
 		if (element == null) {
@@ -192,7 +195,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	public void tableFooterShouldContain(String tableLocator, String text) {
-		tableFooterShouldContain(tableLocator, text, "INFO");
+		tableFooterShouldContain(tableLocator, text, GlobalConstants.INFO);
 	}
 
 	/**
@@ -211,7 +214,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "tableLocator", "text", "logLevel=INFO" })
-	public void tableFooterShouldContain(String tableLocator, String text, String logLevel) {
+	public void tableFooterShouldContain(String tableLocator, String text, Level logLevel) {
 		WebElement element = TableElementFinder.findByFooter(browserManagement.getCurrentWebDriver(), tableLocator,
 				text);
 		if (element == null) {
@@ -223,7 +226,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	public void tableHeaderShouldContain(String tableLocator, String text) {
-		tableHeaderShouldContain(tableLocator, text, "INFO");
+		tableHeaderShouldContain(tableLocator, text, GlobalConstants.INFO);
 	}
 
 	/**
@@ -242,7 +245,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "tableLocator", "text", "logLevel=INFO" })
-	public void tableHeaderShouldContain(String tableLocator, String text, String logLevel) {
+	public void tableHeaderShouldContain(String tableLocator, String text, Level logLevel) {
 		WebElement element = TableElementFinder.findByHeader(browserManagement.getCurrentWebDriver(), tableLocator,
 				text);
 		if (element == null) {
@@ -254,7 +257,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	public void tableRowShouldContain(String tableLocator, int row, String text) {
-		tableRowShouldContain(tableLocator, row, text, "INFO");
+		tableRowShouldContain(tableLocator, row, text, GlobalConstants.INFO);
 	}
 
 	/**
@@ -283,7 +286,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "tableLocator", "row", "text", "logLevel=INFO" })
-	public void tableRowShouldContain(String tableLocator, int row, String text, String logLevel) {
+	public void tableRowShouldContain(String tableLocator, int row, String text, Level logLevel) {
 		WebElement element = TableElementFinder.findByRow(browserManagement.getCurrentWebDriver(), tableLocator, row,
 				text);
 		if (element == null) {
@@ -295,7 +298,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 
 	@RobotKeywordOverload
 	public void tableShouldContain(String tableLocator, String text) {
-		tableShouldContain(tableLocator, text, "INFO");
+		tableShouldContain(tableLocator, text, GlobalConstants.INFO);
 	}
 
 	/**
@@ -314,7 +317,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "tableLocator", "text", "logLevel=INFO" })
-	public void tableShouldContain(String tableLocator, String text, String logLevel) {
+	public void tableShouldContain(String tableLocator, String text, Level logLevel) {
 		WebElement element = TableElementFinder.findByContent(browserManagement.getCurrentWebDriver(), tableLocator,
 				text);
 		if (element == null) {

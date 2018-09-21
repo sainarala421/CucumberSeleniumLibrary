@@ -32,7 +32,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 * Instantiated Logging keyword bean
 	 */
 	@Autowired
-	protected Logging logging;
+	protected LoggingLog4j logging = new LoggingLog4j();
 
 	// ##############################
 	// KeywordsBrowserManagement
