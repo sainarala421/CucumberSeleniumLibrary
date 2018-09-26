@@ -306,7 +306,15 @@ public class LoggingLog4j extends RunOnFailureKeywordsAdapter {
 	public void warn(String msg) {
 		log(msg, GlobalConstants.WARN);
 	}
-
+	
+	public void error(String msg) {
+		log(msg, GlobalConstants.ERROR);
+	}
+	
+	public void fatal(String msg) {
+		log(msg, GlobalConstants.FATAL);
+	}
+	
 	protected void log(String msg, Level logLevel) {
 		if (logLevel != null) {
 			//LogManager.getLogManager().readConfiguration(new FileInputStream("mylogging.properties"));
