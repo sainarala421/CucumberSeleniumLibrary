@@ -11,6 +11,8 @@ import org.openqa.selenium.WebDriver;
 
 import com.github.enhancetafrancis.cucumberseleniumlibrary.keywords.BrowserManagement;
 import com.github.enhancetafrancis.cucumberseleniumlibrary.keywords.Element;
+import com.github.enhancetafrancis.cucumberseleniumlibrary.keywords.LoggingLog4j;
+import com.github.enhancetafrancis.cucumberseleniumlibrary.utils.GlobalConstants;
 
 public class KeywordsBrowserManagement{
     public static PropertiesValue pvalue = new PropertiesValue();
@@ -20,6 +22,7 @@ public class KeywordsBrowserManagement{
     protected static String baseURL = System.getProperty("baseURL", "");
     protected static String remoteURL = System.getProperty("remoteURL", "");
     protected WebDriver driver = browserInstance.getCurrentWebDriver();
+	protected LoggingLog4j logging = new LoggingLog4j();
     
     public void setGlobalVariables() throws Throwable{
     }
@@ -57,10 +60,19 @@ public class KeywordsBrowserManagement{
     			GlobalVariables.BROWSER_BASE_ALIAS,
     			premoteURL
     			);
+    	
     	// Set maximum browser size.
-    	browserInstance.maximizeBrowserWindow();    	
+    	// browserInstance.maximizeBrowserWindow();
+    	
     	// Set browser size to 1024 by 768
-    	//browserInstance.setWindowSize(GlobalVariables.BROWSER_WIDTH, GlobalVariables.BROWSER_HEIGHT);
+    	browserInstance.setWindowSize(GlobalVariables.BROWSER_WIDTH, GlobalVariables.BROWSER_HEIGHT);
+    }
+    
+    @Before(order=2)
+    public void log_capabilities() throws Throwable{
+    	logging.log(String.format("System info: %s", browserInstance.getSystemInfo()), GlobalConstants.INFO);
+    	logging.log(String.format("Window size: %s x %s", browserInstance.getWindowSize()), GlobalConstants.INFO);
+    	logging.log(String.format("Remote Capabilities: %s", browserInstance.getRemoteCapabilities()), GlobalConstants.INFO);
     }
     /**
      *  -----------------------
@@ -119,7 +131,7 @@ public class KeywordsBrowserManagement{
     
     @When("^User gets title$")
     public void user_gets_title() throws Throwable{
-    	String pageTitle = browserInstance.getTitle();
+    	browserInstance.getTitle();
     }
 
     @When("^User closes browser$")

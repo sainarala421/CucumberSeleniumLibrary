@@ -16,21 +16,21 @@ public class Selenium2LibraryNonFatalException extends RuntimeException {
 
 	public Selenium2LibraryNonFatalException() {
 		super();
-		logging.error("Error");
+		logging.error("Non-Fatal Error");
 	}
 
 	public Selenium2LibraryNonFatalException(String string) {
 		super(string);
-		logging.error(String.format("Non-Fatal Error: %s", string));
+		logging.error(String.format("%s", string));
 	}
 
 	public Selenium2LibraryNonFatalException(Throwable t) {
 		super(t);
-		logging.error(String.format("Non-Fatal Error: %s", t));
+		logging.error(String.format("%s", t));
 	}
 
 	public Selenium2LibraryNonFatalException(String string, Throwable t) {
 		super(string, t);
-		logging.error(String.format("Non-Fatal Error: %s, %s", string, t));
+		logging.error(String.format("%s, Exception Error: %s", string, t));
 	}
 }

@@ -20,16 +20,16 @@ public class Selenium2LibraryFatalException extends RuntimeException {
 
 	public Selenium2LibraryFatalException(String string) {
 		super(string);
-		logging.fatal(String.format("Fatal ErrorError: %s", string));
+		logging.fatal(String.format("%s", string));
 	}
 
 	public Selenium2LibraryFatalException(Throwable t) {
 		super(t);
-		logging.fatal(String.format("Fatal Error: %s", t));
+		logging.fatal(String.format("%s", t));
 	}
 
 	public Selenium2LibraryFatalException(String string, Throwable t) {
 		super(string, t);
-		logging.fatal(String.format("Fatal Error: %s, %s", string, t));
+		logging.fatal(String.format("%s, Exception Error: %s", string, t));
 	}
 }

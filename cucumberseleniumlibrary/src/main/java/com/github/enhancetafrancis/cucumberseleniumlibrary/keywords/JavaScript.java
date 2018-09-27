@@ -37,7 +37,7 @@ public class JavaScript extends RunOnFailureKeywordsAdapter {
 	 * Instantiated Logging keyword bean
 	 */
 	@Autowired
-	protected Logging logging;
+	protected LoggingLog4j logging = new LoggingLog4j();
 
 	// ##############################
 	// KeywordsBrowserManagement
@@ -316,7 +316,7 @@ public class JavaScript extends RunOnFailureKeywordsAdapter {
 		if (!new File(codepath).isFile()) {
 			return code;
 		}
-		logging.html(String.format("Reading JavaScript from file <a href=\"file://%s\">%s</a>.",
+		logging.info(String.format("Reading JavaScript from file <a href=\"file://%s\">%s</a>.",
 				codepath.replace(File.separatorChar, '/'), codepath));
 		try {
 			return readFile(codepath);

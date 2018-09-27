@@ -1,6 +1,5 @@
 package com.github.enhancetafrancis.cucumberseleniumlibrary.keywords;
 
-import java.io.File;
 import java.util.List;
 
 import org.apache.logging.log4j.Level;
@@ -274,32 +273,19 @@ public class LoggingLog4j extends RunOnFailureKeywordsAdapter {
 	 * @throws Exception
 	 *             - if anything goes wrong.
 	 */
-	@RobotKeyword
-	@ArgumentNames({ "logDirectory" })
-	public void setLogDirectory(String logDirectory) throws Exception {
-		File file = new File(logDirectory);
-
-		if (file.exists() && file.isDirectory() && file.canWrite()) {
-			Logging.setLogDir(file.getAbsolutePath());
-		} else {
-			throw new Exception("Location given as parameter: " + logDirectory
-					+ " must exist and must be a writeable directory!");
-		}
-	}
-
 	// ##############################
 	// Internal Methods
 	// ##############################
 
-	protected void trace(String msg) {
+	public void trace(String msg) {
 		log(msg, GlobalConstants.TRACE);
 	}
 
-	protected void debug(String msg) {
+	public void debug(String msg) {
 		log(msg, GlobalConstants.DEBUG);
 	}
 
-	protected void info(String msg) {
+	public void info(String msg) {
 		log(msg, GlobalConstants.INFO);
 	}
 
@@ -315,9 +301,8 @@ public class LoggingLog4j extends RunOnFailureKeywordsAdapter {
 		log(msg, GlobalConstants.FATAL);
 	}
 	
-	protected void log(String msg, Level logLevel) {
+	public void log(String msg, Level logLevel) {
 		if (logLevel != null) {
-			//LogManager.getLogManager().readConfiguration(new FileInputStream("mylogging.properties"));
 			logmanager.log(logLevel, msg);
 		} else {
 			throw new Selenium2LibraryNonFatalException(String.format("Given log level %s is invalid.", logLevel));

@@ -4,7 +4,7 @@ Feature: Login With Valid and Invalid Credentials
   	When User clicks "Login Button"
   	Then User should be forwarded to "Login Page"
   	When User inputs "abc@234.com" in "Email Field"
-  	And User inputs password "Test@123" in "Password Field"
+  	And User inputs password "Test@123x" in "Password Field"
   	And User clicks "Signin Button"
   	Then User should be forwarded to "User Home Page"
 
@@ -15,5 +15,5 @@ Feature: Login With Valid and Invalid Credentials
   	When User inputs "abc@234.com" in "Email Field"
   	And User inputs password "Test@1234" in "Password Field"
   	And User clicks "Signin Button"
-  	Then The "Authentication Failed Alert" should be displayed
+  	Then The "Authentication Failed Alertx" should be displayed
   

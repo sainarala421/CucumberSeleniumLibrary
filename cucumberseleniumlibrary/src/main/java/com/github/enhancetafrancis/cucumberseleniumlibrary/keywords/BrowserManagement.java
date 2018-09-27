@@ -57,7 +57,6 @@ import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
-import com.github.enhancetafrancis.cucumberseleniumlibrary.keywords.Logging;
 import com.github.enhancetafrancis.cucumberseleniumlibrary.locators.ElementFinder;
 import com.github.enhancetafrancis.cucumberseleniumlibrary.locators.WindowManager;
 import com.github.enhancetafrancis.cucumberseleniumlibrary.utils.GlobalConstants;
@@ -400,6 +399,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			}
 			WebDriver webDriver = createWebDriver(browserName, desiredCapabilities, remoteUrl, browserOptions);
 			webDriver.get(url);
+			
 			WebDriverWait wait = new WebDriverWait(webDriver, GlobalConstants.WAIT_FOR_VISIBILITY);
 			wait.until(ExpectedConditions.urlContains(url));
 			
@@ -409,8 +409,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		} catch (Throwable t) {
 			if (remoteUrl != null) {
 				logging.warn(String.format(
-						"Opening browser '%s' to base url '%s' through remote server at '%s' failed", browserName, url,
-						remoteUrl));
+					"Opening browser '%s' to base url '%s' through remote server at '%s' failed", browserName, url,
+					remoteUrl));
 			} else {
 				logging.warn(String.format("Opening browser '%s' to base url '%s' failed", browserName, url));
 			}

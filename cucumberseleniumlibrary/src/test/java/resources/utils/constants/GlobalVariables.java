@@ -34,5 +34,4 @@ public class GlobalVariables{
     public static final String USER_PASSWORD = "Test@123";
     
     public static final int WAIT_FOR_VISIBILITY = 60;
- 
 }
