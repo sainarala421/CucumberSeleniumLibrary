@@ -867,6 +867,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	@RobotKeyword
 	@ArgumentNames({ "url" })
 	public void locationShouldBe(String url) {
+		WebDriverWait wait = new WebDriverWait(getCurrentWebDriver(), GlobalConstants.WAIT_FOR_VISIBILITY);
+		wait.until(ExpectedConditions.urlToBe(url));
 		String actual = getLocation();
 		if (!actual.equals(url)) {
 			throw new Selenium2LibraryNonFatalException(String.format("Location should have been '%s', but was '%s'",
@@ -886,6 +888,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	@RobotKeyword
 	@ArgumentNames({ "url" })
 	public void locationShouldContain(String url) {
+		WebDriverWait wait = new WebDriverWait(getCurrentWebDriver(), GlobalConstants.WAIT_FOR_VISIBILITY);
+		wait.until(ExpectedConditions.urlContains(url));
 		String actual = getLocation();
 		if (!actual.contains(url)) {
 			throw new Selenium2LibraryNonFatalException(String.format(
